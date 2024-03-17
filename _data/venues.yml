@@ -1,6 +1,23 @@
-"AJP":
-  url: https://aapt.scitation.org/journal/ajp
+JREE:
+  url: https://www.sree.org/jree
+
+SPR:
+  url: https://www.tandfonline.com/journals/uspr20
+
+Dissertation:
   color: "#00369f"
 
-"PhysRev":
-  url: https://journals.aps.org/
+JSP:
+  url: https://www.sciencedirect.com/journal/journal-of-school-psychology
+
+ISVC:
+  url: https://www.isvc.net
+
+LPSC:
+  url: https://www.lpi.usra.edu/meetings/lpsc2010
+
+IEEE:
+  url: https://www.ieee.org/
+
+iSAIRAS:
+  url: https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Automation_and_Robotics/i-SAIRAS

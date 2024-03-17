@@ -29,8 +29,13 @@
             {% if venue_style %}
               {{ venue_style }}
             {% endif %}
-            ><a href="{{site.data.venues[entry.abbr].url}}">{{ entry.abbr }}</a></abbr
-          >
+            >
+            {% if site.data.venues[entry.abbr].url != blank %}
+              <a href="{{site.data.venues[entry.abbr].url}}">{{ entry.abbr }}</a>
+            {% else %}
+              {{ entry.abbr }}
+            {% endif %}
+          </abbr>
         {% else %}
           <abbr class="badge">{{ entry.abbr }}</abbr>
         {% endif %}
