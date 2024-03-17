@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Postdoctoral Scholar, Department of Education Psychology, Penn State University 
+subtitle: Postdoctoral Scholar, Department of Education Psychology, Penn State University
 
 profile:
   align: right

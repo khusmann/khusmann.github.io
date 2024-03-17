@@ -9,7 +9,7 @@ tags:
 Welcome to my shiny new blog!
 
 I love science, but I've been frustrated recently with how slow
-and tedious the publication process is... Meanwhile I'm bursting 
+and tedious the publication process is... Meanwhile I'm bursting
 with ideas I want to share with the world and get feedback on!
 So I thought I'd start this blog as a way to give myself a more
 "agile" idea development experience :)
