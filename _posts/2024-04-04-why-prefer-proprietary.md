@@ -179,7 +179,7 @@ I can also create columns with multiple types of missingness:
 #>    -97 TECHNICAL_ERROR
 ```
 
-But all is not sunshine and roses. When I calculate the `sum()` of the values in the previous listing, I'd get a negative number because the missing values aren't automatically masked out:
+But all is not sunshine and rainbows. When I calculate the `sum()` of the values in the previous listing, I'd get a negative number because the missing values aren't automatically masked out:
 
 ```r
 sum(x)
