@@ -194,7 +194,9 @@ Similarly, as far as I'm aware, SPSS, SAS, and Stata are the only data + metadat
 
 # Final Thoughts
 
-Now don't get me wrong, I know the graphical interfaces and vendor lock-in of proprietary software and data formats will probably continue to dominate for a long while yet. The point I'm trying to make here is that these are not the _only_ issues at play, and I think this represents a potential opportunity. **If we want researchers to use open formats, we need open standards and software integrations that fill the same roles and meet the same needs as the proprietary formats and software currently in use**.
+Now don't get me wrong, I know the graphical interfaces and vendor lock-in of proprietary software and data formats will probably continue to dominate for a long while yet. The point I'm trying to make here is that these are not the _only_ issues at play, and I think this represents a potential opportunity.
+
+**If we want researchers to use open software and data formats, we need open standards and software integrations that fill the same roles and meet the same needs as the proprietary formats and software currently in use**.
 
 ## Why Don't You Just Use CSV?
 
@@ -208,7 +210,9 @@ I agree, this would be a great way forward! I think it would be better than embe
 
 There are a number of open standards being developed that could act as the "schema.json" for a format like this. I'm aware of [DDI Codebook](https://ddialliance.org/Specification/DDI-Codebook/2.5/), [CDISC Dataset](https://www.cdisc.org/dataset-json), [BIDS](https://bids-specification.readthedocs.io/en/stable/), [Psych-DS](https://psych-ds.github.io/), and [Frictionless](https://frictionlessdata.io/), but if you know of other efforts, please let me know!
 
-Unfortunately, none of these open standards are at a point yet for me to recommend to my colleagues to start using right out of the box. The downside of having [so many disparate efforts to create standards](https://xkcd.com/927/) is that there is no one obvious standard to recommend to my colleagues to use. Many of these standards are missing at least one of the three features I mentioned above, are focused on a niche type of research data, are lacking fully-featured open software editors and libraries, or don't have converters to and from SPSS, SAS, and Stata formats. **If we want data managers in the education or social sciences to use our open software & formats, we need to provide them with an ecosystem that makes their jobs easier.**
+Unfortunately, none of these open standards are at a point yet for me to recommend to my colleagues to start using right out of the box. The downside of having [so many disparate efforts to create standards](https://xkcd.com/927/) is that there is no one obvious standard to recommend to my colleagues to use. Many of these standards are missing at least one of the three features I mentioned above, are focused on a niche type of research data, are lacking fully-featured open software editors and libraries, or don't have converters to and from SPSS, SAS, and Stata formats.
+
+**If we want data managers to use our open software and data formats, we need to provide them with an ecosystem that makes their jobs easier.**
 
 At the end of the day, here's the pitch I want to be able to give to researchers and data managers:
 
