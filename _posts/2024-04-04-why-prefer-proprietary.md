@@ -13,7 +13,7 @@ Everywhere I looked I saw data being shipped around in SPSS, SAS, and Stata form
 
 At first, I thought the landscape was like this because of the nice graphical interfaces provided by proprietary statistical software (as opposed to coding in R or Python), as well as the network effects of vendor lock-in. And don't get me wrong, these are big reasons! But after over a half decade of building education and social science data management and analysis pipelines using exclusively open software and formats, I have now come to realize that these are not the only reasons.
 
-I begrudgingly have to admit that proprietary software and data formats come with a few standard features that make them particularly nice for working with education and social science data. And for whatever reason, these features don't receive similar attention in open software and data formats.
+I begrudgingly have to admit that proprietary software and data formats come with a few standard features that make them particularly nice for working with education and social science data. And for whatever reason, these features don't receive similar attention in open alternatives.
 
 Sure, there are workarounds and ways to emulate some of these features, but I think we can do better. If we want to promote the use of open software and data formats in the education and social sciences, I think we need to provide solutions that meet these needs in more competitive ways.
 
