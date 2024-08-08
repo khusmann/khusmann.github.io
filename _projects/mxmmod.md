@@ -5,5 +5,5 @@ description: an R package for building Measurement Model of Derivatives (MMOD; E
 img:
 importance: 2
 redirect: https://github.com/khusmann/mxmmod
-category: software
+category: statistical software
 ---
