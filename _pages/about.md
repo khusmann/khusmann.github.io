@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Postdoctoral Scholar, Department of Education Psychology, Penn State University
+subtitle: Senior Data Solutions Engineer, Open Science Advocate
 
 profile:
   align: right
@@ -15,10 +15,8 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-I am an applied researcher interested in reducing societal inequality by making the acquisition and transfer of knowledge and skills more effective, accessible, and available, especially for underrepresented populations and populations with special needs.
+Welcome to my hub of projects and ideas!
 
-As someone coming from a background in electrical engineering and computer science, I explore ways that technology can be harnessed in these areas to collect data, solve problems, understand complex processes, and create new opportunities.
+I often find myself with things I want to share but no place to put them -- hopefully, this site will become that place.
 
-On a practical level, my work includes the implementation of programs and technologies at scale in sustainable ways that simultaneously meet the needs of the public and advance continuing research efforts.
-
-As such, I see my interests most clearly expressed as a nexus between three overlapping fields of study in therapeutic and family contexts: developmental science, human-computer interaction, and implementation science.
+I am currently the process of rebuilding this website to be a more general repository of my interests and projects... please stay tuned!
