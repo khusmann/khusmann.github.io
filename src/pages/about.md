@@ -11,7 +11,7 @@ I'm currently a **Senior Data Solutions Engineer** at [**Atorus Research**](http
 
 My professional interests revolve around the software architectures, paradigms, and design patterns that support managing complexity and ensuring correctness in **large-scale research data systems**.
 
-In other words, I enjoy building software that helps teams work with complex research data—especially when precision matters and the stakes are high.
+Outside of work, I have a broad range of interests. I'm am usually working on one side project or another&mdash;whether it’s homebrew amateur radio, 3D printing, or little IoT projects with microcontrollers. I also play violin, enjoy fusion social dancing, and like to go camping.
 
 ## My Journey
 
@@ -32,4 +32,4 @@ My experiences in Liberia inspired me to get a Ph.D in Human Development and Fam
 
 The longer I stayed in academia, however, the more I became convinced of the need for better research data infrastructure. As technology advances, researchers can collect increasing volumes and varieties of data. And as statistical methods and AI evolve, we have powerful tools to generate meaningful insights from those data. But too often, we lack the infrastructure to manage and share those data effectively.
 
-So that's where I am today!
+That’s how I got to where I am today! Although I’m currently working on clinical research data systems, they face many of the same challenges and opportunities as data from education and social sciences. My interests extend well beyond any one field, and my current work allows me to contribute to the open source software ecosystems being used across many research domains.
