@@ -2,7 +2,6 @@
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "@/config";
 import "@/styles/global.css";
-import Favicon from "@/components/Favicon";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -55,7 +54,26 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
 
-    <Favicon client:only="react" />
+    <link
+      id="favicon"
+      rel="icon"
+      href={`/favicon-light.svg`}
+      type="image/svg+xml"
+    />
+
+    <script>
+      const favicon = document.getElementById("favicon");
+      const match = window.matchMedia("(prefers-color-scheme: dark)");
+
+      const setFavicon = (e: MediaQueryListEvent | MediaQueryList) => {
+        if (favicon instanceof HTMLLinkElement) {
+          favicon.href = `/favicon-${e.matches ? "dark" : "light"}.svg`;
+        }
+      };
+
+      setFavicon(match);
+      match.addEventListener("change", setFavicon);
+    </script>
 
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
