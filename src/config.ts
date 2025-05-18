@@ -4,7 +4,7 @@ export const SITE = {
   profile: "https://www.kylehusmann.com/about",
   desc: "Kyle's hub of projects and ideas.",
   title: "Kyle Husmann",
-  ogImage: "astropaper-og.jpg",
+  ogImage: null,
   lightAndDarkMode: true,
   postPerIndex: 4,
   postPerPage: 4,
