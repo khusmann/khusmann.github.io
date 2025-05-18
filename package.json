@@ -1,7 +1,8 @@
 {
-  "name": "khusmann-github-io-astro",
+  "name": "khusmann-github-io",
   "type": "module",
-  "version": "5.2.0",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.10.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
