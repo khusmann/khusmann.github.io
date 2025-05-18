@@ -10,7 +10,7 @@ import { SITE } from "@/config";
 import type { GiscusProps } from "@giscus/react";
 
 export const GISCUS: GiscusProps = {
-  repo: "khusmann/khusmann.github.io",
+  repo: "khusmann/kylehusmann.com",
   repoId: "",
   category: "Comments",
   categoryId: "",
