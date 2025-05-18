@@ -12,6 +12,8 @@ import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
+import { Image } from "astro:assets";
+import profile_pic from "@/assets/images/profile_pic.jpg";
 
 const posts = await getCollection("blog");
 
@@ -58,9 +60,9 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
           </p>
         </div>
         <div class="mx-auto flex-shrink-0 md:w-1/3">
-          <img
+          <Image
             class="w-full max-w-[245px] rounded-2xl object-cover shadow"
-            src="profile_pic.jpg"
+            src={profile_pic}
             alt="Profile Picture"
           />
         </div>

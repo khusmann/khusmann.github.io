@@ -3,7 +3,15 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-<img class="float-right ml-4 rounded-3xl w-[245px] hidden sm:block" src="/profile_pic.jpg">
+import { Image } from "astro:assets";
+import profile_pic from "@/assets/images/profile_pic.jpg";
+
+<Image
+  class="float-right ml-4 hidden rounded-3xl sm:block"
+  src={profile_pic}
+  alt="Profile Picture"
+  width="245px"
+/>
 
 Welcome my little corner of the internet :)
 
@@ -22,8 +30,13 @@ As an undergrad, I majored in Electrical Engineering and minored in Computer Sci
 From there I joined the Peace Corps and taught middle school math in a small community in Liberia, West Africa.
 
 <figure class="text-center">
-  <img src="/teaching_pc.jpg" class="mx-auto" alt="Kyle teaching math in Liberia">
-  <figcaption class="mt-2 text-sm">Teaching math in Liberia while in the Peace Corps (2013)</figcaption>
+
+![Kyle teaching math in Liberia](@/assets/images/teaching_pc.jpg)
+
+<figcaption class="mt-2 text-sm">
+  Teaching math in Liberia while in the Peace Corps (2013)
+</figcaption>
+
 </figure>
 
 The [2013 West African Ebola epidemic](https://en.wikipedia.org/wiki/Western_African_Ebola_epidemic) cut my Peace Corps service a year short. But I stayed in Liberia to help with the Ebola relief effort, assisting with the logistics of tracking and distributing sanitation kits and educating communities about the outbreak.
