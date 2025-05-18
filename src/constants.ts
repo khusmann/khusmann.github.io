@@ -7,6 +7,20 @@ import IconFacebook from "@/assets/icons/IconFacebook.svg";
 import IconTelegram from "@/assets/icons/IconTelegram.svg";
 import IconPinterest from "@/assets/icons/IconPinterest.svg";
 import { SITE } from "@/config";
+import type { GiscusProps } from "@giscus/react";
+
+export const GISCUS: GiscusProps = {
+  repo: "khusmann/khusmann.github.io",
+  repoId: "",
+  category: "Comments",
+  categoryId: "",
+  mapping: "title",
+  reactionsEnabled: "0",
+  emitMetadata: "0",
+  inputPosition: "bottom",
+  lang: "en",
+  loading: "lazy",
+};
 
 export const SOCIALS = [
   {
