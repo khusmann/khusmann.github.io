@@ -4,14 +4,6 @@ Welcome to my hub of projects and ideas! I often find myself with things I want 
 
 I am currently the process of rebuilding this website to be a more general repository of my interests and projects... please stay tuned!
 
-## ✅ Lighthouse Score
-
-<p align="center">
-  <a href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fastro-paper.pages.dev%2F&form_factor=desktop">
-    <img width="710" alt="AstroPaper Lighthouse Score" src="AstroPaper-lighthouse-score.svg">
-  <a>
-</p>
-
 ## 💻 Tech Stack
 
 **Template**: [AstroPaper](https://github.com/satnaing/astro-paper)
