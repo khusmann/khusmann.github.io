@@ -1,0 +1,14 @@
+---
+// src/components/Redirect.astro
+const { to, delay = 0 } = Astro.props;
+---
+
+<html>
+  <head>
+    <meta http-equiv="refresh" content={`${delay};url=${to}`} />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={to}>{to}</a>...</p>
+  </body>
+</html>
