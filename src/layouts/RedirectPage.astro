@@ -7,6 +7,10 @@ const { to, delay = 0 } = Astro.props;
   <head>
     <meta http-equiv="refresh" content={`${delay};url=${to}`} />
     <title>Redirecting...</title>
+    <script
+      data-goatcounter="https://kylehusmann.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"></script>
   </head>
   <body>
     <p>Redirecting to <a href={to}>{to}</a>...</p>
