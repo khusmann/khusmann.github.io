@@ -54,25 +54,24 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
 
-    <link
-      id="favicon"
-      rel="icon"
-      href={`/favicon-light.svg`}
-      type="image/svg+xml"
-    />
+    <link rel="icon" href="/favicon-light.svg" type="image/svg+xml" />
 
     <script>
-      const favicon = document.getElementById("favicon");
-      const match = window.matchMedia("(prefers-color-scheme: dark)");
+      const setFavicon = () => {
+        const match = window.matchMedia("(prefers-color-scheme: dark)");
+        const favicon = document.querySelector('link[rel="icon"]');
 
-      const setFavicon = (e: MediaQueryListEvent | MediaQueryList) => {
         if (favicon instanceof HTMLLinkElement) {
-          favicon.href = `/favicon-${e.matches ? "dark" : "light"}.svg`;
+          favicon.href = `/favicon-${match.matches ? "dark" : "light"}.svg`;
         }
+
+        return match;
       };
 
-      setFavicon(match);
+      const match = setFavicon();
+
       match.addEventListener("change", setFavicon);
+      document.addEventListener("astro:after-swap", setFavicon);
     </script>
 
     <link rel="canonical" href={canonicalURL} />
@@ -153,8 +152,17 @@ const structuredData = {
     <script
       data-goatcounter="https://kylehusmann.goatcounter.com/count"
       async
-      src="//gc.zgo.at/count.js"
-    ></script>
+      src="//gc.zgo.at/count.js"></script>
+    <script>
+      // Define wc to make the type checker not complain
+      const wc = window as Window & { goatcounter?: { count: () => void } };
+      // Ping goatcounter on astro page transitions
+      document.addEventListener("astro:after-swap", () => {
+        if (wc.goatcounter) {
+          wc.goatcounter.count();
+        }
+      });
+    </script>
   </head>
   <body>
     <slot />
