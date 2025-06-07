@@ -6,6 +6,7 @@ import IconWhatsapp from "@/assets/icons/IconWhatsapp.svg";
 import IconFacebook from "@/assets/icons/IconFacebook.svg";
 import IconTelegram from "@/assets/icons/IconTelegram.svg";
 import IconPinterest from "@/assets/icons/IconPinterest.svg";
+import IconBluesky from "@/assets/icons/IconBluesky.svg";
 import { SITE } from "@/config";
 import type { GiscusProps } from "@giscus/react";
 
@@ -49,15 +50,25 @@ export const SOCIALS = [
     linkTitle: `Send an email to ${SITE.title}`,
     icon: IconMail,
   },
+  /*
+  {
+    name: "Bluesky",
+    href: "https://bsky.app/profile/username",
+    linkTitle: `${SITE.title} on Bluesky`,
+    icon: IconBluesky,
+  },
+*/
 ] as const;
 
 export const SHARE_LINKS = [
+  /*
   {
     name: "WhatsApp",
     href: "https://wa.me/?text=",
     linkTitle: `Share this post via WhatsApp`,
     icon: IconWhatsapp,
   },
+  */
   {
     name: "Facebook",
     href: "https://www.facebook.com/sharer.php?u=",
@@ -70,6 +81,7 @@ export const SHARE_LINKS = [
     linkTitle: `Share this post on X`,
     icon: IconBrandX,
   },
+  /*
   {
     name: "Telegram",
     href: "https://t.me/share/url?url=",
@@ -82,10 +94,17 @@ export const SHARE_LINKS = [
     linkTitle: `Share this post on Pinterest`,
     icon: IconPinterest,
   },
+  */
   {
     name: "Mail",
     href: "mailto:?subject=See%20this%20post&body=",
     linkTitle: `Share this post via email`,
     icon: IconMail,
+  },
+  {
+    name: "Bluesky",
+    href: "https://bsky.app/intent/compose?text=",
+    linkTitle: `Share this post via Bluesky`,
+    icon: IconBluesky,
   },
 ] as const;
