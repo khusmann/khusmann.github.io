@@ -8,7 +8,7 @@ draft: false
 tags:
   - software
   - tips
-description: Chrome’s App Mode lets you run Posit Workbench in a minimal, standalone window. No extra tabs or toolbars, just your RStudio session.
+description: Chrome's App Mode lets you run Posit Workbench in a minimal, standalone window. No extra tabs or toolbars, just your RStudio session.
 ---
 
 While I understand the need for centrally managed web-based IDEs, coding in a browser window has always felt so _wrong_ to me. When I code, I like to have the full screen at my disposal... this is why I'm a big fan of tiling window managers, like [I3](https://i3wm.org/) and [GlazeWM](https://github.com/glzr-io/glazewm).
