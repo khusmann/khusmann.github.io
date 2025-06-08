@@ -21,62 +21,82 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
   };
 
   const handleViewSource = () => {
-    window.open(`${url}/edit`, "_blank");
+    window.open(`${url}?_shinylive-mode=editor-terminal-viewer`, "_blank");
   };
 
   if (!url) {
     return <div style={{ color: "red" }}>Error: No URL provided.</div>;
   }
 
+  const resolvedMaxWidth =
+    typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
+  const resolvedHeight = typeof height === "number" ? `${height}px` : height;
+
+  const headerHeight = 40;
+
   return (
     <div
       style={{
         position: "relative",
         width: "100%",
-        maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
-        height: typeof height === "number" ? `${height}px` : height,
-        margin: "0 auto", // <-- Center the component
+        maxWidth: resolvedMaxWidth,
+        height: resolvedHeight,
+        margin: "0 auto",
         backgroundColor: "#f0f0f0",
         border: "1px solid #ccc",
         borderRadius: "4px",
         overflow: "hidden",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        flexDirection: "column",
       }}
     >
       {!started ? (
-        <button
-          onClick={() => setStarted(true)}
+        <div
           style={{
-            padding: "12px 24px",
-            fontSize: "16px",
-            borderRadius: "4px",
-            border: "none",
-            backgroundColor: "#007bff",
-            color: "white",
-            cursor: "pointer",
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          Run App
-        </button>
+          <button
+            onClick={() => setStarted(true)}
+            style={{
+              padding: "12px 24px",
+              fontSize: "16px",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Run App
+          </button>
+        </div>
       ) : (
         <>
-          {/* Top-right buttons */}
+          {/* Fixed header with text buttons */}
           <div
             style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
+              height: headerHeight,
+              width: "100%",
+              backgroundColor: "#e9ecef",
+              borderBottom: "1px solid #ccc",
               display: "flex",
-              gap: "8px",
-              zIndex: 2,
+              justifyContent: "flex-end",
+              alignItems: "center",
+              padding: "0px 10px",
+              gap: 8,
+              boxSizing: "border-box",
+              flexShrink: 0,
             }}
           >
             <button
               onClick={handleReload}
+              title="Reload App"
               style={{
-                padding: "6px 12px",
+                padding: "3px 12px",
                 fontSize: "14px",
                 borderRadius: "4px",
                 backgroundColor: "#6c757d",
@@ -89,8 +109,9 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
             </button>
             <button
               onClick={handleViewSource}
+              title="View Source"
               style={{
-                padding: "6px 12px",
+                padding: "3px 12px",
                 fontSize: "14px",
                 borderRadius: "4px",
                 backgroundColor: "#28a745",
@@ -103,15 +124,16 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
             </button>
           </div>
 
-          {/* App iframe */}
+          {/* iframe fills the remaining space */}
           <iframe
             ref={iframeRef}
             src={url}
             title="Shiny App"
             style={{
               width: "100%",
-              height: "100%",
+              height: `calc(100% - ${headerHeight}px)`,
               border: "none",
+              flexGrow: 1,
             }}
           />
         </>
