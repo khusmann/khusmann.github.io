@@ -9,7 +9,7 @@ interface ShinyPortalProps {
 const ShinyPortal: React.FC<ShinyPortalProps> = ({
   url,
   maxWidth = "36rem",
-  height = 400,
+  height = 450,
 }) => {
   const [started, setStarted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
