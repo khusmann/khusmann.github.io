@@ -33,7 +33,6 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
   const resolvedMaxWidth =
     typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
   const resolvedHeight = typeof height === "number" ? `${height}px` : height;
-
   const headerHeight = 40;
 
   return (
@@ -56,7 +55,7 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
         <div
           style={{
             flex: 1,
-            position: "relative", // for absolute children
+            position: "relative",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -75,14 +74,12 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
                 objectFit: "cover",
                 filter: "brightness(0.4)", // darken image for contrast
                 zIndex: 0,
-                border: 0,
                 userSelect: "none",
                 pointerEvents: "none",
               }}
             />
           )}
-          {/* Padding moved inside this wrapper */}
-          <div style={{ padding: "1rem", width: "100%" }}>
+          <div style={{ padding: "1rem", width: "100%", zIndex: 1 }}>
             <button
               onClick={() => setStarted(true)}
               style={{
@@ -93,8 +90,7 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
                 backgroundColor: "#007bff",
                 color: "white",
                 cursor: "pointer",
-                position: "relative",
-                zIndex: 1,
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
               }}
             >
               Run App
@@ -103,8 +99,11 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
               style={{
                 marginTop: "1rem",
                 fontSize: "14px",
-                position: "relative",
-                zIndex: 1,
+                backgroundColor: "rgba(0, 0, 0, 0.4)",
+                padding: "0.5rem 1rem",
+                borderRadius: "4px",
+                display: "inline-block",
+                color: "#f0f0f0",
               }}
             >
               The app will run entirely in your browser using{" "}
@@ -113,12 +112,12 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
                 className="not-prose"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: "lightblue" }}
+                style={{ color: "#aadfff", textDecoration: "underline" }}
               >
                 ShinyLive
               </a>
-              . It's a ~60MB runtime, so it may take a moment to load on slower
-              connections.
+              . It's a ~60MB runtime (but cached), so it may take a moment to
+              load the first time on slower connections.
             </div>
           </div>
         </div>
