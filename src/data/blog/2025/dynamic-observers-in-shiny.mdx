@@ -14,7 +14,157 @@ description: Dynamic observers in Shiny are hard to get right. Here's some of th
 
 import ShinyPortal from "@/components/ShinyPortal";
 
+[Dynamic UI](https://mastering-shiny.org/action-dynamic.html) in Shiny lets you update the interface in response to user input. But what happens when you want to dynamically _attach observers_ to those dynamic UI elements? Suddenly, things get tricky.
+
+Let's look at a toy example to bring the challenge into focus. In this post we'll build a Shiny app that:
+
+1. Lets the user choose a dataset
+1. Lets them pick a subset of columns from the dataset
+1. Creates a "card" for each selected column, which will (a) show the name of the column and (b) have a close button to remove it from the stack
+
+Sounds straightforward, right? (Spoiler: it's not.) As we work through this, you'll see how subtle issues can arise... ones that can lead to confusing, hard-to-debug behavior. This post will walk through the build step by step, and show you where key pitfalls lie.
+
+Here's what the final version of our app will look like:
+
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/working/index.html"
+  url="https://khusmann.github.io/shiny-dynamic-observers/final_version/index.html"
   client:only="react"
 />
+
+Let's get started!
+
+## App Setup
+
+Let's start with the easy part. In this section we'll set up an app that uses `uiOutput()`/`renderUI()` to dynamically render cards with close buttons that don't do anything (yet).
+
+First, let's make a global variable called `all_datasets` that will hold all of the datasets available in the built-in datasets package:
+
+```r
+all_datasets <- ls("package:datasets") |>
+  (\(v) v[order(tolower(v), v)])() |> # Case insensitive ordering
+  set_names() |>
+  map(\(x) get(x, "package:datasets")) |>
+  keep(is.data.frame)
+```
+
+Next, here's a UI definition, with:
+
+1. a title
+2. a select input with the names of all the datasets
+3. a selectize input we'll dynamically populate with the column names of the currently selected dataset and
+4. a `uiOutput` that will hold our cards.
+
+```r
+ui <- fluidPage(
+  tags$head(tags$style(app_styles)),
+  div(
+    class = "centered-content",
+    tags$h3("Dynamic Observer Demo"), # (1)
+    selectInput( # (2)
+      inputId = "dataset_select",
+      label = "Select a dataset:",
+      choices = names(all_datasets),
+      width = "100%"
+    ),
+    selectizeInput( # (3)
+      inputId = "column_select",
+      label = "Select a column:",
+      choices = c("Select a column to get started" = ""),
+      multiple = TRUE,
+      width = "100%",
+      options = list(closeAfterSelect = TRUE)
+    ),
+    uiOutput("cards_ui", class = "card-container") # (4)
+  )
+)
+```
+
+And finally, a server definition, with:
+
+1. A `reactive()` called `dataset`, that will always hold the currently selected dataset
+2. An `observer()` that will always push the column names from our current dataset into the `column_select` `selectizeInput()`
+3. A `renderUI()` that creates a card for each column that is selected. (Note how each close button gets a dynamic `inputId`!)
+
+```r
+server <- function(input, output, session) {
+  dataset <- shiny::reactive({ # (1)
+    all_datasets[[input$dataset_select]]
+  })
+
+  observe({ # (2)
+    updateSelectizeInput(
+      inputId = "column_select",
+      choices = c("Select a column to get started" = "", names(dataset())),
+    )
+  })
+
+  output$cards_ui <- renderUI({ # (3)
+    map(rev(input$column_select), function(i) {
+      if (is.numeric(dataset()[[i]])) {
+        i_mean <- round(mean(dataset()[[i]], na.rm = TRUE), 2)
+        extra <- glue("(mean: {i_mean})")
+      } else {
+        extra <- NULL
+      }
+      tags$div(
+        class = "card",
+        tags$div(tags$strong(i), extra),
+        actionButton(
+          inputId = glue("{i}_close"),
+          label = icon("times"),
+          class = "btn btn-xs btn-danger"
+        )
+      )
+    })
+  })
+}
+```
+
+Here's the final result:
+
+<ShinyPortal
+  url="https://khusmann.github.io/shiny-dynamic-observers/setup/index.html"
+  client:only="react"
+/>
+
+Hooray, it works! Now, let's try to get those close buttons working...
+
+## Close Buttons: Attempt 1
+
+Ok, this is where things get interesting. I'd like to create an `observeEvent()` for each close button that will remove the appropriate column from my `column_select` `selectizeInput()`. In essance, I want to do this:
+
+```r
+walk(input$column_select, function(i) {
+  close_btn_id <- glue("{i}_close")
+  observeEvent(
+    input[[close_btn_id]],
+    {
+      updateSelectInput(
+        inputId = "column_select",
+        selected = discard(input$column_select, \(j) j == i)
+      )
+    }
+  )
+})
+```
+
+But here's the problem... `input$column_select` is a reactive input, so it needs to go in a reactive context. That means I need to surround everything in another `observe()`:
+
+```r
+observe({
+  walk(input$column_select, function(i) {
+    close_btn_id <- glue("{i}_close")
+    observeEvent(
+      input[[close_btn_id]],
+      {
+        updateSelectInput(
+          inputId = "column_select",
+          selected = discard(input$column_select, \(j) j == i)
+        )
+      }
+    )
+  })
+})
+```
+
+That's right, we're looking at NESTED OBSERVERS!

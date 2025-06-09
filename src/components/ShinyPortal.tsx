@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 
 interface ShinyPortalProps {
   url: string;
-  maxWidth?: string | number; // e.g. '800px' or 800
-  height?: string | number; // e.g. '500px' or 500
+  maxWidth?: string | number;
+  height?: string | number;
 }
 
 const ShinyPortal: React.FC<ShinyPortalProps> = ({
@@ -55,8 +55,11 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
           style={{
             flex: 1,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            padding: "1rem",
+            textAlign: "center",
           }}
         >
           <button
@@ -73,10 +76,28 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
           >
             Run App
           </button>
+          <div
+            style={{
+              marginTop: "1rem",
+              fontSize: "14px",
+              color: "#000",
+            }}
+          >
+            (The app will run entirely in your browser using{" "}
+            <a
+              href="https://posit-dev.github.io/r-shinylive/"
+              className="not-prose"
+              target="_blank"
+              style={{ color: "blue" }}
+            >
+              ShinyLive
+            </a>
+            . It's a ~60MB download, so it may take a moment to load on slower
+            connections.)
+          </div>
         </div>
       ) : (
         <>
-          {/* Fixed header with text buttons */}
           <div
             style={{
               height: headerHeight,
@@ -123,8 +144,6 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
               View Source
             </button>
           </div>
-
-          {/* iframe fills the remaining space */}
           <iframe
             ref={iframeRef}
             src={url}
