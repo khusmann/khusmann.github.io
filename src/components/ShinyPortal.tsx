@@ -66,18 +66,32 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
           }}
         >
           {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              style={{
-                position: "absolute",
-                objectFit: "cover",
-                filter: "brightness(0.4)", // darken image for contrast
-                zIndex: 0,
-                userSelect: "none",
-                pointerEvents: "none",
-              }}
-            />
+            <>
+              <img
+                src={preview}
+                alt="Preview"
+                style={{
+                  position: "absolute",
+                  objectFit: "cover",
+                  zIndex: 0,
+                  border: 0,
+                  userSelect: "none",
+                  pointerEvents: "none",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.4)", // adjust alpha for strength
+                  zIndex: 1,
+                  pointerEvents: "none",
+                }}
+              />
+            </>
           )}
           <div style={{ padding: "1rem", width: "100%", zIndex: 1 }}>
             <button
