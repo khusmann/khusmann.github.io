@@ -51,7 +51,7 @@ Next, here's a UI definition, with:
 
 1. a title
 2. a select input with the names of all the datasets
-3. a selectize input we'll dynamically populate with the column names of the currently selected dataset and
+3. a selectize input we'll dynamically populate with the column names of the currently selected dataset, and
 4. a `uiOutput` that will hold our cards.
 
 ```r
@@ -131,14 +131,12 @@ Hooray, it works! Now, let's try to get those close buttons working...
 
 ## Close Buttons: Attempt 1
 
-Ok, this is where things get interesting. I'd like to create an `observeEvent()` for each close button that will remove the appropriate column from my `column_select` `selectizeInput()`. In essance, I want to do this:
+Ok, this is where things get interesting. I'd like to create an `observeEvent()` for each close button that will remove the appropriate column from my `column_select` input. In essance, I want to do this:
 
 ```r
 walk(input$column_select, function(i) {
   close_btn_id <- glue("{i}_close")
-  observeEvent(
-    input[[close_btn_id]],
-    {
+  observeEvent(input[[close_btn_id]], {
       updateSelectInput(
         inputId = "column_select",
         selected = discard(input$column_select, \(j) j == i)
@@ -148,15 +146,13 @@ walk(input$column_select, function(i) {
 })
 ```
 
-But here's the problem... `input$column_select` is a reactive input, so it needs to go in a reactive context. That means I need to surround everything in another `observe()`:
+But here's the problem... `input$column_select` is a reactive input, so it needs to go in a reactive context. That means I need to surround everything in another `observeEvent()`, triggered when `input$column_select` changes:
 
 ```r
-observe({
+observeEvent(input$column_select, {
   walk(input$column_select, function(i) {
     close_btn_id <- glue("{i}_close")
-    observeEvent(
-      input[[close_btn_id]],
-      {
+    observeEvent(input[[close_btn_id]], {
         updateSelectInput(
           inputId = "column_select",
           selected = discard(input$column_select, \(j) j == i)
@@ -167,4 +163,189 @@ observe({
 })
 ```
 
-That's right, we're looking at NESTED OBSERVERS!
+That's right, we're looking at NESTED OBSERVERS! Does it work? Try the result below:
+
+<ShinyPortal
+  url="https://khusmann.github.io/shiny-dynamic-observers/attempt1/index.html"
+  client:only="react"
+/>
+
+Hooray it works! ...or does it?? Duh duh duhhhhh...
+
+## Uh oh
+
+As you might expect, there's a fatal bug in the above implementation. Here are the steps to reproduce:
+
+1. Add a card via the `column_select` input.
+2. Remove the card by clicking the "remove" button on the card.
+3. Add the same card again.
+4. Uh oh.
+
+You will notice that when you try to re-add a card, it immediately disappears. Why, you ask? Turns out, it's a weird interaction of quirks between `actionButton()`s and the default behavior of `observeEvent()`:
+
+1. When the card's `actionButton()` first spawns, the value of `input${i}_close` will be `0`. (Where `{i}` is the name of the column).
+2. Because `ignoreNULL = TRUE` by default for `observeEvent()`, the `observeEvent()` is not triggered. (`ignoreNULL = TRUE` also applies to `0` in the special case of `actionButton()`... [docs link](https://shiny.posit.co/r/reference/shiny/1.6.0/bindevent.html#ignorenull-and-ignoreinit))
+3. When you click the remove button, the value for `input${i}_close` becomes `1`, and the `observeEvent()` is triggered, removing the card.
+4. When you try to re-add the button, the button is respawned... with `input${i}_close` still set to `1`! Because this is non-null, the `observeEvent()` is triggered when it gets respawned as well.
+5. ...which removes your card as soon as you try to add it.
+
+Current mood:
+
+![Rube Goldberg Machine Meme](./dynamic-observers-in-shiny/shiny-debugging.png)
+
+## Close Buttons: Attempt 2
+
+Ok, now that we know the issue, let's try to fix it! Let's add `ignoreInit = TRUE` so when the observer wakes up a second time, it won't be re-triggered:
+
+```r
+observeEvent(input$column_select, {
+  walk(input$column_select, function(i) {
+    close_btn_id <- glue("{i}_close")
+    observeEvent(input[[close_btn_id]], {
+        updateSelectInput(
+          inputId = "column_select",
+          selected = discard(input$column_select, \(j) j == i)
+        )
+      },
+      ignoreInit = TRUE # New!
+    )
+  })
+})
+```
+
+Resulting app:
+
+<ShinyPortal
+  url="https://khusmann.github.io/shiny-dynamic-observers/attempt2/index.html"
+  client:only="react"
+/>
+
+Hooray it finally works!
+
+## No, it doesn't
+
+There's a hidden, insidious bug in the above implementation. A memory leak, in fact. To see it, let's keep track of every time the `observeEvent()` is run:
+
+```r
+observeEvent(input$column_select, {
+  walk(input$column_select, function(i) {
+    close_btn_id <- glue("{i}_close")
+    observeEvent(input[[close_btn_id]], {
+        appendMessage(glue("Closing {i}")) # New!
+        updateSelectInput(
+          inputId = "column_select",
+          selected = discard(input$column_select, \(j) j == i)
+        )
+      },
+      ignoreInit = TRUE
+    )
+  })
+})
+```
+
+Here, `appendMessage()` will simply add a line of text to a log container I added to the app (check out the source if you're interested in the implementation). Now, we can keep track of every time the `observeEvent()` is run:
+
+<ShinyPortal
+  url="https://khusmann.github.io/shiny-dynamic-observers/attempt2_dbg/index.html"
+  client:only="react"
+/>
+
+Here's how to observe the bug:
+
+1. Add a column using the `column_select` input.
+1. Remove the column by clicking the remove button.
+1. Add the same column again.
+1. Remove the column by clicking the remove button.
+
+You'll notice that the second time you remove the column, the `observeEvent()` is run twice! If you add and remove the column again, it'll run three times! Every time you add and remove the column, a new run is added to the conga line.
+
+Now, in this toy application we didn't notice this was happening behind the scenes because the action we're triggering can be repeated. Imagine we were doing something else, like toggling the visibility of something... in that case, you'd get a weird bug that would only manifest every odd or even number of runs... yikes!
+
+So why is this happening? Well, as you have probably guessed, it's because the inner `observeEvent()`s in our nested observer are preserved across runs of the outer observer. So every time the outer observer runs, a new inner observer is created and... well, it hangs around and continues to run.
+
+## Close Buttons: Attempt 3
+
+Ok, how about we make the observer self-destruct as soon as it is triggered by adding `once = TRUE`:
+
+```r
+observeEvent(input$column_select, {
+  walk(input$column_select, function(i) {
+    close_btn_id <- glue("{i}_close")
+    observeEvent(input[[close_btn_id]], {
+        appendMessage(glue("Closing {i}")) # New!
+        updateSelectInput(
+          inputId = "column_select",
+          selected = discard(input$column_select, \(j) j == i)
+        )
+      },
+      ignoreInit = TRUE,
+      once = TRUE
+    )
+  })
+})
+```
+
+Does this solve our problem? See for yourself:
+
+<ShinyPortal
+  url="https://khusmann.github.io/shiny-dynamic-observers/attempt3/index.html"
+  client:only="react"
+/>
+
+As you can see, this _sort of_ helps. If you add and remove a single column multiple times, it appears to work. But try the following:
+
+1. Add a column.
+1. Add another column.
+1. Remove one of the columns.
+
+...and you'll see two removal messages, instead of one. Here's another one:
+
+1. Add a column.
+1. Remove the column by way of the `column_select` input (not the close button!)
+1. Re-add the column.
+1. Remove the column by way of the close button.
+
+## The Solution
+
+To properly fix this, we need to manually manage the lifecycle of our dynamic observers. As it turns out, when you call `observer()` or `observeEvent()`, it returns an R6 object for that observer. If you keep this object around, you can call `$destroy()` on it to disarm it and relaim its resources.
+
+```r
+obs <- observer({
+  ...
+})
+
+# Sometime later...
+obs$destroy()
+```
+
+So! We'll create a `reactiveVal()` that will hold a list of all the close button observers we've created, and we'll destroy all of them via `val$destroy()` before creating new ones every time the parent `input$column_select` observer is triggered:
+
+```r
+  dynamic_observers <- reactiveVal(list())
+
+  observeEvent(input$column_select, {
+    walk(dynamic_observers(), \(i) i$destroy())
+
+    new_observers <- map(input$column_select, function(i) {
+      close_btn_id <- paste0(i, "_close")
+      observeEvent(input[[close_btn_id]], {
+          appendMessage(glue("Closing {i}"))
+          updateSelectInput(
+            inputId = "column_select",
+            selected = discard(input$column_select, \(j) j == i)
+          )
+        },
+        ignoreInit = TRUE
+      )
+    })
+
+    dynamic_observers(new_observers)
+  })
+```
+
+Here's the result:
+
+<ShinyPortal
+  url="https://khusmann.github.io/shiny-dynamic-observers/solution/index.html"
+  client:only="react"
+/>

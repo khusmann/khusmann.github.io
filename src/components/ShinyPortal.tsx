@@ -83,7 +83,7 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
               color: "#000",
             }}
           >
-            (The app will run entirely in your browser using{" "}
+            The app will run entirely in your browser using{" "}
             <a
               href="https://posit-dev.github.io/r-shinylive/"
               className="not-prose"
@@ -93,7 +93,7 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
               ShinyLive
             </a>
             . It's a ~60MB download, so it may take a moment to load on slower
-            connections.)
+            connections.
           </div>
         </div>
       ) : (
