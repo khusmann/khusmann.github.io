@@ -328,7 +328,7 @@ obs <- observer({
 obs$destroy()
 ```
 
-So! We'll create a `reactiveVal()` that will hold a list of all the close button observers we've created, and we'll destroy all of them via `val$destroy()` before creating new ones every time the parent `input$column_select` observer is triggered:
+So! We'll create a `reactiveVal()` that will hold a list of all the close button observers we've created, and we'll destroy all of them via `obs$destroy()` before creating new ones every time the parent `input$column_select` observer is triggered:
 
 ```r
   dynamic_observers <- reactiveVal(list())
