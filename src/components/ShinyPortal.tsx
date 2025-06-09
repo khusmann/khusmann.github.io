@@ -92,7 +92,7 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
             >
               ShinyLive
             </a>
-            . It's a ~60MB download, so it may take a moment to load on slower
+            . It's a ~60MB runtime, so it may take a moment to load on slower
             connections.
           </div>
         </div>
