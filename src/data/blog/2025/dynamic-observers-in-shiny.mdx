@@ -14,6 +14,10 @@ description: Dynamic observers in Shiny are hard to get right. Here's some of th
 
 import ShinyPortal from "@/components/ShinyPortal";
 
+export const base_url = "https://khusmann.github.io/shiny-dynamic-observers";
+export const demo_url = x => `${base_url}/${x}/index.html`;
+export const preview_url = x => `${base_url}/${x}/preview.png`;
+
 [Dynamic UI](https://mastering-shiny.org/action-dynamic.html) in Shiny lets you update the interface in response to user input. But what happens when you want to dynamically _attach observers_ to those dynamic UI elements? Suddenly, things get tricky.
 
 Let's look at a toy example to bring the challenge into focus. In this post we'll build a Shiny app that:
@@ -27,7 +31,8 @@ Sounds straightforward, right? (Spoiler: it's not.) As we work through this, you
 Here's what the final version of our app will look like:
 
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/final_version/index.html"
+  url={demo_url("initial_demo")}
+  preview={preview_url("initial_demo")}
   client:only="react"
 />
 
@@ -123,7 +128,8 @@ server <- function(input, output, session) {
 Here's the final result:
 
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/setup/index.html"
+  url={demo_url("setup")}
+  preview={preview_url("setup")}
   client:only="react"
 />
 
@@ -166,7 +172,8 @@ observeEvent(input$column_select, {
 That's right, we're looking at NESTED OBSERVERS! Does it work? Try the result below:
 
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/attempt1/index.html"
+  url={demo_url("attempt1")}
+  preview={preview_url("attempt1")}
   client:only="react"
 />
 
@@ -216,7 +223,8 @@ observeEvent(input$column_select, {
 Resulting app:
 
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/attempt2/index.html"
+  url={demo_url("attempt2")}
+  preview={preview_url("attempt2")}
   client:only="react"
 />
 
@@ -246,7 +254,8 @@ observeEvent(input$column_select, {
 Here, `appendMessage()` will simply add a line of text to a log container I added to the app (check out the source if you're interested in the implementation). Now, we can keep track of every time the `observeEvent()` is run:
 
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/attempt2_dbg/index.html"
+  url={demo_url("attempt2_dbg")}
+  preview={preview_url("attempt2_dbg")}
   client:only="react"
 />
 
@@ -288,7 +297,8 @@ observeEvent(input$column_select, {
 Does this solve our problem? See for yourself:
 
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/attempt3/index.html"
+  url={demo_url("attempt3")}
+  preview={preview_url("attempt3")}
   client:only="react"
 />
 
@@ -346,6 +356,7 @@ So! We'll create a `reactiveVal()` that will hold a list of all the close button
 Here's the result:
 
 <ShinyPortal
-  url="https://khusmann.github.io/shiny-dynamic-observers/solution/index.html"
+  url={demo_url("solution")}
+  preview={preview_url("solution")}
   client:only="react"
 />

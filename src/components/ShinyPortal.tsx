@@ -4,12 +4,14 @@ interface ShinyPortalProps {
   url: string;
   maxWidth?: string | number;
   height?: string | number;
+  preview?: string; // optional preview image URL
 }
 
 const ShinyPortal: React.FC<ShinyPortalProps> = ({
   url,
   maxWidth = "36rem",
   height = 450,
+  preview,
 }) => {
   const [started, setStarted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -54,46 +56,70 @@ const ShinyPortal: React.FC<ShinyPortalProps> = ({
         <div
           style={{
             flex: 1,
+            position: "relative", // for absolute children
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: "1rem",
             textAlign: "center",
+            color: "#fff",
+            zIndex: 1,
           }}
         >
-          <button
-            onClick={() => setStarted(true)}
-            style={{
-              padding: "12px 24px",
-              fontSize: "16px",
-              borderRadius: "4px",
-              border: "none",
-              backgroundColor: "#007bff",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            Run App
-          </button>
-          <div
-            style={{
-              marginTop: "1rem",
-              fontSize: "14px",
-              color: "#000",
-            }}
-          >
-            The app will run entirely in your browser using{" "}
-            <a
-              href="https://posit-dev.github.io/r-shinylive/"
-              className="not-prose"
-              target="_blank"
-              style={{ color: "blue" }}
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              style={{
+                position: "absolute",
+                objectFit: "cover",
+                filter: "brightness(0.4)", // darken image for contrast
+                zIndex: 0,
+                border: 0,
+                userSelect: "none",
+                pointerEvents: "none",
+              }}
+            />
+          )}
+          {/* Padding moved inside this wrapper */}
+          <div style={{ padding: "1rem", width: "100%" }}>
+            <button
+              onClick={() => setStarted(true)}
+              style={{
+                padding: "12px 24px",
+                fontSize: "16px",
+                borderRadius: "4px",
+                border: "none",
+                backgroundColor: "#007bff",
+                color: "white",
+                cursor: "pointer",
+                position: "relative",
+                zIndex: 1,
+              }}
             >
-              ShinyLive
-            </a>
-            . It's a ~60MB runtime, so it may take a moment to load on slower
-            connections.
+              Run App
+            </button>
+            <div
+              style={{
+                marginTop: "1rem",
+                fontSize: "14px",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              The app will run entirely in your browser using{" "}
+              <a
+                href="https://posit-dev.github.io/r-shinylive/"
+                className="not-prose"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "lightblue" }}
+              >
+                ShinyLive
+              </a>
+              . It's a ~60MB runtime, so it may take a moment to load on slower
+              connections.
+            </div>
           </div>
         </div>
       ) : (
