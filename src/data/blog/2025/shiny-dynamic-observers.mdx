@@ -1,15 +1,15 @@
 ---
 author: Kyle Husmann
 pubDatetime: 2025-06-22T18:00:00-07:00
-title: "Dynamic Observers in Shiny"
-slug: dynamic-observers-in-shiny
+title: "A Shiny Puzzle: Dynamic Observers"
+slug: shiny-dynamic-observers
 featured: true
 draft: false
 tags:
   - shiny
   - software
   - tips
-description: Dynamic observers in Shiny are hard to get right. Here's some of the ways they can go wrong...
+description: What starts as a simple Shiny UI turns into a deep dive into reactivity, lifecycle bugs, and surprising state quirks.
 ---
 
 import ShinyPortal from "@/components/ShinyPortal";
@@ -191,7 +191,7 @@ You will notice that when you try to re-add a card, it immediately disappears. W
 
 Current mood:
 
-![Rube Goldberg Machine Meme](./dynamic-observers-in-shiny/shiny-debugging.png)
+![Rube Goldberg Machine Meme](./shiny-dynamic-observers/shiny-debugging.png)
 
 ## Close Buttons: Attempt 2
 
@@ -360,6 +360,6 @@ If you're like me, your first reaction is probably: _there's no way this is the 
 
 But... yeah. I haven't found a better approach. Everything I've come up with feels too brittle or too specific to this toy example (and often uses custom JS). Nothing I've tried really generalizes cleanly.
 
-I think the gymnastics required in this solution may be illustrating a core limitation of Shiny's reactive observer model for managing app state. Other paradigms for managing app state can implement this behavior in ways that are much simpler and easier to reason about. If there's interest, I may write a future post walking through a React implementation of the toy example from this post, just for comparison. (Spoiler alert: unlike the Shiny version, it's suprisingly straightforward.)
+I think the gymnastics required in this solution may be exposing a core limitation of Shiny's reactive observer model for managing app state. Other paradigms for managing app state can implement this behavior in ways that are much simpler and easier to reason about. If there's interest, I may write a future post walking through a React implementation of the toy example from this post, just for comparison. (Spoiler alert: unlike the Shiny version, it's suprisingly straightforward.)
 
 That said, maybe I'm missing something obvious here -- which is a big part of why I put this post together. They say the best way to get the right answer on the Internet is to [post the wrong one](https://meta.wikimedia.org/wiki/Cunningham%27s_Law), so if anyone out there has a cleaner solution, please let me know!
