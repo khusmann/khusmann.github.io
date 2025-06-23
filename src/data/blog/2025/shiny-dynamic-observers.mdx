@@ -324,26 +324,26 @@ obs$destroy()
 So! We'll create a `reactiveVal()` that will hold a list of all the close button observers we've created, and we'll destroy all of them via `obs$destroy()` before creating new ones every time the parent `input$column_select` observer is triggered:
 
 ```r
-  dynamic_observers <- reactiveVal(list())
+dynamic_observers <- reactiveVal(list())
 
-  observeEvent(input$column_select, {
-    walk(dynamic_observers(), \(i) i$destroy())
+observeEvent(input$column_select, {
+  walk(dynamic_observers(), \(i) i$destroy())
 
-    new_observers <- map(input$column_select, function(i) {
-      close_btn_id <- paste0(i, "_close")
-      observeEvent(input[[close_btn_id]], {
-          appendMessage(glue("Closing {i}"))
-          updateSelectInput(
-            inputId = "column_select",
-            selected = discard(input$column_select, \(j) j == i)
-          )
-        },
-        ignoreInit = TRUE
-      )
-    })
-
-    dynamic_observers(new_observers)
+  new_observers <- map(input$column_select, function(i) {
+    close_btn_id <- paste0(i, "_close")
+    observeEvent(input[[close_btn_id]], {
+        appendMessage(glue("Closing {i}"))
+        updateSelectInput(
+          inputId = "column_select",
+          selected = discard(input$column_select, \(j) j == i)
+        )
+      },
+      ignoreInit = TRUE
+    )
   })
+
+  dynamic_observers(new_observers)
+})
 ```
 
 Here's the result:
