@@ -12,10 +12,11 @@ import type { GiscusProps } from "@giscus/react";
 
 export const GISCUS: GiscusProps = {
   repo: "khusmann/kylehusmann.com",
-  repoId: "",
+  repoId: "R_kgDOOr6Aaw",
   category: "Comments",
-  categoryId: "",
-  mapping: "title",
+  categoryId: "DIC_kwDOOr6Aa84Cr5AM",
+  mapping: "pathname",
+  strict: "1",
   reactionsEnabled: "0",
   emitMetadata: "0",
   inputPosition: "bottom",
