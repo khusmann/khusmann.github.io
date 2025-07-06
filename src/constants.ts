@@ -51,14 +51,12 @@ export const SOCIALS = [
     linkTitle: `Send an email to ${SITE.title}`,
     icon: IconMail,
   },
-  /*
   {
     name: "Bluesky",
-    href: "https://bsky.app/profile/username",
+    href: "https://bsky.app/profile/kylehusmann.bsky.social",
     linkTitle: `${SITE.title} on Bluesky`,
     icon: IconBluesky,
   },
-*/
 ] as const;
 
 export const SHARE_LINKS = [
