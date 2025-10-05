@@ -206,6 +206,8 @@ When you deploy your myapp package, you probably don't want to include the devel
    )
    ```
 
+   (Note that I'm manually injecting pkgload into the snapshot here, because it lives in `app.R`, outside the myapp package!)
+
 1. I then deploy the app via `rsconnect::deployApp()` and use the `appFiles =` argument to control which files I deploy.
 
 I've included a sketch of this approach in [`myapp-renv/dev/R/deploy.R`](https://github.com/khusmann/r-nested-devpkg-example/blob/main/myapp-renv/dev/R/deploy.R).
