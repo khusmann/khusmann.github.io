@@ -186,7 +186,7 @@ local({
 })
 ```
 
-This part is pretty straightforward: we only load the dev package if renv is in the "synchronized" state -- otherwise we warn the user.
+This part is straightforward as well: we only load the dev package if renv is in the "synchronized" state -- otherwise we warn the user.
 
 ### Deployment Notes
 
