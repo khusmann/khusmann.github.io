@@ -207,7 +207,7 @@ When you deploy your myapp package, you probably don't want to include the devel
 
 I've included a sketch of this approach in [`myapp-renv/dev/R/deploy.R`](https://github.com/khusmann/r-nested-devpkg-example/blob/main/myapp-renv/dev/R/deploy.R).
 
-Side note: A nice side-effect of cloning the repo to a temporary folder before deploying is that it ensures that your deployment matches what's in git (no local changes can creep in). This gives you another layer of protection from accidentally deploying any local data or secrets.
+Side note: A nice side-effect of cloning the repo to a temporary folder before deploying is that it ensures that your deployment matches what's in git (no local changes, data, or secrets can creep in).
 
 ## Final Notes
 
