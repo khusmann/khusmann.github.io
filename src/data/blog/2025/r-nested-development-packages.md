@@ -198,7 +198,10 @@ When you deploy your myapp package, you probably don't want to include the devel
    ```
    renv::snapshot(
      ".",
-     packages = renv::dependencies("DESCRIPTION")$Package,
+     packages = c(
+      renv::dependencies("DESCRIPTION")$Package,
+      "pkgload" # pkgload is only used by app.R, not directly in the myapp package
+     ),
      prompt = FALSE
    )
    ```
