@@ -22,7 +22,7 @@ Many language ecosystems include first-class mechanisms for defining project-loc
 
 For a while, I followed the golem approach of putting these scripts and helpers in R files in a `/dev` folder in my R project, but I quickly grew out of this for a number of reasons:
 
-1. Sourced `.R` files pollute the global environment. (sure, you can use `local()`, and `source(local = TRUE)` but it's ugly).
+1. Sourced `.R` files pollute the global environment. (sure, you can use `local()`, and `source(local = TRUE)` but takes a lot of vigilance to ensure dev scripts "leave no trace").
 1. Sharing code between sourced `.R` files requires sourcing their dependencies, which quickly becomes convoluted.
 1. There's no really good way to pass arguments to the `.R` scripts.
 1. Values technically can be returned from sourced scripts, but it's ugly (`source("foo.R")$value`).
