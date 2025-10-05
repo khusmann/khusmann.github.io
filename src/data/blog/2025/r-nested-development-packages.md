@@ -1,10 +1,10 @@
 ---
 author: Kyle Husmann
-pubDatetime: 2025-10-05T18:00:00-07:00
+pubDatetime: 2025-10-06T18:00:00-07:00
 title: "A More Customizable Golem: Nested Development Packages in R"
 slug: r-nested-development-packages
 featured: true
-draft: false
+draft: true
 tags:
   - r
   - shiny
