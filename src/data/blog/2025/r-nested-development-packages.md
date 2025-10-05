@@ -53,7 +53,7 @@ Now, your dev package is automatically locked to your application development, b
 
 I've created a bare-bones repo to illustrate this technique [(link)](https://github.com/khusmann/r-nested-devpkg-example). I've included two example projects: one with a minimal setup (described below), and a setup that uses renv (described in the next section).
 
-Go ahead and clone the repo (linked above), then open the first example project (`myapp/myapp.Rproj`) in RStudio (or Positron). When you open the project, in addition to the standard R greeting, you should see:
+Go ahead and clone the [repo](https://github.com/khusmann/r-nested-devpkg-example), then open the first example project (`myapp/myapp.Rproj`) in RStudio (or Positron). When you open the project, in addition to the standard R greeting, you should see:
 
 ```
 ℹ Loading myapp.dev
