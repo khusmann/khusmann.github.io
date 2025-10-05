@@ -26,7 +26,6 @@ For a while, I followed the golem approach of putting these scripts and helpers 
 1. Sourced `.R` files pollute the global environment. (sure, you can use `local()`, and `source(local = TRUE)` but takes a lot of vigilance to ensure dev scripts "leave no trace").
 1. Sharing code between sourced `.R` files requires sourcing their dependencies, which quickly becomes convoluted.
 1. There's no really good way to pass arguments to the `.R` scripts.
-1. Values technically can be returned from sourced scripts, but it's ugly (`source("foo.R")$value`).
 
 I often find myself wishing I could have my _own_ R package of helpers specific to a project. For example if I'm developing a Shiny application named `myapp`, I'd like a separate `myapp.dev` package where I can keep all my developement scripts and helpers. That way, when I'm developing the app, instead of running:
 
