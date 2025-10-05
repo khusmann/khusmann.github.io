@@ -18,7 +18,7 @@ That said, these general tools only go so far: when I'm developing a production 
 
 These scripts and helpers can range from launchers for multiple development-mode mocked configurations of the project, to synthetic data generators, to complex deployment / publishing orchestration across multiple systems... the list goes on and on.
 
-In many other languages, this kind of project-specific tooling is often baked into the package manager itself (e.g. npm scripts for Node, Cargo tasks for Rust, etc.), making it easy to codify and share repeatable development workflows. In R, this layer tends to be more ad hoc.
+Many language ecosystems include first-class mechanisms for defining project-local development tasks (e.g., npm scripts for Node, Makefiles for C/C++), making it easy to automate and share common workflows. In R, by contrast, this layer is usually more ad hoc.
 
 For a while, I followed the golem approach of putting these scripts and helpers in R files in a `/dev` folder in my R project, but I quickly grew out of this for a number of reasons:
 
@@ -51,7 +51,7 @@ _Nest the dev package inside your application package, and set up your `.Rprofil
 
 Now, your dev package is automatically locked to your application development, because it lives inside your application repo. Whever the dev package is updated, devs only need to pull the latest version of the application repo, then restart their R session to make the fresh dev package available in their environment.
 
-I've created a bare-bones repo to illustrate this technique [(link)](https://github.com/khusmann/r-nested-devpkg-example). I've included two example projects: one with a minimal setup (which I describe below), and a setup that uses renv (described in the next section).
+I've created a bare-bones repo to illustrate this technique [(link)](https://github.com/khusmann/r-nested-devpkg-example). I've included two example projects: one with a minimal setup (described below), and a setup that uses renv (described in the next section).
 
 Go ahead and clone the repo, then open the first example project (`myapp/myapp.Rproj`) in RStudio (or Positron). When you open the project, in addition to the standard R greeting, you should see:
 
