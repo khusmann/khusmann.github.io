@@ -9,7 +9,12 @@ export interface Props {
 }
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  // This was the original code; it filtered out drafts
+  // const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+  // Instead allow all posts to go live invisibly (without going in listings)
+  const posts = await getCollection("blog");
+
   const postResult = posts.map(post => ({
     params: { slug: getPath(post.id, post.filePath, false) },
     props: { post },
