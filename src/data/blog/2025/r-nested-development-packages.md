@@ -27,7 +27,7 @@ For a while, I followed the golem approach of putting these scripts and helpers 
 1. There's no really good way to pass arguments to the `.R` scripts.
 1. Values technically can be returned from sourced scripts, but it's ugly (`source("foo.R")$value`).
 
-I often find myself wishing I could have my _own_ library of scripts and helpers specific to a project. For example if I'm developing a Shiny application named `myapp`, I'd like a separate `myapp.dev` package where I can keep all my developement scripts and helpers. That way, when I'm developing the app, instead of running:
+I often find myself wishing I could have my _own_ R package of helpers specific to a project. For example if I'm developing a Shiny application named `myapp`, I'd like a separate `myapp.dev` package where I can keep all my developement scripts and helpers. That way, when I'm developing the app, instead of running:
 
 ```r
 source("dev/run_dev_config1.R")
