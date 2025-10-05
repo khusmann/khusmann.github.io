@@ -8,6 +8,7 @@ draft: false
 tags:
   - science
   - data
+  - r
   - software
 description: (And The Features Open Software And Data Formats Need In Order To Compete)
 ---

@@ -6,6 +6,7 @@ slug: make-posit-workbench-feel-like-native-rstudio
 featured: true
 draft: false
 tags:
+  - r
   - software
   - tips
 description: Chrome's App Mode lets you run Posit Workbench in a minimal, standalone window. No extra tabs or toolbars, just your RStudio session.

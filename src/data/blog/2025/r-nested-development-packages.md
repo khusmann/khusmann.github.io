@@ -6,6 +6,7 @@ slug: r-nested-development-packages
 featured: true
 draft: false
 tags:
+  - r
   - shiny
   - software
   - tips
