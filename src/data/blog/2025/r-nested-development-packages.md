@@ -96,7 +96,7 @@ if (interactive()) {
 }
 ```
 
-As you can see, it's pretty straight-forward: if pkgload is available, we use it to load the myapp.dev package from `dev/`, otherwise we warn the user.
+As you can see, it's pretty straightforward: if pkgload is available, we use it to load the myapp.dev package from `dev/`, otherwise we warn the user.
 
 Also note how `^dev$` is added to `.Rbuildignore` so the myapp.dev package does not get bundled with the myapp package when it is installed.
 
