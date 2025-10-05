@@ -132,23 +132,16 @@ Let's dive into the new `.Rprofile`:
 
 ```r
 # Have renv explicitly use all the deps in DESCRIPTION and dev/DESCRIPTION
-# Note: you must set `renv$settings$snapshot.type("custom")` for this
-# to take effect
+# Note: for this hook to be used, you must use
+# `renv$settings$snapshot.type("custom")` when setting up your renv
+# for the project
 options(
   renv.snapshot.filter = function(project) {
-    get_deps <- function(desc_path) {
-      read.dcf(desc_path, fields = c("Imports", "Suggests")) |>
-        lapply(\(i) strsplit(i, ",")) |>
-        unlist() |>
-        trimws() |>
-        (\(x) gsub("\\s*\\(.*\\)", "", x))() # Remove version indicators
-    }
-    c("DESCRIPTION", "dev/DESCRIPTION") |>
-      lapply(\(i) file.path(project, i)) |>
-      lapply(get_deps) |>
-      unlist() |>
-      unique() |>
-      Filter(Negate(is.na), x = _)
+    renv::dependencies(
+      file.path(project, c("DESCRIPTION", "dev/DESCRIPTION")),
+      dev = TRUE,
+      quiet = TRUE
+    )$Package
   }
 )
 
@@ -159,7 +152,7 @@ if (interactive()) {
 }
 ```
 
-As you can see, we provide a custom `renv.snapshot.filter` hook to grab dependencies from the `DESCRIPTION`s of both `myapp` and `myapp.dev`. As the comment notes, in order for renv to use this custom hook, you must set `renv$settings$snapshot.type("custom")` when setting up your project.
+As you can see, we provide a custom `renv.snapshot.filter` hook to grab dependencies from the `DESCRIPTION`s of both `myapp` and `myapp.dev`. As the comment notes, in order for renv to use this custom hook, you must set `renv$settings$snapshot.type("custom")` when setting up your renv.
 
 Here's the contents of `dev/activate.R`:
 
@@ -197,15 +190,16 @@ This part is pretty straightforward: we only load the dev package if renv is in 
 
 ### Deployment Notes
 
-When you deploy your myapp package, you probably don't want to include the development package, nor its dependencies. I handle this in my deployment script by doing the following:
+When you deploy your myapp package, you probably don't want to include the development package, nor its dependencies. I handle this in my deployment scripts by doing the following:
 
-1. I use clone a fresh copy of the repo into a temporary folder (using `git clone --depth 1`)
+1. I use clone a fresh copy of the repo into a temporary folder (using `git clone --depth 1`).
 1. In the cloned directory, I create a fresh lockfile without the myapp.dev dependencies by running:
 
    ```
    renv::snapshot(
      ".",
-     packages = renv::dependencies("DESCRIPTION")$Package
+     packages = renv::dependencies("DESCRIPTION")$Package,
+     prompt = FALSE
    )
    ```
 
@@ -219,4 +213,4 @@ Side note: A nice side-effect of cloning the repo to a temporary folder before d
 
 So far, I've found that the biggest downside / friction in this approach is managing your environment while you are making updates to the dev package. When you make changes, it's easy to forget to restart your session (or manually `devtools::load_all("dev")`) to have the changes go into effect. Similarly, when changing exports you need to run `devtools::document("dev")` to update the `NAMESPACE` of your dev package.
 
-In addition, it's a bit of a pain to set up a dev package from scratch in a new repo (especially if you're using renv!). That all said, if this approach catches on and there's enough interest, I could be convinced to create a universal helper package (like usethis) focused on automating these little meta-tasks and setup associated with dev packages.
+In addition, it's a bit of a pain to set up a dev package from scratch in a new repo (especially if you're using renv!). That all said, if this approach catches on and there's enough interest, I could be convinced to create a universal helper package (like usethis) focused on automating these little meta-tasks and setup associated with dev packages. If you try the dev package pattern, please let me know how it goes!
