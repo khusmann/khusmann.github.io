@@ -51,9 +51,9 @@ _Nest the dev package inside your application package, and set up your `.Rprofil
 
 Now, your dev package is automatically locked to your application development, because it lives inside your application repo. Whever the dev package is updated, devs only need to pull the latest version of the application repo, then restart their R session to make the fresh dev package available in their environment.
 
-I've created a bare-bones repo to illustrate this technique [(link)](https://github.com/khusmann/r-nested-devpkg-example).
+I've created a bare-bones repo to illustrate this technique [(link)](https://github.com/khusmann/r-nested-devpkg-example). I've included two example projects: one with a minimal setup (which I describe below), and a setup that uses renv (described in the next section).
 
-Go ahead and clone the repo, then open the project `myapp/myapp.Rproj` in RStudio (or Positron). When you open the project, in addition to the standard R greeting, you should see:
+Go ahead and clone the repo, then open the first example project (`myapp/myapp.Rproj`) in RStudio (or Positron). When you open the project, in addition to the standard R greeting, you should see:
 
 ```
 ℹ Loading myapp.dev
@@ -62,20 +62,45 @@ Go ahead and clone the repo, then open the project `myapp/myapp.Rproj` in RStudi
 Which indicates the development package is loaded. Note that pkgload is required to load the package -- if you don't have pkgload installed, you'll get the message:
 
 ```
-Error: pkgload is not installed. Please run `install.packages("pkgload")` and then restart your session.
+Warning message:
+Unable to load myapp.dev, pkgload is not installed.
+Please run `install.packages("pkgload")` and then restart your session.
 ```
 
-If so, simply `install.packages()` and restart your session as instructed, and myapp.dev should get loaded when the session starts.
+If so, simply `install.packages("pkgload")` and restart your session as instructed, and myapp.dev should get loaded when the session starts.
 
 Once your session starts with myapp.dev namespace is loaded into your environment, type `myapp.dev::` and you should get an autocomplete listing the available functions. In this barebones example, we have `myapp.dev::run()` and `myapp.dev::deploy()` which run the myapp Shiny app and pretend to deploy it, respectively.
 
-...and that's it!
+### Setup Notes
 
-### Behind The Scenes
+This setup is made possible by the following `.Rprofile`:
 
-Take peek inside the `/dev` folder and inside `/.Rprofile` to get a feel for how everything is set up. Also note how `^dev$` is added to `.Rbuildignore` so the dev package does not get bundled with the myapp package when it is installed.
+```r
+if (interactive()) {
+  if (requireNamespace("pkgload", quietly = TRUE)) {
+    pkgload::load_all(
+      "dev",
+      attach = FALSE,
+      export_all = FALSE,
+      attach_testthat = FALSE
+    )
+  } else {
+    warning(
+      paste0(
+        'Unable to load mypackage.dev, pkgload is not installed.\n',
+        'Please run `install.packages("pkgload") and then restart your session.'
+      ),
+      call. = FALSE
+    )
+  }
+}
+```
 
-## Supporting renv
+As you can see, it's pretty straight-forward: if pkgload is available, we use it to load the myapp.dev package from `dev/`, otherwise we warn the user.
+
+Also note how `^dev$` is added to `.Rbuildignore` so the myapp.dev package does not get bundled with the myapp package when it is installed.
+
+## renv Support
 
 With a little bit more setup effort, you can configure renv to create an `renv.lock` file that ensures all developers on a project are using the same versions of packages imported by both `myapp` AND `myapp.dev`.
 
@@ -101,7 +126,7 @@ Resolve the warning by running `renv::restore()` and restarting your session. Yo
 
 And now the package versions in your development environment are all controlled via renv!
 
-### Behind The Scenes
+### Setup Notes
 
 Let's dive into the new `.Rprofile`:
 
@@ -134,7 +159,7 @@ if (interactive()) {
 }
 ```
 
-As you can see, we provide a custom `renv.snapshot.filter` hook to grab dependencies from the `DESCRIPTION`s of both `myapp` and `myapp.dev`. As the comment notes, in order for renv to use this custom hook, you must set `renv$settings$snapshot.type("custom")`.
+As you can see, we provide a custom `renv.snapshot.filter` hook to grab dependencies from the `DESCRIPTION`s of both `myapp` and `myapp.dev`. As the comment notes, in order for renv to use this custom hook, you must set `renv$settings$snapshot.type("custom")` when setting up your project.
 
 Here's the contents of `dev/activate.R`:
 
@@ -170,8 +195,28 @@ local({
 
 This part is pretty straightforward: we only load the dev package if renv is in the "synchronized" state -- otherwise we warn the user.
 
+### Deployment Notes
+
+When you deploy your myapp package, you probably don't want to include the development package, nor its dependencies. I handle this in my deployment script by doing the following:
+
+1. I use clone a fresh copy of the repo into a temporary folder (using `git clone --depth 1`)
+1. In the cloned directory, I create a fresh lockfile without the myapp.dev dependencies by running:
+
+   ```
+   renv::snapshot(
+     ".",
+     packages = renv::dependencies("DESCRIPTION")$Package
+   )
+   ```
+
+1. I then deploy the app via `rsconnect::deployApp()` and use the `appFiles =` argument to control which files I deploy.
+
+I've included a sketch of this approach in [`myapp-renv/dev/R/deploy.R`](https://github.com/khusmann/r-nested-devpkg-example/blob/main/myapp-renv/dev/R/deploy.R).
+
+Side note: A nice side-effect of cloning the repo to a temporary folder before deploying is that it ensures that your deployment matches what's in git (no local changes can creep in). This gives you another layer of protection from accidentally deploying any local data or secrets.
+
 ## Final Notes
 
-So far, I've found that the biggest downside / friction of this approach is managing your environment while you are making updates to the dev package. When you make changes, it's easy to forget to restart your session (or manually `devtools::load_all("dev")`) to have the changes go into effect. Similarly, when changing exports you need to run `devtools::document("dev")` to update the `NAMESPACE` of your dev package.
+So far, I've found that the biggest downside / friction in this approach is managing your environment while you are making updates to the dev package. When you make changes, it's easy to forget to restart your session (or manually `devtools::load_all("dev")`) to have the changes go into effect. Similarly, when changing exports you need to run `devtools::document("dev")` to update the `NAMESPACE` of your dev package.
 
 In addition, it's a bit of a pain to set up a dev package from scratch in a new repo (especially if you're using renv!). That all said, if this approach catches on and there's enough interest, I could be convinced to create a universal helper package (like usethis) focused on automating these little meta-tasks and setup associated with dev packages.
