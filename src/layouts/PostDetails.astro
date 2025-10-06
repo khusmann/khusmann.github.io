@@ -69,12 +69,17 @@ const layoutProps = {
 
 /* ========== Prev/Next Posts ========== */
 
-const allPosts = posts.map(({ data: { title }, id }) => ({
-  slug: id,
+const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
+  slug: getPath(id, filePath, false),
+  filePath,
   title,
 }));
 
-const currentPostIndex = allPosts.findIndex(a => a.slug === post.id);
+// TODO: we're using filePath to identify posts here instead of id, because
+// id doesn't include the year folder. Maybe instead we should customize generateId
+// in Astro so posts include the year..? Taking this approach for now to minimize
+// changes in the template.
+const currentPostIndex = allPosts.findIndex(a => a.filePath === post.filePath);
 
 const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 const nextPost =
