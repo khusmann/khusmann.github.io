@@ -22,11 +22,11 @@ But this week I discovered a new culprit that wasn't on my radar: the state of R
 
 ## The Mystery
 
-I was writing automated tests for plotly plots. Since plotly outputs interactive HTML rather than static vector graphics, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing. Instead, I'd render the plotly plots to temporary HTML files via `htmltools::save_html()` and then screenshot the result via webshot2. (I would have preferred using `plotly::save_image()`, but was working in a managed environment where kaleido wasn't installed)
+I was writing automated tests for plotly plots. Since plotly outputs interactive HTML, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing as I would with static ggplot vector outputs. Instead, I'd render the plotly plots to temporary HTML files via `htmltools::save_html()` and screenshot the result via webshot2. (I would have preferred using `plotly::save_image()`, but was working in a managed environment where kaleido wasn't installed.)
 
-The tests would pass when I ran them interactively with `devtools::test()`, but fail when running via `devtools::check()`. The snapshots differed by a few pixels in margins and element sizes... not much, but enough to fail. Since `devtools::check()` runs in a clean subprocess, something about my interactive RStudio session was affecting the results.
+The snapshots I produced when running tests interactively with `devtools::test()` did not match the results from `devtools::check()`. The snapshots differed by a few pixels in margins and element sizes--not much, but enough to fail. Since `devtools::check()` runs in a clean subprocess, something about my interactive RStudio session was affecting the results.
 
-I started my usual investigation: environment variables, `options()`, attached packages. Nothing stood out. This wasn't a cross-platform issue, I was running everything on the same machine. What could possibly be different?
+I started my usual investigation: environment variables, `options()`, attached packages. Nothing stood out. This wasn't a cross-platform issue... I was running everything on the same machine. What could possibly be different?
 
 ## The Cause
 
