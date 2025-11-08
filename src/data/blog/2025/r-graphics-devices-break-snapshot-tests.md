@@ -30,24 +30,25 @@ I started my usual investigation: environment variables, `options()`, attached p
 
 ## The Cause
 
-As you might have guessed from the title, I eventually tracked it down the differences to the current state of the graphics device. The plotly plots were being created with `ggplotly()`, which uses `grid::convert*()` to convert ggplot
-grid units to mm / px used by plotly. You can easily replicate the heart of the issue by running the following in RStudio:
+As you might have guessed from the title, I eventually tracked the differences down to the current state of the graphics device. The plotly plots were being created with `ggplotly()`, which uses `grid::convert*()` functions to convert ggplot grid units to the mm/px values used by plotly.
+
+You can easily replicate the core issue by running the following in RStudio:
 
 ```r
 grid::convertX(grid::unit(1, "npc"), "mm")
 ```
 
-Now resize your viewer pane and run it again... you'll get a different result! Similarly, if you run in a clean subprocess via callr (as `devtools::check()` does), you'll also (likely) get a different result:
+Now resize your Plots pane and run it again... you'll get a different result! Similarly, if you run it in a clean subprocess via callr (as `devtools::check()` does), you'll also get a different result:
 
 ```r
 callr::r(\() grid::convertX(grid::unit(1, "npc"), "mm"))
 ```
 
-`plotly::ggplotly()` makes extensive use of these unit conversions ([source](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L1192)). So the results of my snapshot tests were depending on the size of the current open viewing window (or the default graphics device in the callr process)!
+Since `plotly::ggplotly()` makes extensive use of these unit conversions ([source](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L1192)), my snapshot tests were depending on the size of whatever graphics device happened to be open—either my RStudio Plots pane or the default device in the callr subprocess.
 
 ## The Solution
 
-To fix this, you can manually specify a graphics device to ensure the conversion calculations are always the same:
+The fix is to manually specify a graphics device to ensure the conversion calculations are always consistent:
 
 ```r
 foo <- function() {
@@ -56,22 +57,22 @@ foo <- function() {
 }
 ```
 
-(We use `type = "cairo"` to hopefully get some additional cross-platform consistency, but I haven't tested the limits of this myself. You may also consider using the [ragg package](https://ragg.r-lib.org/) for this)
+Using `type = "cairo"` provides additional cross-platform consistency, though I haven't tested the limits of this extensively. You might also consider using the [ragg package](https://ragg.r-lib.org/) for more control over graphics devices.
 
-Try running it with different viewer window sizes, or inside a callr subprocess, and you should get the same values:
+Now try running it with different Plots pane sizes or inside a callr subprocess--you'll get the same values:
 
 ```r
 foo()
 callr::r(foo)
 ```
 
-This lends itself to an elegant solution for your testthat environment. In `tests/testthat/setup.R`, all you need to add is this:
+This approach translates elegantly to testthat. In `tests/testthat/setup.R`, add this single line:
 
 ```r
 withr::local_png(tempfile(), type = "cairo", .local_envir = teardown_env())
 ```
 
-And now all your tests will run with a consistent graphics device! (Assuming your code is well-behaved and doesn't mutate the graphics environment)
+Now all your tests will run with a consistent graphics device, assuming the code you are testing doesn't mutate the graphics environment.
 
 ## Final Thoughts
 
