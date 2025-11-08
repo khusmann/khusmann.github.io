@@ -14,19 +14,21 @@ description: The state of your graphics device can be a surprising source of inc
 
 If you've ever written snapshot tests in R, you know the frustration: tests that produce different results in different environments.
 
-Most R developers are familiar with the usual suspects that cause test inconsistencies: environment variables, `options()`, random seeds, package versions, and platform-specific differences in architecture, fonts or rendering.
+Most R developers are familiar with the usual suspects that cause test inconsistencies: environment variables, `options()`, random seeds, package versions, and platform-specific differences in architecture, shared libraries, fonts or rendering.
 
-Over the years I've seen a lot of weird edge cases that fall into the above categories. A few months ago, for example, I traced test inconsistencies back to code in `tibble()` that branched on the presence of an `RSTUDIO` environment variable ([link](https://github.com/tidyverse/tibble/issues/1662)).
+Over the years I've seen a lot of weird edge cases that fall into the above categories. A few months ago, for example, I traced test inconsistencies on a project back to code in `tibble()` that branched on the presence of an `RSTUDIO` environment variable ([link](https://github.com/tidyverse/tibble/issues/1662)).
 
-But this week I discovered a new culprit that wasn't on my radar: the state of R's current graphics device. It turns out that the size and configuration of your current graphics device, including the dimensions of RStudio's Plots pane, can silently affect the results of your code when you least expect it!
+But this week I discovered a new culprit that wasn't on my radar until now: the state of R's current graphics device. It turns out that the size and configuration of your current graphics device, including the dimensions of RStudio's Plots pane, can silently affect the results of your code when you least expect it!
 
 ## The Mystery
 
-I was writing automated tests for plotly plots. Since plotly outputs interactive HTML, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing as I would with static ggplot vector outputs. Instead, I'd render the plotly plots to temporary HTML files via `htmltools::save_html()` and screenshot the result via webshot2. (I would have preferred using `plotly::save_image()`, but was working in a managed environment where kaleido wasn't installed.)
+I was writing automated tests for plotly plots. Since plotly outputs interactive HTML, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing as I would with static ggplot vector outputs. Even though I was creating the base plots with `ggplotly()`, I wanted to test the final plotly output, not the intermediate ggplot result.
+
+Instead, I'd render the plotly plots to temporary HTML files via `htmltools::save_html()` and screenshot the result via webshot2. (I would have preferred using `plotly::save_image()`, but was working in a managed environment where kaleido wasn't installed.)
 
 The snapshots I produced when running tests interactively with `devtools::test()` did not match the results from `devtools::check()`. The snapshots differed by a few pixels in margins and element sizes--not much, but enough to fail. Since `devtools::check()` runs in a clean subprocess, something about my interactive RStudio session was affecting the results.
 
-I started my usual investigation: environment variables, `options()`, attached packages. Nothing stood out. This wasn't a cross-platform issue... I was running everything on the same machine. What could possibly be different?
+I started my usual investigation: environment variables, `options()`, attached packages. The executable of chrome being used by webshot2 / chromote and the options it was launched with. Nothing stood out. I was running everything on the same machine, so it couldn't be a cross-platform issue. What could possibly be different?
 
 ## The Cause
 
@@ -44,7 +46,7 @@ Now resize your Plots pane and run it again... you'll get a different result! Si
 callr::r(\() grid::convertX(grid::unit(1, "npc"), "mm"))
 ```
 
-Since `plotly::ggplotly()` makes extensive use of these unit conversions ([source](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L1192)), my snapshot tests were depending on the size of whatever graphics device happened to be open—either my RStudio Plots pane or the default device in the callr subprocess.
+Since `plotly::ggplotly()` makes extensive use of these unit conversions ([source](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L1192)), my snapshot tests were depending on the size of whatever graphics device happened to be open--either my RStudio Plots pane or the default device created by the callr subprocess.
 
 ## The Solution
 
@@ -57,7 +59,7 @@ foo <- function() {
 }
 ```
 
-Using `type = "cairo"` provides additional cross-platform consistency, though I haven't tested the limits of this extensively. You might also consider using the [ragg package](https://ragg.r-lib.org/) for more control over graphics devices.
+Using `type = "cairo"` potentially provides additional cross-platform consistency, though I haven't tested the limits of this extensively. You might also consider using the [ragg package](https://ragg.r-lib.org/) for more control over graphics devices.
 
 Now try running it with different Plots pane sizes or inside a callr subprocess--you'll get the same values:
 
