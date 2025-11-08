@@ -22,7 +22,7 @@ But this week I discovered a new culprit that wasn't on my radar until now: the 
 
 ## The Mystery
 
-I was writing automated tests for plotly plots. Since plotly results in interactive HTML, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing as I would with static ggplot vector outputs. Even though I was creating the base plots with `ggplotly()`, I wanted to test the final plotly output, not the intermediate ggplot result.
+I was writing automated tests for plotly plots. Since plotly results in interactive HTML, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing as I would with static ggplot vector outputs. Even though I was creating the base plots with `ggplotly()`, they were subsequently mutated with a bunch of plotly options. I wanted to test the final plotly output, not the intermediate ggplot result.
 
 Instead, I'd render the plotly plots to temporary HTML files via `htmltools::save_html()` and screenshot the result via webshot2. (I would have preferred using `plotly::save_image()`, but was working in a managed environment where kaleido wasn't installed.)
 
