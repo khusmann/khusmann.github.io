@@ -76,7 +76,7 @@ withr::local_png(tempfile(), type = "cairo", .local_envir = teardown_env())
 
 Now all your tests will run with a consistent graphics device, assuming the code you are testing doesn't mutate the graphics environment.
 
-Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.org/), none of this is necessary because vdiffr handles graphics device management automatically. The `plotly::ggplotly()` case is trickier: even though the final output is rendered into HTML rather than a graphics device, `ggplotly()` still queries the current graphics device to perform its grid unit conversions. This means you need to manage the device state manually whenever you're testing plotly output created by `ggplotly()`.
+Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.org/), none of this is necessary because vdiffr handles graphics device management automatically. The `plotly::ggplotly()` case is special: even though the final output is rendered into HTML rather than a graphics device, `ggplotly()` still queries the current graphics device to perform its grid unit conversions. This means you need to manage the device state manually whenever you're testing plotly output created by `ggplotly()`.
 
 ## Final Thoughts
 
