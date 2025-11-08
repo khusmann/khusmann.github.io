@@ -30,7 +30,7 @@ I started my usual investigation: environment variables, `options()`, attached p
 
 ## The Cause
 
-As you might have guessed from the title, I eventually tracked the differences down to the current state of the graphics device. The plotly plots were being created with `ggplotly()`, which uses `grid::convert*()` functions to convert ggplot grid units to the mm/px values used by plotly.
+As you might have guessed from the title of this post, I eventually tracked the differences down to the current state of the graphics device. The plotly plots were being created with `ggplotly()`, which uses `grid::convert*()` functions to convert ggplot grid units to the mm/px values used by plotly.
 
 You can easily replicate the core issue by running the following in RStudio:
 
@@ -76,6 +76,6 @@ Now all your tests will run with a consistent graphics device, assuming the code
 
 ## Final Thoughts
 
-They say the definition of insanity is doing the same thing but expecting different results. Despite computers being deterministic machines, it can be surprsingly difficult to get the same code to produce the same results across runs.
+Despite computers being deterministic machines, getting the same code to produce the same results across different runs can be surprisingly tricky.
 
-I expect this will be one of those posts that will be only interesting to a few people, but I'm putting it here to get the general knowledge out: TIL graphics devices are an important source of context to be managed across runs if you are looking for reproducability!
+If your snapshot tests are mysteriously flaky and your code involves any kind of plotting or graphics rendering, your current graphics device might be the culprit. Add it to your mental checklist alongside environment variables, random seeds, and all the other usual suspects.
