@@ -22,7 +22,7 @@ But this week I discovered a new culprit that wasn't on my radar until now: the 
 
 ## The Mystery
 
-I was writing automated tests for plotly plots. Since plotly outputs interactive HTML, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing as I would with static ggplot vector outputs. Even though I was creating the base plots with `ggplotly()`, I wanted to test the final plotly output, not the intermediate ggplot result.
+I was writing automated tests for plotly plots. Since plotly results in interactive HTML, I couldn't use [vdiffr](https://vdiffr.r-lib.org/) for snapshot testing as I would with static ggplot vector outputs. Even though I was creating the base plots with `ggplotly()`, I wanted to test the final plotly output, not the intermediate ggplot result.
 
 Instead, I'd render the plotly plots to temporary HTML files via `htmltools::save_html()` and screenshot the result via webshot2. (I would have preferred using `plotly::save_image()`, but was working in a managed environment where kaleido wasn't installed.)
 
@@ -76,7 +76,7 @@ withr::local_png(tempfile(), type = "cairo", .local_envir = teardown_env())
 
 Now all your tests will run with a consistent graphics device, assuming the code you are testing doesn't mutate the graphics environment.
 
-Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.org/), none of this is necessary because vdiffr handles graphics device management automatically. The `plotly::ggplotly()` case is trickier: even though the final output is HTML rather than a graphics device, `ggplotly()` still queries the current graphics device to perform its grid unit conversions. This means you need to manage the device state manually whenever you're testing plotly output created by `ggplotly()`.
+Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.org/), none of this is necessary because vdiffr handles graphics device management automatically. The `plotly::ggplotly()` case is trickier: even though the final output is rendered into HTML rather than a graphics device, `ggplotly()` still queries the current graphics device to perform its grid unit conversions. This means you need to manage the device state manually whenever you're testing plotly output created by `ggplotly()`.
 
 ## Final Thoughts
 
