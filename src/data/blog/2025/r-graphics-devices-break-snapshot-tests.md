@@ -76,6 +76,8 @@ withr::local_png(tempfile(), type = "cairo", .local_envir = teardown_env())
 
 Now all your tests will run with a consistent graphics device, assuming the code you are testing doesn't mutate the graphics environment.
 
+Note that if you're exclusively using ggplot2, [vdiffr](https://vdiffr.r-lib.org/) will manage the graphics device for you. You only need to manually manage your graphics device in cases like these where the code you are testing is invisibly using it to make decisions (like `plotly::ggplotly()` does with grid unit conversions).
+
 ## Final Thoughts
 
 Despite computers being deterministic machines, getting the same code to produce the same results across different runs can be surprisingly tricky.
