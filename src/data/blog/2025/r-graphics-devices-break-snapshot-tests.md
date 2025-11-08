@@ -12,18 +12,11 @@ tags:
 description: The state of your graphics device can be a surprising source of inconsistent results across test runs in R.
 ---
 
-Automated testing in R. What it's for.
+If you've ever written snapshot tests in R, you know the frustration: tests that produce different results in different environments.
 
-I'm used to controlling the following aspects of environment:
+Most R developers are familiar with the usual suspects that cause test inconsistencies: environment variables, `options()`, random seeds, package versions, and platform-specific differences in architecture, fonts or rendering.
 
-- Environment variables
-- R `options()`
-- Random seeds
-- Attached packages / package versions
-- Locale differences across platforms
-- Differences in fonts, DPI, subpixel calculations, etc. across platforms
-
-This week I stumbled on another source of context that can create differences across runs: R graphics devices.
+But this week I discovered a new culprit that wasn't on my radar: the state of R's current graphics device. It turns out that the size and configuration of your current graphics device, including the dimensions of RStudio's Plots pane, can silently affect the results of your code, even when you're not explicitly using the device!
 
 ## The Story
 
