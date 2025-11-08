@@ -28,7 +28,7 @@ Instead, I'd render the plotly plots to temporary HTML files via `htmltools::sav
 
 The snapshots I produced when running tests interactively with `devtools::test()` did not match the results from `devtools::check()`. The snapshots differed by a few pixels in margins and element sizes--not much, but enough to fail. Since `devtools::check()` runs in a clean subprocess, something about my interactive RStudio session was affecting the results.
 
-I started my usual investigation: environment variables, `options()`, attached packages. The executable of chrome being used by webshot2 / chromote and the options it was launched with. Nothing stood out. I was running everything on the same machine, so it couldn't be a cross-platform issue. What could possibly be different?
+I started my usual investigation: environment variables, `options()`, attached packages. The Chrome executable being used by webshot2/chromote and the options it was launched with. Nothing stood out. I was running everything on the same machine, so it couldn't be a cross-platform issue. What could possibly be different?
 
 ## The Cause
 
@@ -40,7 +40,7 @@ You can easily replicate the core issue by running the following in RStudio:
 grid::convertX(grid::unit(1, "npc"), "mm")
 ```
 
-Now resize your Plots pane and run it again... you'll get a different result! Similarly, if you run it in a clean subprocess via callr (as `devtools::check()` does), you'll also get a different result:
+Now resize your Plots pane and run it again--you'll get a different result! Similarly, if you run it in a clean subprocess via callr (as `devtools::check()` does), you'll also get a different result:
 
 ```r
 callr::r(\() grid::convertX(grid::unit(1, "npc"), "mm"))
@@ -76,7 +76,7 @@ withr::local_png(tempfile(), type = "cairo", .local_envir = teardown_env())
 
 Now all your tests will run with a consistent graphics device, assuming the code you are testing doesn't mutate the graphics environment.
 
-Note that if you're exclusively using ggplot2, [vdiffr](https://vdiffr.r-lib.org/) will manage the graphics device for you. You only need to manually manage your graphics device in cases like these where the code you are testing is invisibly using it to make decisions (like `plotly::ggplotly()` does with grid unit conversions).
+Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.org/), none of this is necessary because vdiffr handles graphics device management automatically. The `plotly::ggplotly()` case is trickier: even though the final output is HTML rather than a graphics device, `ggplotly()` still queries the current graphics device to perform its grid unit conversions. This means you need to manage the device state manually whenever you're testing plotly output created by `ggplotly()`.
 
 ## Final Thoughts
 
