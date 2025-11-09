@@ -21,15 +21,15 @@ A big pet-peeve of mine is hardware that requires proprietary software to functi
 
 - It doesn't last -- when the software goes out of date and no longer runs on current systems, I have to throw the hardware away
 - I can't extend it or hook into it with my own projects
-- The software is usually low quality and crappy
+- The software is often bloated, low quality and/or crappy
 
-I go to great lengths to avoid buying or using things that require proprietary apps. For example, I reverse engineered the Bluetooth protocol for a ham radio I got and wrote an entire open source library for controlling it so I didn't have to use the manufacturer's app: https://benlink.kylehusmann.com/benlink.html
+I go to great lengths to ensure the hardware I buy doesn't require proprietary apps. Last year for example, I reverse engineered the Bluetooth protocol for a ham radio I got and wrote an [open source library for controlling it](https://benlink.kylehusmann.com) so I didn't have to use the manufacturer's app.
 
-So when I got myself a stationary bike, I specifically got a "dumb" one. I didn't want a fancy bluetooth-enabled thing that would require an app to use.
+So when I got myself a stationary bike, I specifically got a "dumb" one. I didn't want a fancy bluetooth-enabled thing that would require someone else's app to use, and would go out of date in a couple of years.
 
-But after a while, I started wishing the bike could collect analytics so I could track my progress over time.
+But after a while, I started wishing the bike could collect analytics so I could track my usage over time.
 
-The solution? Open up my cheap stationary bike and put an ESP32 in it. I wired the microcontroller to the bike's reed switch sensor (which triggers once per wheel rotation to track cadence), designed and 3D-printed an enclosure for the electronics, wrote MicroPython firmware to log rides, and built an Android app to sync my workout data to Google Health Connect.
+My solution? Open up the bike and put an ESP32 in it. I wired the microcontroller to the bike's reed switch sensor (which triggers once per wheel rotation to track cadence), designed and 3D-printed an enclosure for the electronics, wrote MicroPython firmware to log rides, and built an Android app to sync my workout data to Google Health Connect.
 
 Now I have a smart bike that actually works the way I want it to -- and I control the entire stack.
 
