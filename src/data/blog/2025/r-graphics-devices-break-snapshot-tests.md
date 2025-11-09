@@ -12,11 +12,11 @@ tags:
 description: The state of your graphics device can be a surprising source of inconsistent results across test runs in R.
 ---
 
-If you've ever written snapshot tests in R, you know the frustration: tests that produce different results in different environments.
+If you've ever written unit tests in R, you know the frustration: tests that produce different results in different environments.
 
 Most R developers are familiar with the usual suspects that cause test inconsistencies: environment variables, `options()`, random seeds, package versions, and platform-specific differences in architecture, shared libraries, fonts or rendering.
 
-Over the years I've seen a lot of weird edge cases that fall into the above categories. A few months ago, for example, I traced test inconsistencies on a project back to code in `tibble()` that branched on the presence of an `RSTUDIO` environment variable ([link](https://github.com/tidyverse/tibble/issues/1662)).
+Over the years I've seen a lot of weird edge cases that fall into the above categories. A few months ago, for example, I traced test inconsistencies on a project back to code in tibble that branched on the presence of an `RSTUDIO` environment variable ([link](https://github.com/tidyverse/tibble/issues/1662)).
 
 But this week I discovered a new culprit that wasn't on my radar until now: the state of R's current graphics device. It turns out that the size and configuration of your current graphics device, including the dimensions of RStudio's Plots pane, can silently affect the results of your code when you least expect it!
 
@@ -46,7 +46,7 @@ Now resize your Plots pane and run it again--you'll get a different result! Simi
 callr::r(\() grid::convertX(grid::unit(1, "npc"), "mm"))
 ```
 
-Since `plotly::ggplotly()` makes extensive use of these unit conversions ([source](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L1192)), my snapshot tests were depending on the size of whatever graphics device happened to be open--either my RStudio Plots pane or the default device created by the callr subprocess.
+Because `plotly::ggplotly()` makes extensive use of these unit conversions ([source](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L1192)), my snapshot tests were depending on the size of whatever graphics device happened to be open--either my RStudio Plots pane or the default device created by the callr subprocess.
 
 ## The Solution
 
@@ -68,13 +68,13 @@ foo()
 callr::r(foo)
 ```
 
-This approach translates elegantly to testthat. In `tests/testthat/setup.R`, add this single line:
+This approach translates nicely to testthat. In `tests/testthat/setup.R`, add this single line:
 
 ```r
 withr::local_png(tempfile(), type = "cairo", .local_envir = teardown_env())
 ```
 
-Now all your tests will run with a consistent graphics device, assuming the code you are testing doesn't mutate the graphics environment.
+Now all your tests will run with a consistent graphics device, assuming the code you are testing is well-behaved and doesn't mutate the graphics environment.
 
 Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.org/), none of this is necessary because vdiffr handles graphics device management automatically. The `plotly::ggplotly()` case is special: even though the final output is rendered into HTML rather than a graphics device, `ggplotly()` still queries the current graphics device to perform its grid unit conversions. This means you need to manage the device state manually whenever you're testing plotly output created by `ggplotly()`.
 
@@ -82,4 +82,4 @@ Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.
 
 Despite computers being deterministic machines, getting the same code to produce the same results across different runs can be surprisingly tricky.
 
-If your snapshot tests are mysteriously flaky and your code involves any kind of plotting or graphics rendering, your current graphics device might be the culprit. Add it to your mental checklist alongside environment variables, random seeds, and all the other usual suspects.
+If your unit tests in R are mysteriously flaky and your code involves anything remotely related to plotting or graphics rendering, your current graphics device might be the culprit. Add it to your mental checklist alongside environment variables, random seeds, and all the other usual suspects.
