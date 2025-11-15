@@ -104,12 +104,12 @@ So to fix my snapshot inconsistencies with `ggplotly()` the solution was simple:
 
 ## Lessons Learned
 
-In hindsight, the fact that `width=` and `height=` arguments are needed to create consistent snapshots looks obvious -- the auto-sizing behavior is even [clearly stated](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L6) in the `ggplotly()` documentation!
+Looking back, the need for explicit `width=` and `height=` arguments seems obvious -- the auto-sizing behavior is even [clearly stated](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L6) in the `ggplotly()` documentation!
 
-To my credit though, I (incorrectly, but reasonably) assumed that any auto-sizing would be computed based on the `<div>` containing the plot in the rendered HTML... Not the current state of the Plots tab in the RStudio session!
+However, what "auto-sizing" means in this context is genuinely surprising: I had assumed any auto-sizing would be computed based on the `<div>` containing the plot in the rendered HTML, not the current state of the Plots pane in my RStudio session!
 
-But now, after digging in, I can see why that doesn't make sense: Because `ggplot()` makes formatting decisions based on the size of the destination container for the plot it is rendering, `ggplotly()` needs a container size specified ahead of time to make those conversions.
+After digging in, the reason becomes clear: `ggplot()` makes formatting decisions based on the size of its destination container. When converting a ggplot to plotly with `ggplotly()`, those grid units must be converted to absolute values, which requires knowing the target size ahead of time.
 
-This means in Shiny contexts, it's probably **always** a good idea to specify `width=` and `height=` arguments to `ggplotly()`. At first glance, it may seem like you can control the dimensions of your plot via the `width=` and `height=` arguments to `plotlyOutput()`, but these only set the dimensions of the containing `<div>`. It's so counter-intuitive that the appearance of a plot in your Shiny app would be influenced by the size of your Plots pane in the RStudio session running the Shiny app, but that's how it works!
+This has important implications for Shiny apps: **always** specify `width=` and `height=` in your `ggplotly()` calls. While `plotlyOutput()` also accepts these arguments, they only control the containing `<div>` dimensions. Without explicit sizing in `ggplotly()`, the appearance of plots in your deployed Shiny app will depend on the Plots pane size of the RStudio session that rendered them!
 
-Perhaps the most valuable lesson in all this for me was learning that graphics devices in R represent a key source of environmental state that can cause identical code to produce inconsistent results. They have been firmly added to my mental checklist now, alongside environment variables, random seeds, and all the other usual suspects!
+The most valuable lesson from this experience: **graphics devices are environmental state**. Like environment variables, `options()`, and random seeds, the current graphics device can silently cause identical code to produce inconsistent results. Graphics devices have earned a permanent spot on my debugging checklist!
