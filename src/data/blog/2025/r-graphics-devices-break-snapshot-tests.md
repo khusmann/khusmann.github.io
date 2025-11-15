@@ -96,7 +96,7 @@ dev_fun(filename = tempfile(), width = width %||% 640, height = height %||% 480)
 on.exit(grDevices::dev.off(), add = TRUE)
 ```
 
-So to fix my snapshot inconsistencies with `ggplotly()` the solution was simple: Always include `width=` and `height=` arguments to the `ggplotly()` call.
+So to fix my snapshot inconsistencies with `ggplotly()`, the solution was simple: Always include `width=` and `height=` arguments to the `ggplotly()` call.
 
 ## Lessons Learned
 
