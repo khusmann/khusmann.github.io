@@ -104,7 +104,7 @@ Looking back, the need for explicit `width=` and `height=` arguments seems obvio
 
 However, what "auto-sizing" means in this context is genuinely surprising: I had assumed any auto-sizing would be computed based on the `<div>` containing the plot in the rendered HTML, not the current state of the Plots pane in my RStudio session!
 
-After digging in, the reason becomes clear: `ggplot()` makes formatting decisions based on the size of its destination container. When converting a ggplot to plotly with `ggplotly()`, those grid units must be converted to absolute values, which requires knowing the target size ahead of time.
+After digging in, the reason became clear: `ggplot()` makes formatting decisions based on the size of its destination container. When converting a ggplot to plotly with `ggplotly()`, those grid units must be converted to absolute values, which requires knowing the target size ahead of time.
 
 This has important implications for Shiny apps: **always** specify `width=` and `height=` in your `ggplotly()` calls. While `plotlyOutput()` also accepts these arguments, they only control the containing `<div>` dimensions. Without explicit sizing in `ggplotly()`, the appearance of plots in your Shiny app will depend on the size of the Plots pane in the RStudio session that is rendering them!
 
