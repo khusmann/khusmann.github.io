@@ -68,18 +68,48 @@ foo()
 callr::r(foo)
 ```
 
-This approach translates nicely to testthat. In `tests/testthat/setup.R`, add this single line:
+As it turns out `ggplotly()`, already does this. The first thing it does when called is to create a fresh graphics device [ggplotly.R#L178](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L178C1-L179C49).
+
+So why weren't my results consistent? Well, if you call `ggplotly()` without specifying `width=` and `height=`, it will create the new graphics device _with the width and height of your currently open graphics device_:
 
 ```r
-withr::local_png(tempfile(), type = "cairo", .local_envir = teardown_env())
+# To convert relative sizes correctly, we use grid::convertHeight(),
+# which requires a known output (device) size.
+dev_fun <- if (capabilities("aqua") || capabilities("png")) {
+  grDevices::png
+} else if (capabilities("jpeg")) {
+  grDevices::jpeg
+} else if (is_installed("Cairo")) {
+  function(filename, ...) Cairo::Cairo(file = filename, ...)
+} else {
+  stop(
+    "No Cairo or bitmap device is available. Such a graphics device is required to convert sizes correctly in ggplotly().\n\n",
+    " You have two options:\n",
+    "  (1) install.packages('Cairo')\n",
+    "  (2) compile R to use a bitmap device (png or jpeg)",
+    call. = FALSE
+  )
+}
+# if a device (or RStudio) is already open, use the device size as default size
+if (!is.null(grDevices::dev.list()) || is_rstudio()) {
+  width <- width %||% default(grDevices::dev.size("px")[1])
+  height <- height %||% default(grDevices::dev.size("px")[2])
+}
+# open the device and make sure it closes on exit
+dev_fun(filename = tempfile(), width = width %||% 640, height = height %||% 480)
+on.exit(grDevices::dev.off(), add = TRUE)
 ```
 
-Now all your tests will run with a consistent graphics device, assuming the code you are testing is well-behaved and doesn't mutate the graphics environment.
+So to fix my snapshot inconsistencies with `ggplotly()` the solution was simple: Always include `width=` and `height=` arguments to the `ggplotly()` call.
 
-Note that if you're exclusively using ggplot2 and [vdiffr](https://vdiffr.r-lib.org/), none of this is necessary because vdiffr handles graphics device management automatically. The `plotly::ggplotly()` case is special: even though the final output is rendered into HTML rather than a graphics device, `ggplotly()` still queries the current graphics device to perform its grid unit conversions. This means you need to manage the device state manually whenever you're testing plotly output created by `ggplotly()`.
+## Lessons Learned
 
-## Final Thoughts
+In hindsight, the fact that `width=` and `height=` arguments are needed to create consistent snapshots looks obvious -- the auto-sizing behavior is even [clearly stated](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L6) in the `ggplotly()` documentation!
 
-Despite computers being deterministic machines, getting the same code to produce the same results across different runs can be surprisingly tricky.
+To my credit though, I (incorrectly, but reasonably) assumed that any auto-sizing would be computed based on the `<div>` containing the plot in the rendered HTML... Not the current state of the Plots tab in the RStudio session!
 
-If your unit tests in R are mysteriously flaky and your code involves anything remotely related to plotting or graphics rendering, your current graphics device might be the culprit. Add it to your mental checklist alongside environment variables, random seeds, and all the other usual suspects.
+But now, after digging in, I can see why that doesn't make sense: Because `ggplot()` makes formatting decisions based on the size of the destination container for the plot it is rendering, `ggplotly()` needs a container size specified ahead of time to make those conversions.
+
+This means in Shiny contexts, it's probably **always** a good idea to specify `width=` and `height=` arguments to `ggplotly()`. At first glance, it may seem like you can control the dimensions of your plot via the `width=` and `height=` arguments to `plotlyOutput()`, but these only set the dimensions of the containing `<div>`. It's so counter-intuitive that the appearance of a plot in your Shiny app would be influenced by the size of your Plots pane in the RStudio session running the Shiny app, but that's how it works!
+
+Perhaps the most valuable lesson in all this for me was learning that graphics devices in R represent a key source of environmental state that can cause identical code to produce inconsistent results. They have been firmly added to my mental checklist now, alongside environment variables, random seeds, and all the other usual suspects!
