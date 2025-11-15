@@ -4,7 +4,7 @@ pubDatetime: 2025-11-15T12:30:00-08:00
 title: "PSA: R Graphics Devices Can Break Snapshot Tests"
 slug: r-graphics-devices-break-snapshot-tests
 featured: true
-draft: true
+draft: false
 tags:
   - r
   - software
