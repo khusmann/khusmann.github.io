@@ -18,7 +18,7 @@ Most R developers are familiar with the usual suspects that cause test inconsist
 
 Over the years I've seen a lot of weird edge cases that fall into the above categories. A few months ago, for example, I traced test inconsistencies on a project back to code in tibble that branched on the presence of an `RSTUDIO` environment variable ([link](https://github.com/tidyverse/tibble/issues/1662)).
 
-But this week I discovered a new culprit that wasn't on my radar until now: the state of R's current graphics device. It turns out that the size and configuration of your current graphics device, including the dimensions of RStudio's Plots pane, can silently affect the results of your code when you least expect it!
+But this week I discovered a new culprit that wasn't on my radar until now: the state of R's current graphics device. As it turns out, the size and configuration of your current graphics device, including the dimensions of RStudio's Plots pane, can silently affect the results of your code when you least expect it!
 
 ## The Mystery
 
