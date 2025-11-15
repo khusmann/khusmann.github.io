@@ -106,6 +106,6 @@ However, what "auto-sizing" means in this context is genuinely surprising: I had
 
 After digging in, the reason becomes clear: `ggplot()` makes formatting decisions based on the size of its destination container. When converting a ggplot to plotly with `ggplotly()`, those grid units must be converted to absolute values, which requires knowing the target size ahead of time.
 
-This has important implications for Shiny apps: **always** specify `width=` and `height=` in your `ggplotly()` calls. While `plotlyOutput()` also accepts these arguments, they only control the containing `<div>` dimensions. Without explicit sizing in `ggplotly()`, the appearance of plots in your Shiny app will depend on the size of your Plots pane in the RStudio session that is rendering them!
+This has important implications for Shiny apps: **always** specify `width=` and `height=` in your `ggplotly()` calls. While `plotlyOutput()` also accepts these arguments, they only control the containing `<div>` dimensions. Without explicit sizing in `ggplotly()`, the appearance of plots in your Shiny app will depend on the size of the Plots pane in the RStudio session that is rendering them!
 
 The most valuable lesson from this experience: **graphics devices are environmental state**. Like environment variables, `options()`, and random seeds, the current graphics device can silently cause identical code to produce inconsistent results. Graphics devices have earned a permanent spot on my debugging checklist!
