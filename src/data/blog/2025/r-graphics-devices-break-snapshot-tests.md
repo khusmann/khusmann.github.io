@@ -16,7 +16,7 @@ If you've ever written unit tests in R, you know the frustration: tests that pro
 
 Most R developers are familiar with the usual suspects that cause test inconsistencies: environment variables, `options()`, random seeds, package versions, and platform-specific differences in architecture, shared libraries, fonts or rendering.
 
-Over the years I've seen a lot of weird edge cases that fall into the above categories. A few months ago, for example, I traced test inconsistencies on a project back to code in tibble that branched on the presence of an `RSTUDIO` environment variable ([link](https://github.com/tidyverse/tibble/issues/1662)).
+Over the years I've seen a lot of weird edge cases that fall into the above categories. A few months ago, for example, I traced test inconsistencies on a project back to code in deep in the tibble package that branched on the presence of an `RSTUDIO` environment variable ([link](https://github.com/tidyverse/tibble/issues/1662)).
 
 But this week I discovered a new culprit that wasn't on my radar until now: the state of R's current graphics device. As it turns out, the size and configuration of your current graphics device, including the dimensions of RStudio's Plots pane, can silently affect the results of your code when you least expect it!
 
