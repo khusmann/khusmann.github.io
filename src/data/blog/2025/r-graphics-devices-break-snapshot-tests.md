@@ -54,12 +54,10 @@ The fix is to manually specify a graphics device to ensure the conversion calcul
 
 ```r
 foo <- function() {
-  withr::local_png(tempfile(), type = "cairo")
+  withr::local_png(tempfile())
   grid::convertX(grid::unit(1, "npc"), "mm")
 }
 ```
-
-Using `type = "cairo"` potentially provides additional cross-platform consistency, though I haven't tested the limits of this extensively. You might also consider using the [ragg package](https://ragg.r-lib.org/) for more control over graphics devices.
 
 Now try running it with different Plots pane sizes or inside a callr subprocess--you'll get the same values:
 
@@ -68,9 +66,7 @@ foo()
 callr::r(foo)
 ```
 
-As it turns out `ggplotly()`, already does this. The first thing it does when called is to create a fresh graphics device [ggplotly.R#L178](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L178C1-L179C49).
-
-So why weren't my results consistent? Well, if you call `ggplotly()` without specifying `width=` and `height=`, it will create the new graphics device _with the width and height of your currently open graphics device_:
+As it turns out `ggplotly()`, already does this. The first thing it does when called is to create a fresh graphics device. So why weren't my results consistent? Well, if you call `ggplotly()` without specifying `width=` and `height=`, it will create the new graphics device _with the width and height of your currently open graphics device_. Here's the relevant code ([ggplotly.R#L178](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L178C1-L179C49)):
 
 ```r
 # To convert relative sizes correctly, we use grid::convertHeight(),
@@ -110,6 +106,6 @@ However, what "auto-sizing" means in this context is genuinely surprising: I had
 
 After digging in, the reason becomes clear: `ggplot()` makes formatting decisions based on the size of its destination container. When converting a ggplot to plotly with `ggplotly()`, those grid units must be converted to absolute values, which requires knowing the target size ahead of time.
 
-This has important implications for Shiny apps: **always** specify `width=` and `height=` in your `ggplotly()` calls. While `plotlyOutput()` also accepts these arguments, they only control the containing `<div>` dimensions. Without explicit sizing in `ggplotly()`, the appearance of plots in your deployed Shiny app will depend on the Plots pane size of the RStudio session that rendered them!
+This has important implications for Shiny apps: **always** specify `width=` and `height=` in your `ggplotly()` calls. While `plotlyOutput()` also accepts these arguments, they only control the containing `<div>` dimensions. Without explicit sizing in `ggplotly()`, the appearance of plots in your Shiny app will depend on the size of your Plots pane in the RStudio session that is rendering them!
 
 The most valuable lesson from this experience: **graphics devices are environmental state**. Like environment variables, `options()`, and random seeds, the current graphics device can silently cause identical code to produce inconsistent results. Graphics devices have earned a permanent spot on my debugging checklist!
