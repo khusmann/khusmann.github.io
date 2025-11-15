@@ -100,7 +100,7 @@ So to fix my snapshot inconsistencies with `ggplotly()`, the solution was simple
 
 ## Lessons Learned
 
-Looking back, the need for explicit `width=` and `height=` arguments seems obvious -- the auto-sizing behavior is even [clearly stated](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L6) in the `ggplotly()` documentation!
+Looking back, the need for explicit `width=` and `height=` arguments seems obvious -- the auto-sizing behavior is even [clearly stated](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L6) in the `ggplotly()` documentation.
 
 However, what "auto-sizing" means in this context is genuinely surprising: I had assumed any auto-sizing would be computed based on the `<div>` containing the plot in the rendered HTML, not the current state of the Plots pane in my RStudio session!
 
