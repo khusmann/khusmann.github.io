@@ -66,7 +66,7 @@ foo()
 callr::r(foo)
 ```
 
-As it turns out `ggplotly()`, already does this. The first thing it does when called is to create a fresh graphics device. So why weren't my results consistent? Well, if you call `ggplotly()` without specifying `width=` and `height=`, it will create the new graphics device _with the width and height of your currently open graphics device_. Here's the relevant code ([ggplotly.R#L178](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L178C1-L179C49)):
+As it turns out `ggplotly()` already does this. The first thing it does when called is to create a fresh graphics device. So why weren't my results consistent? Well, if you call `ggplotly()` without specifying `width=` and `height=`, it will create the new graphics device _with the width and height of your currently open graphics device_. Here's the relevant code ([ggplotly.R#L178](https://github.com/plotly/plotly.R/blob/e04eb4f08c325846d8cdedb9892332b85e16465d/R/ggplotly.R#L178C1-L179C49)):
 
 ```r
 # To convert relative sizes correctly, we use grid::convertHeight(),
