@@ -38,3 +38,9 @@ I wired the microcontroller to the bike's reed switch sensor (which triggers onc
 Now I have a smart bike that actually works the way I want it to -- and I control the entire stack.
 
 ## Opening the Bike
+
+The stationary bike in question is a [Flexispot one from Amazon](https://www.amazon.com/FLEXISPOT-Removable-Exercise-Capacity-Stationary/dp/B0FNVMWXDK) (~$230 if you catch it on sale). It has a desk so it's nice to pedal on to keep moving while working, and has a magnetic resistance system so it runs very quiet.
+
+It has
+
+It was easy enough to open
