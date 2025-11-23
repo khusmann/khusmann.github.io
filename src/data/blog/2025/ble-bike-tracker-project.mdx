@@ -39,7 +39,7 @@ So when I got myself a stationary bike, I specifically got a "dumb" one. I reall
 
 But after a while, I started wishing the bike could collect analytics so I could track my usage over time. _Sigh_...
 
-My solution? Open up the bike and put an ESP32 in it.
+My solution? Open up the bike and wire in an ESP32.
 
 <Image
   src={bird}
@@ -68,7 +68,7 @@ In order, we have 1. The ESP32, 2. A USB-C Power Connector, 3. A Patch Into The 
 
 ### 1. The ESP32
 
-I used a cheap (~$5) ESP32 devboard I got on Amazon: [ESP32-S3-DevKitC-1-N16R8](https://www.amazon.com/dp/B0DWX7Y3K6).
+I used a (~$5) ESP32 devboard I got on Amazon: [ESP32-S3-DevKitC-1-N16R8](https://www.amazon.com/dp/B0DWX7Y3K6).
 
 To house it, I used [YAPP_Box](https://github.com/mrWheel/YAPP_Box) to design and 3D print a little enclosure for it:
 
@@ -104,9 +104,11 @@ To relay USB-C power to the dev board, I got one of these [panel mount USB-C ext
   width="360"
 />
 
-The connector works, but the plastic chassis of the bike was a little too thick for it, so it doesn't work with thicker USB-C connectors. For other project I'll probably look for other ways to panel-mount USB-C input.
+The connector works, but the plastic chassis of the bike was a little too thick for it, so it doesn't work with wider USB-C connectors. For other project I'll probably look for other ways to panel-mount USB-C input.
 
 ### 3. A Patch Into The Reed Switch
+
+The line for the reed switch was wasy to locate, and I easily spliced my own cable into it. I kept it connected to the built-in LCD indicator on the bike, so that cadence and other info could still be displayed there. I handled level shifting with a few diodes / resistors that hooked up on the proto board in the microcontroller chassis.
 
 <Image
   src={patch_reed_switch}
@@ -117,19 +119,13 @@ The connector works, but the plastic chassis of the bike was a little too thick 
 
 ### 4. An Indicator LED
 
+Finally, I drilled into the side of the bike to install a little indicator LED I could address in my code to indicate status or error conditions.
+
 <Image src={indicator_led} alt="Indicator LED" class="rounded shadow" />
 
 ## Putting It All Together
 
 Before reassembling the bike, I flashed the ESP32 with the latest version of MicroPython and wrote a simple program to toggle the LED every time the reed switch was triggered:
-
-<Image
-  src={all_together}
-  alt="Putting it all together"
-  class="rounded shadow"
-/>
-
-Here's the code:
 
 ```python
 from machine import Pin, Timer
@@ -153,5 +149,11 @@ def reed_irq_handler(pin):
 
 reed.irq(trigger=Pin.IRQ_FALLING, handler=reed_irq_handler)
 ```
+
+<Image
+  src={all_together}
+  alt="Putting it all together"
+  class="rounded shadow"
+/>
 
 ...it worked! Not bad for a little weekend project! Now to write a firmware to log my activity sessions, and an app to sync with Google Health Connect. I'll talk about this in a future post!
