@@ -1,8 +1,8 @@
 ---
 author: Kyle Husmann
 pubDatetime: 2025-11-22T11:30:00-08:00
-title: "I Put an ESP32 in My Stationary Bike (And Made an App for It)"
-slug: ble-bike-tracker-project
+title: "I Put an ESP32 in My Stationary Bike"
+slug: esp32-stationary-bike
 featured: true
 draft: true
 tags:
@@ -11,10 +11,8 @@ tags:
   - hardware
   - 3dprinting
   - microcontrollers
-  - mobile apps
   - micropython
-  - kotlin
-description: I opened up my cheap stationary bike, wired an ESP32 to the reed switch sensor, and then built an Android app to sync my workouts to Google Health Connect
+description: How I turned a "dumb" stationary bike into a smart bike by wiring in an ESP32 and patching into the reed switch sensor.
 ---
 
 import { Image } from "astro:assets";
@@ -25,7 +23,7 @@ import usb_panel_mount from "ble-bike-tracker-project/PXL_20250601_193656575.jpg
 import patch_reed_switch from "ble-bike-tracker-project/PXL_20250601_212428625.jpg";
 import indicator_led from "ble-bike-tracker-project/PXL_20250602_003251347.jpg";
 import all_together from "ble-bike-tracker-project/PXL_20250602_003236489.jpg";
-import bird from "ble-bike-tracker-project/put_a_bird_on_it.jpeg";
+import bird from "ble-bike-tracker-project/put_a_bird_on_it.jpg";
 
 A big pet-peeve of mine is hardware that requires proprietary software to function. I hate it for a number of reasons:
 
@@ -33,7 +31,7 @@ A big pet-peeve of mine is hardware that requires proprietary software to functi
 - The bundled software is often bloated, low quality and/or crappy
 - It doesn't last -- when the software goes out of date and no longer runs on current systems, I have to throw the hardware away
 
-I go to great lengths to ensure the hardware I buy doesn't require proprietary apps. Last year for example, I reverse engineered the Bluetooth protocol for a ham radio I got and wrote an [open source library for controlling it](https://benlink.kylehusmann.com) so I didn't have to be tied to the manufacturer's app.
+I go to great lengths to ensure the hardware I buy doesn't lock me into proprietary apps. Last year for example, I reverse engineered the Bluetooth protocol for a ham radio I got and wrote an [open source library for controlling it](https://benlink.kylehusmann.com) so I didn't have to be tied to the manufacturer's app.
 
 So when I got myself a stationary bike, I specifically got a "dumb" one. I really didn't want a fancy bluetooth-enabled thing that would force me to download another bloated app that would require me to register an account with them, and then would promptly go out of date in a couple of years.
 
@@ -48,13 +46,13 @@ My solution? Open up the bike and wire in an ESP32.
   width="540"
 />
 
-I wired the microcontroller to the bike's reed switch sensor (which triggers once per wheel rotation to track cadence), designed and 3D-printed an enclosure for the electronics, wrote MicroPython firmware to log rides, and built an Android app to sync my workout data to Google Health Connect.
+I wired the microcontroller to the bike's reed switch sensor (which triggers once per wheel rotation to track cadence), designed and 3D-printed an enclosure for the electronics, wrote MicroPython firmware to log rides, and built an Android app to sync my workout data to Google Health Connect. Now I have a smart bike that actually works the way I want it to!
 
-Now I have a smart bike that actually works the way I want it to!
+In this post, I'll talk about the first part of this project: adding the ESP32 to the bike. In a future post, I'll talk about how I put the firmware and app together.
 
 ## Adding the ESP32
 
-The stationary bike in question is a [Flexispot from Amazon](https://www.amazon.com/FLEXISPOT-Removable-Exercise-Capacity-Stationary/dp/B0FNVMWXDK) (~$230 if you catch it on sale). It has a desk so it's nice to pedal on to keep moving while working, and has a magnetic resistance system so it runs very quiet.
+The stationary bike in question is a [Flexispot from Amazon](https://www.amazon.com/FLEXISPOT-Removable-Exercise-Capacity-Stationary/dp/B0FNVMWXDK) (~$230 if you catch it on sale). It has a desk so it's a nice way to keep moving while working, and has a magnetic resistance system so it runs very quiet.
 
 Here's what it looks like all opened up with the modifications I made.
 
