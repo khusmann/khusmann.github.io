@@ -1,0 +1,157 @@
+---
+author: Kyle Husmann
+pubDatetime: 2025-11-22T11:30:00-08:00
+title: "I Put an ESP32 in My Stationary Bike"
+slug: esp32-stationary-bike
+featured: true
+draft: true
+tags:
+  - project
+  - software
+  - hardware
+  - 3dprinting
+  - microcontrollers
+  - micropython
+description: How I turned a "dumb" stationary bike into a smart bike by wiring in an ESP32 and patching into the reed switch sensor.
+---
+
+import { Image } from "astro:assets";
+import modded_bike_open from "ble-bike-tracker-project/modded_bike_open.svg";
+import enclosure_open from "ble-bike-tracker-project/PXL_20250602_001951348.jpg";
+import enclosure_closed from "ble-bike-tracker-project/PXL_20250602_004647754.jpg";
+import usb_panel_mount from "ble-bike-tracker-project/PXL_20250601_193656575.jpg";
+import patch_reed_switch from "ble-bike-tracker-project/PXL_20250601_212428625.jpg";
+import indicator_led from "ble-bike-tracker-project/PXL_20250602_003251347.jpg";
+import all_together from "ble-bike-tracker-project/PXL_20250602_003236489.jpg";
+import bird from "ble-bike-tracker-project/put_a_bird_on_it.jpg";
+
+A big pet-peeve of mine is hardware that requires proprietary software to function. I hate it for a number of reasons:
+
+- I can't extend it or hook into it with my own projects
+- The bundled software is often bloated, low quality and/or crappy
+- It doesn't last -- when the software goes out of date and no longer runs on current systems, I have to throw the hardware away
+
+I go to great lengths to ensure the hardware I buy doesn't lock me into proprietary apps. Last year for example, I reverse engineered the Bluetooth protocol for a ham radio I got and wrote an [open source library for controlling it](https://benlink.kylehusmann.com) so I didn't have to be tied to the manufacturer's app.
+
+So when I got myself a stationary bike, I specifically got a "dumb" one. I really didn't want a fancy bluetooth-enabled thing that would force me to download another bloated app that would require me to register an account with them, and then would promptly go out of date in a couple of years.
+
+But after a while, I started wishing the bike could collect analytics so I could track my usage over time. _Sigh_...
+
+My solution? Open up the bike and wire in an ESP32.
+
+<Image
+  src={bird}
+  alt="Put a bird on it from Portlandia, except with an ESP32"
+  class="rounded shadow"
+  width="540"
+/>
+
+I wired the microcontroller to the bike's reed switch sensor (which triggers once per wheel rotation to track cadence), designed and 3D-printed an enclosure for the electronics, wrote MicroPython firmware to log rides, and built an Android app to sync my workout data to Google Health Connect. Now I have a smart bike that actually works the way I want it to!
+
+In this post, I'll talk about the first part of this project: adding the ESP32 to the bike. In a future post, I'll talk about how I put the firmware and app together.
+
+## Adding the ESP32
+
+The stationary bike in question is a [Flexispot from Amazon](https://www.amazon.com/FLEXISPOT-Removable-Exercise-Capacity-Stationary/dp/B0FNVMWXDK) (~$230 if you catch it on sale). It has a desk so it's a nice way to keep moving while working, and has a magnetic resistance system so it runs very quiet.
+
+Here's what it looks like all opened up with the modifications I made.
+
+<Image
+  src={modded_bike_open}
+  alt="Open bike with modifications labeled"
+  class="rounded shadow"
+/>
+
+In order, we have 1. The ESP32, 2. A USB-C Power Connector, 3. A Patch Into The Reed Switch, and 4. An Indicator LED.
+
+### 1. The ESP32
+
+I used a (~$5) ESP32 devboard I got on Amazon: [ESP32-S3-DevKitC-1-N16R8](https://www.amazon.com/dp/B0DWX7Y3K6).
+
+To house it, I used [YAPP_Box](https://github.com/mrWheel/YAPP_Box) to design and 3D print a little enclosure for it:
+
+<div class="flex flex-col items-center justify-center gap-4 sm:flex-row sm:items-start">
+  <figure class="flex flex-col items-center">
+    <Image
+      src={enclosure_open}
+      alt="ESP32 enclosure (open)"
+      class="rounded shadow"
+      width="360"
+    />
+  </figure>
+  <figure class="flex flex-col items-center">
+    <Image
+      src={enclosure_closed}
+      alt="ESP32 enclosure (closed)"
+      class="rounded shadow"
+      width="360"
+    />
+  </figure>
+</div>
+
+The RCA connectors are there to connect to the reed switch on the bike and the little indicator LED I installed. (See sections 3 and 4 below). RCA connectors were just what I had lying around, I think on future projects I will prefer [JST connectors](https://www.mattmillman.com/info/crimpconnectors/common-jst-connector-types/).
+
+### 2. A USB-C Power Connector
+
+To relay USB-C power to the dev board, I got one of these [panel mount USB-C extension cords](https://www.amazon.com/dp/B0CCRXF1N7) ($5 on Amazon). I installed it at the base of the bike:
+
+<Image
+  src={usb_panel_mount}
+  alt="USB-C panel mount extension"
+  class="rounded shadow"
+  width="360"
+/>
+
+The connector works, but the plastic chassis of the bike was a little too thick for it, so it doesn't work with wider USB-C connectors. For other projects I'll probably look for other ways to panel-mount USB-C input.
+
+### 3. A Patch Into The Reed Switch
+
+The line for the reed switch was easy to locate, and I spliced my own cable into it and then heat shrinked everything together. I kept it connected to the built-in LCD indicator on the bike, so that cadence and other info could still be displayed there. I handled level shifting with a few diodes / resistors that hooked up on the proto board in the microcontroller chassis.
+
+<Image
+  src={patch_reed_switch}
+  alt="Reed switch patch"
+  class="rounded shadow"
+  width="360"
+/>
+
+### 4. An Indicator LED
+
+Finally, I drilled into the side of the bike to install a little indicator LED I could address in my code to indicate status or error conditions.
+
+<Image src={indicator_led} alt="Indicator LED" class="rounded shadow" />
+
+## Putting It All Together
+
+Before reassembling the bike, I flashed the ESP32 with the latest version of MicroPython and wrote a simple program to toggle the LED every time the reed switch was triggered:
+
+```python
+from machine import Pin, Timer
+
+led = Pin(4, Pin.OUT)
+reed = Pin(5, Pin.IN, Pin.PULL_UP)
+
+debounce_timer = Timer(0)
+debouncing = False
+
+def debounce_callback(t):
+    global debouncing
+    debouncing = False
+
+def reed_irq_handler(pin):
+    global debouncing
+    if not debouncing:
+        debouncing = True
+        debounce_timer.init(mode=Timer.ONE_SHOT, period=50, callback=debounce_callback)
+        led.value(not led.value())
+
+reed.irq(trigger=Pin.IRQ_FALLING, handler=reed_irq_handler)
+```
+
+<Image
+  src={all_together}
+  alt="Putting it all together"
+  class="rounded shadow"
+/>
+
+...it worked! Not bad for a little weekend project! Now to write a firmware to log my activity sessions, and an app to sync with Google Health Connect. I'll talk about this in a future post.
