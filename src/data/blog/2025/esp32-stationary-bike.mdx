@@ -1,6 +1,6 @@
 ---
 author: Kyle Husmann
-pubDatetime: 2025-11-22T11:30:00-08:00
+pubDatetime: 2025-11-30T19:00:00-08:00
 title: "I Put an ESP32 in My Stationary Bike"
 slug: esp32-stationary-bike
 featured: true
@@ -16,24 +16,18 @@ description: How I turned a "dumb" stationary bike into a smart bike by wiring i
 ---
 
 import { Image } from "astro:assets";
-import modded_bike_open from "ble-bike-tracker-project/modded_bike_open.svg";
-import enclosure_open from "ble-bike-tracker-project/PXL_20250602_001951348.jpg";
-import enclosure_closed from "ble-bike-tracker-project/PXL_20250602_004647754.jpg";
-import usb_panel_mount from "ble-bike-tracker-project/PXL_20250601_193656575.jpg";
-import patch_reed_switch from "ble-bike-tracker-project/PXL_20250601_212428625.jpg";
-import indicator_led from "ble-bike-tracker-project/PXL_20250602_003251347.jpg";
-import all_together from "ble-bike-tracker-project/PXL_20250602_003236489.jpg";
-import bird from "ble-bike-tracker-project/put_a_bird_on_it.jpg";
+import modded_bike_open from "esp32-stationary-bike/modded_bike_open.jpg";
+import enclosure_open from "esp32-stationary-bike/PXL_20250602_001951348.jpg";
+import enclosure_closed from "esp32-stationary-bike/PXL_20250602_004647754.jpg";
+import usb_panel_mount from "esp32-stationary-bike/PXL_20250601_193656575.jpg";
+import patch_reed_switch from "esp32-stationary-bike/PXL_20250601_212428625.jpg";
+import indicator_led from "esp32-stationary-bike/PXL_20250602_003251347.jpg";
+import all_together from "esp32-stationary-bike/PXL_20250602_003236489.jpg";
+import bird from "esp32-stationary-bike/put_a_bird_on_it.jpg";
 
-A big pet-peeve of mine is hardware that requires proprietary software to function. I hate it for a number of reasons:
+I often go to great lengths to ensure the hardware I buy doesn't lock me into proprietary apps. Last year for example, I reverse engineered the Bluetooth protocol for a ham radio I got and wrote an [open source library for controlling it](https://benlink.kylehusmann.com).
 
-- I can't extend it or hook into it with my own projects
-- The bundled software is often bloated, low quality and/or crappy
-- It doesn't last -- when the software goes out of date and no longer runs on current systems, I have to throw the hardware away
-
-I go to great lengths to ensure the hardware I buy doesn't lock me into proprietary apps. Last year for example, I reverse engineered the Bluetooth protocol for a ham radio I got and wrote an [open source library for controlling it](https://benlink.kylehusmann.com) so I didn't have to be tied to the manufacturer's app.
-
-So when I got myself a stationary bike, I specifically got a "dumb" one. I really didn't want a fancy bluetooth-enabled thing that would force me to download another bloated app that would require me to register an account with them, and then would promptly go out of date in a couple of years.
+So when I got myself a stationary bike, I specifically got a "dumb" one. All it has for electronics is a little battery-powered LCD that can cycle between time, RPM, distance, etc. I really didn't want a fancy bluetooth-enabled thing that would force me to download another bloated app that would require creating a free account on a crappy service they'd constantly try to upsell me on, and then would promptly go out of date in a couple of years.
 
 But after a while, I started wishing the bike could collect analytics so I could track my usage over time. _Sigh_...
 
@@ -46,7 +40,7 @@ My solution? Open up the bike and wire in an ESP32.
   width="540"
 />
 
-I wired the microcontroller to the bike's reed switch sensor (which triggers once per wheel rotation to track cadence), designed and 3D-printed an enclosure for the electronics, wrote MicroPython firmware to log rides, and built an Android app to sync my workout data to Google Health Connect. Now I have a smart bike that actually works the way I want it to!
+I wired the microcontroller to the bike's reed switch sensor (which triggers once per wheel rotation to track cadence), designed and 3D-printed an enclosure for the electronics, wrote MicroPython firmware to log rides, and built an Android app to sync my workout data to Google Health Connect. Now I have a smart bike that I can customize to my heart's content!
 
 In this post, I'll talk about the first part of this project: adding the ESP32 to the bike. In a future post, I'll talk about how I put the firmware and app together.
 
@@ -89,7 +83,7 @@ To house it, I used [YAPP_Box](https://github.com/mrWheel/YAPP_Box) to design an
   </figure>
 </div>
 
-The RCA connectors are there to connect to the reed switch on the bike and the little indicator LED I installed. (See sections 3 and 4 below). RCA connectors were just what I had lying around, I think on future projects I will prefer [JST connectors](https://www.mattmillman.com/info/crimpconnectors/common-jst-connector-types/).
+The RCA connectors and circuit on the protoboard are there to connect to the reed switch on the bike and the indicator LED I installed. (See sections 3 and 4 below). RCA connectors were just what I had lying around, I think on future projects I will prefer [JST connectors](https://www.mattmillman.com/info/crimpconnectors/common-jst-connector-types/).
 
 ### 2. A USB-C Power Connector
 
@@ -119,7 +113,12 @@ The line for the reed switch was easy to locate, and I spliced my own cable into
 
 Finally, I drilled into the side of the bike to install a little indicator LED I could address in my code to indicate status or error conditions.
 
-<Image src={indicator_led} alt="Indicator LED" class="rounded shadow" />
+<Image
+  src={indicator_led}
+  alt="Indicator LED"
+  class="rounded shadow"
+  width="360"
+/>
 
 ## Putting It All Together
 
