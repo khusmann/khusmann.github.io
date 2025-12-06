@@ -1,22 +1,14 @@
 ---
-import { readFileSync } from "fs";
-import { load } from "js-yaml";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import Hr from "@/components/Hr.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
 import { SITE } from "@/config";
-import type { Project } from "@/types/project";
-import { parsePackage } from "@/types/project";
-import IconGitHub from "@/assets/icons/IconGitHub.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
+import { getProjects } from "@/utils/getProjects";
 
-// Load projects from YAML
-const projectsYaml = readFileSync("src/data/projects.yaml", "utf8");
-const projects = load(projectsYaml) as Project[];
+const projects = getProjects();
 
 // Separate featured and non-featured projects
 const featuredProjects = projects.filter(p => p.featured);
@@ -30,12 +22,6 @@ projects.forEach(project => {
 });
 
 const techList = Array.from(allTech).sort();
-
-// Load project logos dynamically
-const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/projects/**/*.{png,jpg,jpeg,svg}",
-  { eager: true }
-);
 ---
 
 <Layout title={`Projects | ${SITE.title}`}>
@@ -76,125 +62,9 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
             Featured
           </h2>
           <div>
-            {featuredProjects.map(project => {
-              const packageInfo = project.package
-                ? parsePackage(project.package)
-                : null;
-
-              // Get logo if it exists
-              const logoPath = project.logo
-                ? `/src/assets/projects/${project.id}/${project.logo}`
-                : null;
-              const logoImage =
-                logoPath && projectLogos[logoPath]
-                  ? projectLogos[logoPath].default
-                  : null;
-
-              return (
-                <article
-                  class="project-card group relative mb-12"
-                  data-tech={JSON.stringify(project.tech || [])}
-                  data-tags={JSON.stringify(project.tags || [])}
-                  data-status={project.status}
-                >
-                  <div class="flex gap-4">
-                    {logoImage && (
-                      <div
-                        class="flex flex-shrink-0 items-center justify-center rounded bg-[#1a1a1a]"
-                        style="width: 80px; height: 80px;"
-                      >
-                        <Image
-                          src={logoImage}
-                          alt={`${project.name} logo`}
-                          width={64}
-                          height={64}
-                        />
-                      </div>
-                    )}
-                    <div class="flex flex-1 flex-col gap-3">
-                      <div class="flex items-baseline gap-3">
-                        <h3 class="text-xl font-semibold">
-                          {project.url ? (
-                            <a
-                              href={project.url}
-                              class="transition-colors hover:text-accent"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {project.name}
-                            </a>
-                          ) : (
-                            project.name
-                          )}
-                        </h3>
-                        {project.status !== "active" && (
-                          <span class="text-sm opacity-70">
-                            ({project.status})
-                          </span>
-                        )}
-                      </div>
-
-                      <p class="text-base leading-relaxed opacity-90">
-                        {project.description}
-                      </p>
-
-                      {project.tech && project.tech.length > 0 && (
-                        <div class="flex flex-wrap gap-2">
-                          {project.tech.map(tech => (
-                            <span class="font-mono text-sm opacity-75">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      <div class="flex flex-wrap gap-4 text-base opacity-75">
-                        {project.github && (
-                          <a
-                            href={project.github}
-                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconGitHub width={14} height={14} />
-                            <span>GitHub</span>
-                          </a>
-                        )}
-                        {project.url && (
-                          <a
-                            href={project.url}
-                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconArrowRight width={14} height={14} />
-                            <span>Website</span>
-                          </a>
-                        )}
-                        {packageInfo && (
-                          <a
-                            href={packageInfo.url}
-                            class="inline-flex items-center gap-1.5 uppercase transition-opacity hover:opacity-100"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {packageInfo.registry}
-                          </a>
-                        )}
-                        {project.paper && (
-                          <a
-                            href={project.paper}
-                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                          >
-                            Blog Post
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+            {featuredProjects.map(project => (
+              <ProjectCard project={project} />
+            ))}
           </div>
         </section>
       )
@@ -212,100 +82,9 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
               Other Projects
             </h2>
             <div>
-              {otherProjects.map(project => {
-                const packageInfo = project.package
-                  ? parsePackage(project.package)
-                  : null;
-                return (
-                  <article
-                    class="project-card group relative mb-12"
-                    data-tech={JSON.stringify(project.tech || [])}
-                    data-tags={JSON.stringify(project.tags || [])}
-                    data-status={project.status}
-                  >
-                    <div class="flex flex-col gap-3">
-                      <div class="flex items-baseline gap-3">
-                        <h3 class="text-xl font-semibold">
-                          {project.url ? (
-                            <a
-                              href={project.url}
-                              class="transition-colors hover:text-accent"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {project.name}
-                            </a>
-                          ) : (
-                            project.name
-                          )}
-                        </h3>
-                        {project.status !== "active" && (
-                          <span class="text-sm opacity-70">
-                            ({project.status})
-                          </span>
-                        )}
-                      </div>
-
-                      <p class="text-base leading-relaxed opacity-90">
-                        {project.description}
-                      </p>
-
-                      {project.tech && project.tech.length > 0 && (
-                        <div class="flex flex-wrap gap-2">
-                          {project.tech.map(tech => (
-                            <span class="font-mono text-sm opacity-75">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      <div class="flex flex-wrap gap-4 text-base opacity-75">
-                        {project.github && (
-                          <a
-                            href={project.github}
-                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconGitHub width={14} height={14} />
-                            <span>GitHub</span>
-                          </a>
-                        )}
-                        {project.url && (
-                          <a
-                            href={project.url}
-                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconArrowRight width={14} height={14} />
-                            <span>Website</span>
-                          </a>
-                        )}
-                        {packageInfo && (
-                          <a
-                            href={packageInfo.url}
-                            class="inline-flex items-center gap-1.5 uppercase transition-opacity hover:opacity-100"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {packageInfo.registry}
-                          </a>
-                        )}
-                        {project.paper && (
-                          <a
-                            href={project.paper}
-                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                          >
-                            Blog Post
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
+              {otherProjects.map(project => (
+                <ProjectCard project={project} />
+              ))}
             </div>
           </section>
         </>
