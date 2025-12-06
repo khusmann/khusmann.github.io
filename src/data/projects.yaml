@@ -8,7 +8,7 @@
   github: "https://github.com/khusmann/benlink"
   # paper: "/posts/benlink-post"
   package: "pypi:benlink"
-  tech: ["Python", "BLE", "Bluetooth", "Bleak"]
+  tech: ["Python", "Bluetooth"]
   tags: ["hardware", "radio", "bluetooth", "iot"]
   logo: "logo.svg"
   # screenshot: "screenshot.png"
@@ -24,7 +24,7 @@
   github: "https://github.com/khusmann/bydantic"
   # paper: "/posts/bydantic-post"
   package: "pypi:bydantic"
-  tech: ["Python", "Pydantic"]
+  tech: ["Python"]
   tags: ["serialization", "bitfields", "parsing"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
@@ -40,7 +40,7 @@
   github: "https://github.com/khusmann/interlacer"
   # paper: "/posts/interlacer-post"
   package: "cran:interlacer"
-  tech: ["R", "vctrs"]
+  tech: ["R"]
   tags: ["data-science", "tidyverse"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"

@@ -22,20 +22,20 @@ const projects = load(projectsYaml) as Project[];
 const featuredProjects = projects.filter(p => p.featured);
 const otherProjects = projects.filter(p => !p.featured);
 
-// Collect all unique tech and tags for filtering
+// Collect all unique tech for filtering
 const allTech = new Set<string>();
-const allTags = new Set<string>();
 
 projects.forEach(project => {
   project.tech?.forEach(t => allTech.add(t));
-  project.tags?.forEach(t => allTags.add(t));
 });
 
 const techList = Array.from(allTech).sort();
-const tagList = Array.from(allTags).sort();
 
 // Load project logos dynamically
-const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/projects/**/*.{png,jpg,jpeg,svg}', { eager: true });
+const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/projects/**/*.{png,jpg,jpeg,svg}",
+  { eager: true }
+);
 ---
 
 <Layout title={`Projects | ${SITE.title}`}>
@@ -48,56 +48,33 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
         A collection of open-source software projects I've created and maintain.
       </p>
 
-      <!-- Collapsible Filter Controls -->
-      <details class="mt-6 group">
-        <summary class="cursor-pointer text-sm opacity-60 hover:opacity-100 transition-opacity list-none flex items-center gap-2">
-          <span class="inline-block transition-transform group-open:rotate-90">▸</span>
-          Filter projects
-        </summary>
-        <div class="mt-4 space-y-3 text-sm opacity-75">
-          <div class="flex flex-wrap gap-2 items-center">
-            <span class="text-xs opacity-60">Tech:</span>
-            {techList.map(tech => (
-              <button
-                type="button"
-                data-filter-type="tech"
-                data-filter-value={tech}
-                class="filter-btn rounded-full px-2.5 py-0.5 text-xs transition-all opacity-60 hover:opacity-100"
-              >
-                {tech}
-              </button>
-            ))}
-          </div>
-
-          <div class="flex flex-wrap gap-2 items-center">
-            <span class="text-xs opacity-60">Tags:</span>
-            {tagList.map(tag => (
-              <button
-                type="button"
-                data-filter-type="tag"
-                data-filter-value={tag}
-                class="filter-btn rounded-full px-2.5 py-0.5 text-xs transition-all opacity-60 hover:opacity-100"
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            id="clear-filters"
-            class="text-xs opacity-60 hover:opacity-100 transition-opacity underline"
-          >
-            Clear filters
-          </button>
-        </div>
-      </details>
+      <!-- Filter Controls -->
+      <div class="mt-6 flex flex-wrap items-center gap-2 text-sm opacity-75">
+        <span class="text-xs opacity-60">Filter:</span>
+        {
+          techList.map(tech => (
+            <button
+              type="button"
+              data-filter-type="tech"
+              data-filter-value={tech}
+              class="filter-btn rounded-full px-2.5 py-0.5 text-xs opacity-60 transition-all hover:opacity-100"
+            >
+              {tech}
+            </button>
+          ))
+        }
+      </div>
     </section>
 
     {
       featuredProjects.length > 0 && (
         <section class="mb-16">
-          <h2 class="mb-8 text-xl font-semibold opacity-50">Featured</h2>
+          <h2
+            id="featured-heading"
+            class="mb-8 text-xl font-semibold opacity-50"
+          >
+            Featured
+          </h2>
           <div>
             {featuredProjects.map(project => {
               const packageInfo = project.package
@@ -105,8 +82,13 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
                 : null;
 
               // Get logo if it exists
-              const logoPath = project.logo ? `/src/assets/projects/${project.id}/${project.logo}` : null;
-              const logoImage = logoPath && projectLogos[logoPath] ? projectLogos[logoPath].default : null;
+              const logoPath = project.logo
+                ? `/src/assets/projects/${project.id}/${project.logo}`
+                : null;
+              const logoImage =
+                logoPath && projectLogos[logoPath]
+                  ? projectLogos[logoPath].default
+                  : null;
 
               return (
                 <article
@@ -117,96 +99,98 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
                 >
                   <div class="flex gap-4">
                     {logoImage && (
-                      <div class="flex-shrink-0">
+                      <div
+                        class="flex flex-shrink-0 items-center justify-center rounded bg-[#1a1a1a]"
+                        style="width: 80px; height: 80px;"
+                      >
                         <Image
                           src={logoImage}
                           alt={`${project.name} logo`}
                           width={64}
                           height={64}
-                          class="rounded"
                         />
                       </div>
                     )}
-                    <div class="flex flex-col gap-3 flex-1">
+                    <div class="flex flex-1 flex-col gap-3">
                       <div class="flex items-baseline gap-3">
-                      <h3 class="text-lg font-semibold">
-                        {project.url ? (
+                        <h3 class="text-lg font-semibold">
+                          {project.url ? (
+                            <a
+                              href={project.url}
+                              class="transition-colors hover:text-accent"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {project.name}
+                            </a>
+                          ) : (
+                            project.name
+                          )}
+                        </h3>
+                        {project.status !== "active" && (
+                          <span class="text-xs opacity-50">
+                            ({project.status})
+                          </span>
+                        )}
+                      </div>
+
+                      <p class="text-sm leading-relaxed opacity-75">
+                        {project.description}
+                      </p>
+
+                      {project.tech && project.tech.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                          {project.tech.map(tech => (
+                            <span class="font-mono text-xs opacity-60">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      <div class="flex flex-wrap gap-4 text-sm opacity-60">
+                        {project.github && (
                           <a
-                            href={project.url}
-                            class="transition-colors hover:text-accent"
+                            href={project.github}
+                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {project.name}
+                            <IconGitHub width={14} height={14} />
+                            <span>GitHub</span>
                           </a>
-                        ) : (
-                          project.name
                         )}
-                      </h3>
-                      {project.status !== "active" && (
-                        <span class="text-xs opacity-50">
-                          ({project.status})
-                        </span>
-                      )}
-                    </div>
-
-                    <p class="text-sm opacity-75 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {project.tech && project.tech.length > 0 && (
-                      <div class="flex flex-wrap gap-2">
-                        {project.tech.map(tech => (
-                          <span class="text-xs opacity-60 font-mono">
-                            {tech}
-                          </span>
-                        ))}
+                        {project.url && (
+                          <a
+                            href={project.url}
+                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <IconArrowRight width={14} height={14} />
+                            <span>Website</span>
+                          </a>
+                        )}
+                        {packageInfo && (
+                          <a
+                            href={packageInfo.url}
+                            class="inline-flex items-center gap-1.5 uppercase transition-opacity hover:opacity-100"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {packageInfo.registry}
+                          </a>
+                        )}
+                        {project.paper && (
+                          <a
+                            href={project.paper}
+                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+                          >
+                            Blog Post
+                          </a>
+                        )}
                       </div>
-                    )}
-
-                    <div class="flex flex-wrap gap-4 text-sm opacity-60">
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconGitHub width={14} height={14} />
-                          <span>GitHub</span>
-                        </a>
-                      )}
-                      {project.url && (
-                        <a
-                          href={project.url}
-                          class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconArrowRight width={14} height={14} />
-                          <span>Website</span>
-                        </a>
-                      )}
-                      {packageInfo && (
-                        <a
-                          href={packageInfo.url}
-                          class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100 uppercase"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {packageInfo.registry}
-                        </a>
-                      )}
-                      {project.paper && (
-                        <a
-                          href={project.paper}
-                          class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-                        >
-                          Blog Post
-                        </a>
-                      )}
                     </div>
-                  </div>
                   </div>
                 </article>
               );
@@ -219,9 +203,14 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
     {
       otherProjects.length > 0 && (
         <>
-          {featuredProjects.length > 0 && <Hr />}
-          <section class="mb-16 mt-16">
-            <h2 class="mb-8 text-xl font-semibold opacity-50">Other Projects</h2>
+          {featuredProjects.length > 0 && <Hr id="section-divider" />}
+          <section class="mt-16 mb-16">
+            <h2
+              id="other-heading"
+              class="mb-8 text-xl font-semibold opacity-50"
+            >
+              Other Projects
+            </h2>
             <div>
               {otherProjects.map(project => {
                 const packageInfo = project.package
@@ -257,14 +246,14 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
                         )}
                       </div>
 
-                      <p class="text-sm opacity-75 leading-relaxed">
+                      <p class="text-sm leading-relaxed opacity-75">
                         {project.description}
                       </p>
 
                       {project.tech && project.tech.length > 0 && (
                         <div class="flex flex-wrap gap-2">
                           {project.tech.map(tech => (
-                            <span class="text-xs opacity-60 font-mono">
+                            <span class="font-mono text-xs opacity-60">
                               {tech}
                             </span>
                           ))}
@@ -297,7 +286,7 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
                         {packageInfo && (
                           <a
                             href={packageInfo.url}
-                            class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100 uppercase"
+                            class="inline-flex items-center gap-1.5 uppercase transition-opacity hover:opacity-100"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -340,22 +329,42 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
       status: new Set(),
     };
 
-    const filterButtons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
-    const clearButton = document.querySelector<HTMLButtonElement>("#clear-filters");
-    const projectCards = document.querySelectorAll<HTMLElement>(".project-card");
+    const filterButtons =
+      document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+    const clearButton =
+      document.querySelector<HTMLButtonElement>("#clear-filters");
+    const projectCards =
+      document.querySelectorAll<HTMLElement>(".project-card");
+    const featuredHeading =
+      document.querySelector<HTMLElement>("#featured-heading");
+    const otherHeading = document.querySelector<HTMLElement>("#other-heading");
+    const sectionDivider =
+      document.querySelector<HTMLElement>("#section-divider");
 
     function updateCardVisibility() {
+      const hasActiveFilters =
+        filterState.tech.size > 0 ||
+        filterState.tags.size > 0 ||
+        filterState.status.size > 0;
+
+      // Hide/show section headings and divider based on filter state
+      if (featuredHeading) {
+        featuredHeading.style.display = hasActiveFilters ? "none" : "";
+      }
+      if (otherHeading) {
+        otherHeading.style.display = hasActiveFilters ? "none" : "";
+      }
+      if (sectionDivider) {
+        sectionDivider.style.display = hasActiveFilters ? "none" : "";
+      }
+
       projectCards.forEach(card => {
         const cardTech = JSON.parse(card.dataset.tech || "[]") as string[];
         const cardTags = JSON.parse(card.dataset.tags || "[]") as string[];
         const cardStatus = card.dataset.status || "";
 
         // If no filters are active, show all
-        if (
-          filterState.tech.size === 0 &&
-          filterState.tags.size === 0 &&
-          filterState.status.size === 0
-        ) {
+        if (!hasActiveFilters) {
           card.style.display = "";
           return;
         }
@@ -379,13 +388,25 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/p
       });
     }
 
-    function toggleFilter(type: keyof FilterState, value: string, button: HTMLButtonElement) {
+    function toggleFilter(
+      type: keyof FilterState,
+      value: string,
+      button: HTMLButtonElement
+    ) {
       const filterSet = filterState[type];
 
+      // If clicking the same filter, deselect it
       if (filterSet.has(value)) {
         filterSet.delete(value);
         button.classList.remove("active-filter");
       } else {
+        // Clear all filters and deactivate all buttons
+        filterState.tech.clear();
+        filterState.tags.clear();
+        filterState.status.clear();
+        filterButtons.forEach(btn => btn.classList.remove("active-filter"));
+
+        // Activate only the clicked filter
         filterSet.add(value);
         button.classList.add("active-filter");
       }
