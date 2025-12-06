@@ -32,13 +32,12 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
       logoImage && (
         <div
           class="flex flex-shrink-0 items-center justify-center self-stretch rounded"
-          style="width: 120px;"
+          style="width: 180px; padding: 1rem;"
         >
           <Image
             src={logoImage}
             alt={`${project.name} logo`}
-            width={96}
-            height={96}
+            class="project-logo"
           />
         </div>
       )
@@ -135,3 +134,13 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
     </div>
   </div>
 </article>
+
+<style>
+  .project-logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+</style>

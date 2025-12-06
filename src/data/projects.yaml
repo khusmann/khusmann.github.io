@@ -42,7 +42,7 @@
   # package: "cran:interlacer"
   tech: ["R"]
   tags: ["data-science", "tidyverse"]
-  # logo: "logo.svg"
+  logo: "logo.png"
   # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
