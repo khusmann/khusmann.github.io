@@ -41,23 +41,23 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
 <Layout title={`Projects | ${SITE.title}`}>
   <Header activeNav="projects" />
   <Breadcrumb />
-  <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12">
+  <main id="main-content" class="mx-auto w-full max-w-3xl pb-12">
     <section class="mb-12">
       <h1 class="text-2xl font-semibold sm:text-3xl">Projects</h1>
-      <p class="mt-2 italic opacity-75">
+      <p class="mt-2 text-base italic opacity-90">
         A collection of open-source software projects I've created and maintain.
       </p>
 
       <!-- Filter Controls -->
-      <div class="mt-6 flex flex-wrap items-center gap-2 text-sm opacity-75">
-        <span class="text-xs opacity-60">Filter:</span>
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class="text-sm opacity-80">Filter:</span>
         {
           techList.map(tech => (
             <button
               type="button"
               data-filter-type="tech"
               data-filter-value={tech}
-              class="filter-btn rounded-full px-2.5 py-0.5 text-xs opacity-60 transition-all hover:opacity-100"
+              class="filter-btn rounded-full px-3 py-1 text-sm opacity-75 transition-all hover:opacity-100"
             >
               {tech}
             </button>
@@ -113,7 +113,7 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
                     )}
                     <div class="flex flex-1 flex-col gap-3">
                       <div class="flex items-baseline gap-3">
-                        <h3 class="text-lg font-semibold">
+                        <h3 class="text-xl font-semibold">
                           {project.url ? (
                             <a
                               href={project.url}
@@ -128,27 +128,27 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
                           )}
                         </h3>
                         {project.status !== "active" && (
-                          <span class="text-xs opacity-50">
+                          <span class="text-sm opacity-70">
                             ({project.status})
                           </span>
                         )}
                       </div>
 
-                      <p class="text-sm leading-relaxed opacity-75">
+                      <p class="text-base leading-relaxed opacity-90">
                         {project.description}
                       </p>
 
                       {project.tech && project.tech.length > 0 && (
                         <div class="flex flex-wrap gap-2">
                           {project.tech.map(tech => (
-                            <span class="font-mono text-xs opacity-60">
+                            <span class="font-mono text-sm opacity-75">
                               {tech}
                             </span>
                           ))}
                         </div>
                       )}
 
-                      <div class="flex flex-wrap gap-4 text-sm opacity-60">
+                      <div class="flex flex-wrap gap-4 text-base opacity-75">
                         {project.github && (
                           <a
                             href={project.github}
@@ -225,7 +225,7 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
                   >
                     <div class="flex flex-col gap-3">
                       <div class="flex items-baseline gap-3">
-                        <h3 class="text-lg font-semibold">
+                        <h3 class="text-xl font-semibold">
                           {project.url ? (
                             <a
                               href={project.url}
@@ -240,27 +240,27 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
                           )}
                         </h3>
                         {project.status !== "active" && (
-                          <span class="text-xs opacity-50">
+                          <span class="text-sm opacity-70">
                             ({project.status})
                           </span>
                         )}
                       </div>
 
-                      <p class="text-sm leading-relaxed opacity-75">
+                      <p class="text-base leading-relaxed opacity-90">
                         {project.description}
                       </p>
 
                       {project.tech && project.tech.length > 0 && (
                         <div class="flex flex-wrap gap-2">
                           {project.tech.map(tech => (
-                            <span class="font-mono text-xs opacity-60">
+                            <span class="font-mono text-sm opacity-75">
                               {tech}
                             </span>
                           ))}
                         </div>
                       )}
 
-                      <div class="flex flex-wrap gap-4 text-sm opacity-60">
+                      <div class="flex flex-wrap gap-4 text-base opacity-75">
                         {project.github && (
                           <a
                             href={project.github}
@@ -447,6 +447,10 @@ const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
   .active-filter {
     opacity: 1 !important;
     font-weight: 600;
-    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.dark) .active-filter {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 </style>
