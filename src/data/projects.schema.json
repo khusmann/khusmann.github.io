@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "description", "status"],
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Unique identifier (matches folder in src/assets/projects/)",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "name": {
+        "type": "string",
+        "description": "Display name of the project"
+      },
+      "description": {
+        "type": "string",
+        "description": "Short description of the project"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["active", "archived", "maintenance"],
+        "description": "Current status of the project"
+      },
+      "url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Main project URL"
+      },
+      "github": {
+        "type": "string",
+        "format": "uri",
+        "description": "GitHub repository URL"
+      },
+      "paper": {
+        "type": "string",
+        "description": "Blog post or paper URL (can be relative)"
+      },
+      "package": {
+        "type": "string",
+        "pattern": "^(npm|pypi|cran):.+$",
+        "description": "Package registry in format 'registry:package-name' (e.g., 'npm:benlink', 'pypi:bydantic')"
+      },
+      "tech": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Technology stack used in the project"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Tags for categorization"
+      },
+      "logo": {
+        "type": "string",
+        "default": "logo.svg",
+        "description": "Logo filename (relative to src/assets/projects/{id}/)"
+      },
+      "screenshot": {
+        "type": "string",
+        "default": "screenshot.png",
+        "description": "Screenshot filename (relative to src/assets/projects/{id}/)"
+      },
+      "created": {
+        "type": "string",
+        "format": "date",
+        "description": "Project creation date (YYYY-MM-DD)"
+      },
+      "lastUpdated": {
+        "type": "string",
+        "format": "date",
+        "description": "Last significant update date (YYYY-MM-DD)"
+      },
+      "featured": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether to highlight this project"
+      }
+    },
+    "additionalProperties": false
+  }
+}

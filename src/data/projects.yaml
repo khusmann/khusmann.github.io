@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=./projects.schema.json
+
+- id: "benlink"
+  name: "Benlink"
+  description: "A cross-platform Python library for controlling Benshi radios over BLE & Bluetooth Classic"
+  status: "active"
+  url: "https://benlink.kylehusmann.com"
+  github: "https://github.com/khusmann/benlink"
+  # paper: "/posts/benlink-post"
+  package: "pypi:benlink"
+  tech: ["Python", "BLE", "Bluetooth", "Bleak", "PyAV"]
+  tags: ["hardware", "radio", "bluetooth", "iot"]
+  # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  # created: 2023-01-01
+  # lastUpdated: 2024-12-01
+  featured: true
+
+- id: "bydantic"
+  name: "Bydantic"
+  description: "A Python library for serializing and deserializing bitfields with Pydantic-style type hints"
+  status: "active"
+  url: "https://bydantic.kylehusmann.com"
+  github: "https://github.com/khusmann/bydantic"
+  # paper: "/posts/bydantic-post"
+  package: "pypi:bydantic"
+  tech: ["Python", "Pydantic"]
+  tags: ["serialization", "bitfields", "parsing"]
+  # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  # created: 2023-01-01
+  # lastUpdated: 2024-12-01
+  featured: false
+
+- id: "interlacer"
+  name: "interlacer"
+  description: "An R package for working with tabular data that contains interlaced missing values and their reasons"
+  status: "active"
+  url: "https://interlacer.kylehusmann.com"
+  github: "https://github.com/khusmann/interlacer"
+  # paper: "/posts/interlacer-post"
+  package: "cran:interlacer"
+  tech: ["R", "vctrs"]
+  tags: ["data-science", "tidyverse"]
+  # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  # created: 2023-01-01
+  # lastUpdated: 2024-12-01
+  featured: false

@@ -1,0 +1,432 @@
+---
+import { readFileSync } from "fs";
+import { load } from "js-yaml";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Hr from "@/components/Hr.astro";
+import { SITE } from "@/config";
+import type { Project } from "@/types/project";
+import { parsePackage } from "@/types/project";
+import IconGitHub from "@/assets/icons/IconGitHub.svg";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+
+// Load projects from YAML
+const projectsYaml = readFileSync("src/data/projects.yaml", "utf8");
+const projects = load(projectsYaml) as Project[];
+
+// Separate featured and non-featured projects
+const featuredProjects = projects.filter(p => p.featured);
+const otherProjects = projects.filter(p => !p.featured);
+
+// Collect all unique tech and tags for filtering
+const allTech = new Set<string>();
+const allTags = new Set<string>();
+const allStatuses = new Set<string>();
+
+projects.forEach(project => {
+  project.tech?.forEach(t => allTech.add(t));
+  project.tags?.forEach(t => allTags.add(t));
+  allStatuses.add(project.status);
+});
+
+const techList = Array.from(allTech).sort();
+const tagList = Array.from(allTags).sort();
+const statusList = Array.from(allStatuses).sort();
+---
+
+<Layout title={`Projects | ${SITE.title}`}>
+  <Header activeNav="projects" />
+  <Breadcrumb />
+  <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12">
+    <section class="mb-8">
+      <h1 class="text-2xl font-semibold sm:text-3xl">Projects</h1>
+      <p class="mt-2 mb-6 italic">
+        A collection of open-source software projects I've created and maintain.
+      </p>
+
+      <!-- Filter Controls -->
+      <div class="mb-6 space-y-4 rounded-lg border border-skin-line p-4">
+        <div>
+          <label class="mb-2 block text-sm font-medium">Filter by Technology:</label>
+          <div class="flex flex-wrap gap-2">
+            {techList.map(tech => (
+              <button
+                type="button"
+                data-filter-type="tech"
+                data-filter-value={tech}
+                class="filter-btn rounded bg-skin-card px-3 py-1 text-sm transition-colors hover:bg-skin-card-muted"
+              >
+                {tech}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label class="mb-2 block text-sm font-medium">Filter by Tag:</label>
+          <div class="flex flex-wrap gap-2">
+            {tagList.map(tag => (
+              <button
+                type="button"
+                data-filter-type="tag"
+                data-filter-value={tag}
+                class="filter-btn rounded bg-skin-card px-3 py-1 text-sm transition-colors hover:bg-skin-card-muted"
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label class="mb-2 block text-sm font-medium">Filter by Status:</label>
+          <div class="flex flex-wrap gap-2">
+            {statusList.map(status => (
+              <button
+                type="button"
+                data-filter-type="status"
+                data-filter-value={status}
+                class="filter-btn rounded bg-skin-card px-3 py-1 text-sm capitalize transition-colors hover:bg-skin-card-muted"
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          id="clear-filters"
+          class="rounded bg-skin-accent px-4 py-2 text-sm font-medium text-skin-inverted transition-colors hover:opacity-90"
+        >
+          Clear All Filters
+        </button>
+      </div>
+    </section>
+
+    {
+      featuredProjects.length > 0 && (
+        <section class="mb-10">
+          <h2 class="mb-4 text-xl font-semibold">Featured</h2>
+          <div class="space-y-6">
+            {featuredProjects.map(project => {
+              const packageInfo = project.package
+                ? parsePackage(project.package)
+                : null;
+              return (
+                <article
+                  class="project-card border-skin-line rounded-lg border p-5 transition-shadow hover:shadow-md"
+                  data-tech={JSON.stringify(project.tech || [])}
+                  data-tags={JSON.stringify(project.tags || [])}
+                  data-status={project.status}
+                >
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1">
+                      <h3 class="text-lg font-semibold">
+                        {project.url ? (
+                          <a
+                            href={project.url}
+                            class="transition-colors hover:text-accent"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {project.name}
+                          </a>
+                        ) : (
+                          project.name
+                        )}
+                      </h3>
+                      <p class="mt-2 text-sm">{project.description}</p>
+
+                      {project.tech && project.tech.length > 0 && (
+                        <div class="mt-3 flex flex-wrap gap-2">
+                          {project.tech.map(tech => (
+                            <span class="bg-skin-card-muted rounded px-2 py-1 text-xs">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      <div class="mt-4 flex flex-wrap gap-3 text-sm">
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <IconGitHub width={16} height={16} />
+                            <span>GitHub</span>
+                          </a>
+                        )}
+                        {project.url && (
+                          <a
+                            href={project.url}
+                            class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <IconArrowRight width={16} height={16} />
+                            <span>Website</span>
+                          </a>
+                        )}
+                        {packageInfo && (
+                          <a
+                            href={packageInfo.url}
+                            class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <span class="uppercase">
+                              {packageInfo.registry}
+                            </span>
+                          </a>
+                        )}
+                        {project.paper && (
+                          <a
+                            href={project.paper}
+                            class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                          >
+                            <span>Blog Post</span>
+                          </a>
+                        )}
+                      </div>
+
+                      {project.status !== "active" && (
+                        <div class="mt-3">
+                          <span class="rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+                            {project.status === "archived"
+                              ? "Archived"
+                              : "Maintenance Mode"}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      otherProjects.length > 0 && (
+        <>
+          {featuredProjects.length > 0 && <Hr />}
+          <section class="mb-10">
+            <h2 class="mb-4 text-xl font-semibold">Other Projects</h2>
+            <div class="space-y-6">
+              {otherProjects.map(project => {
+                const packageInfo = project.package
+                  ? parsePackage(project.package)
+                  : null;
+                return (
+                  <article
+                    class="project-card border-skin-line rounded-lg border p-5 transition-shadow hover:shadow-md"
+                    data-tech={JSON.stringify(project.tech || [])}
+                    data-tags={JSON.stringify(project.tags || [])}
+                    data-status={project.status}
+                  >
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="flex-1">
+                        <h3 class="text-lg font-semibold">
+                          {project.url ? (
+                            <a
+                              href={project.url}
+                              class="transition-colors hover:text-accent"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {project.name}
+                            </a>
+                          ) : (
+                            project.name
+                          )}
+                        </h3>
+                        <p class="mt-2 text-sm">{project.description}</p>
+
+                        {project.tech && project.tech.length > 0 && (
+                          <div class="mt-3 flex flex-wrap gap-2">
+                            {project.tech.map(tech => (
+                              <span class="bg-skin-card-muted rounded px-2 py-1 text-xs">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        <div class="mt-4 flex flex-wrap gap-3 text-sm">
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <IconGitHub width={16} height={16} />
+                              <span>GitHub</span>
+                            </a>
+                          )}
+                          {project.url && (
+                            <a
+                              href={project.url}
+                              class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <IconArrowRight width={16} height={16} />
+                              <span>Website</span>
+                            </a>
+                          )}
+                          {packageInfo && (
+                            <a
+                              href={packageInfo.url}
+                              class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <span class="uppercase">
+                                {packageInfo.registry}
+                              </span>
+                            </a>
+                          )}
+                          {project.paper && (
+                            <a
+                              href={project.paper}
+                              class="inline-flex items-center gap-1 transition-colors hover:text-accent"
+                            >
+                              <span>Blog Post</span>
+                            </a>
+                          )}
+                        </div>
+
+                        {project.status !== "active" && (
+                          <div class="mt-3">
+                            <span class="rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+                              {project.status === "archived"
+                                ? "Archived"
+                                : "Maintenance Mode"}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        </>
+      )
+    }
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  interface FilterState {
+    tech: Set<string>;
+    tags: Set<string>;
+    status: Set<string>;
+  }
+
+  function initFilters() {
+    const filterState: FilterState = {
+      tech: new Set(),
+      tags: new Set(),
+      status: new Set(),
+    };
+
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+    const clearButton = document.querySelector<HTMLButtonElement>("#clear-filters");
+    const projectCards = document.querySelectorAll<HTMLElement>(".project-card");
+
+    function updateCardVisibility() {
+      projectCards.forEach(card => {
+        const cardTech = JSON.parse(card.dataset.tech || "[]") as string[];
+        const cardTags = JSON.parse(card.dataset.tags || "[]") as string[];
+        const cardStatus = card.dataset.status || "";
+
+        // If no filters are active, show all
+        if (
+          filterState.tech.size === 0 &&
+          filterState.tags.size === 0 &&
+          filterState.status.size === 0
+        ) {
+          card.style.display = "";
+          return;
+        }
+
+        // Check if card matches active filters
+        const matchesTech =
+          filterState.tech.size === 0 ||
+          cardTech.some(t => filterState.tech.has(t));
+        const matchesTags =
+          filterState.tags.size === 0 ||
+          cardTags.some(t => filterState.tags.has(t));
+        const matchesStatus =
+          filterState.status.size === 0 || filterState.status.has(cardStatus);
+
+        // Show card only if it matches all active filter types
+        if (matchesTech && matchesTags && matchesStatus) {
+          card.style.display = "";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    function toggleFilter(type: keyof FilterState, value: string, button: HTMLButtonElement) {
+      const filterSet = filterState[type];
+
+      if (filterSet.has(value)) {
+        filterSet.delete(value);
+        button.classList.remove("active-filter");
+      } else {
+        filterSet.add(value);
+        button.classList.add("active-filter");
+      }
+
+      updateCardVisibility();
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const type = button.dataset.filterType as keyof FilterState;
+        const value = button.dataset.filterValue;
+        if (type && value) {
+          toggleFilter(type, value, button);
+        }
+      });
+    });
+
+    clearButton?.addEventListener("click", () => {
+      filterState.tech.clear();
+      filterState.tags.clear();
+      filterState.status.clear();
+
+      filterButtons.forEach(button => {
+        button.classList.remove("active-filter");
+      });
+
+      updateCardVisibility();
+    });
+  }
+
+  initFilters();
+
+  // Re-initialize on Astro view transitions
+  document.addEventListener("astro:page-load", initFilters);
+</script>
+
+<style>
+  .active-filter {
+    background-color: var(--accent);
+    color: var(--background);
+  }
+</style>
