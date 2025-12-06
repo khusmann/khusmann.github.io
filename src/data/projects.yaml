@@ -8,7 +8,7 @@
   github: "https://github.com/khusmann/benlink"
   # paper: "/posts/benlink-post"
   package: "pypi:benlink"
-  tech: ["Python", "BLE", "Bluetooth", "Bleak", "PyAV"]
+  tech: ["Python", "BLE", "Bluetooth", "Bleak"]
   tags: ["hardware", "radio", "bluetooth", "iot"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
