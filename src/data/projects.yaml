@@ -30,7 +30,7 @@
   # screenshot: "screenshot.png"
   # created: 2023-01-01
   # lastUpdated: 2024-12-01
-  featured: false
+  featured: true
 
 - id: "interlacer"
   name: "interlacer"
@@ -42,6 +42,70 @@
   package: "cran:interlacer"
   tech: ["R"]
   tags: ["data-science", "tidyverse"]
+  # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  # created: 2023-01-01
+  # lastUpdated: 2024-12-01
+  featured: true
+
+- id: "ble-bike-tracker"
+  name: "BLE Bike Tracker"
+  description: "A DIY BLE bicycle tracker with 3D-printable enclosure, firmware, and Android companion app"
+  status: "active"
+  # url: ""
+  github: "https://github.com/khusmann/ble-bike-tracker"
+  paper: "/posts/esp32-stationary-bike"
+  # package: ""
+  tech: ["Kotlin", "Python", "OpenSCAD"]
+  tags: ["hardware", "iot", "android", "3d-printing"]
+  # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  # created: 2023-01-01
+  # lastUpdated: 2024-12-01
+  featured: false
+
+- id: "mxmmod"
+  name: "mxmmod"
+  description: "An R package providing a convenient interface for building Measurement Model of Derivatives (MMOD) in OpenMx"
+  status: "active"
+  # url: ""
+  github: "https://github.com/khusmann/mxmmod"
+  # paper: "/posts/mxmmod-post"
+  # package: ""
+  tech: ["R"]
+  tags: ["statistics", "research", "longitudinal-analysis"]
+  # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  # created: 2023-01-01
+  # lastUpdated: 2024-12-01
+  featured: false
+
+- id: "pa-butterfly-field-guide"
+  name: "PA Butterfly Field Guide"
+  description: "A React Native mobile app for identifying 109 butterfly species in Pennsylvania, created for biodiversity education research"
+  status: "archived"
+  # url: ""
+  github: "https://github.com/khusmann/pa-butterfly-field-guide"
+  # paper: "/posts/butterfly-guide"
+  # package: ""
+  tech: ["React Native", "JavaScript"]
+  tags: ["mobile", "education", "biodiversity"]
+  # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  # created: 2023-01-01
+  # lastUpdated: 2024-12-01
+  featured: false
+
+- id: "sidd"
+  name: "sidd"
+  description: "Transforms frictionless data packages into interactive, self-contained HTML data dictionaries with visualizations"
+  status: "active"
+  # url: ""
+  github: "https://github.com/khusmann/sidd"
+  # paper: "/posts/sidd-post"
+  # package: ""
+  tech: ["TypeScript", "Python"]
+  tags: ["data-science", "metadata", "documentation"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
   # created: 2023-01-01
