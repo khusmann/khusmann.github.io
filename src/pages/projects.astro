@@ -11,6 +11,8 @@ import type { Project } from "@/types/project";
 import { parsePackage } from "@/types/project";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 
 // Load projects from YAML
 const projectsYaml = readFileSync("src/data/projects.yaml", "utf8");
@@ -31,6 +33,9 @@ projects.forEach(project => {
 
 const techList = Array.from(allTech).sort();
 const tagList = Array.from(allTags).sort();
+
+// Load project logos dynamically
+const projectLogos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/projects/**/*.{png,jpg,jpeg,svg}', { eager: true });
 ---
 
 <Layout title={`Projects | ${SITE.title}`}>
@@ -98,6 +103,11 @@ const tagList = Array.from(allTags).sort();
               const packageInfo = project.package
                 ? parsePackage(project.package)
                 : null;
+
+              // Get logo if it exists
+              const logoPath = project.logo ? `/src/assets/projects/${project.id}/${project.logo}` : null;
+              const logoImage = logoPath && projectLogos[logoPath] ? projectLogos[logoPath].default : null;
+
               return (
                 <article
                   class="project-card group relative mb-12"
@@ -105,8 +115,20 @@ const tagList = Array.from(allTags).sort();
                   data-tags={JSON.stringify(project.tags || [])}
                   data-status={project.status}
                 >
-                  <div class="flex flex-col gap-3">
-                    <div class="flex items-baseline gap-3">
+                  <div class="flex gap-4">
+                    {logoImage && (
+                      <div class="flex-shrink-0">
+                        <Image
+                          src={logoImage}
+                          alt={`${project.name} logo`}
+                          width={64}
+                          height={64}
+                          class="rounded"
+                        />
+                      </div>
+                    )}
+                    <div class="flex flex-col gap-3 flex-1">
+                      <div class="flex items-baseline gap-3">
                       <h3 class="text-lg font-semibold">
                         {project.url ? (
                           <a
@@ -184,6 +206,7 @@ const tagList = Array.from(allTags).sort();
                         </a>
                       )}
                     </div>
+                  </div>
                   </div>
                 </article>
               );
