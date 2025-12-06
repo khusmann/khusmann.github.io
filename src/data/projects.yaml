@@ -12,8 +12,8 @@
   tags: ["hardware", "radio", "bluetooth", "iot"]
   logo: "logo.svg"
   # screenshot: "screenshot.png"
-  created: 2024-12-24
-  lastUpdated: 2025-08-14
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
   featured: true
 
 - id: "bydantic"
@@ -28,8 +28,8 @@
   tags: ["serialization", "bitfields", "parsing"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
-  created: 2025-03-30
-  lastUpdated: 2025-05-24
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
   featured: true
 
 - id: "interlacer"
@@ -39,13 +39,13 @@
   url: "https://interlacer.kylehusmann.com"
   github: "https://github.com/khusmann/interlacer"
   # paper: "/posts/interlacer-post"
-  package: "cran:interlacer"
+  # package: "cran:interlacer"
   tech: ["R"]
   tags: ["data-science", "tidyverse"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
-  created: 2024-06-14
-  lastUpdated: 2025-05-18
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
   featured: true
 
 - id: "ble-bike-tracker"
@@ -60,8 +60,8 @@
   tags: ["hardware", "iot", "android", "3d-printing"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
-  created: 2025-07-06
-  lastUpdated: 2025-11-09
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
   featured: false
 
 - id: "mxmmod"
@@ -76,8 +76,8 @@
   tags: ["statistics", "research", "longitudinal-analysis"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
-  created: 2019-10-12
-  lastUpdated: 2021-05-18
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
   featured: false
 
 - id: "pa-butterfly-field-guide"
@@ -88,12 +88,12 @@
   github: "https://github.com/khusmann/pa-butterfly-field-guide"
   # paper: "/posts/butterfly-guide"
   # package: ""
-  tech: ["React Native", "JavaScript"]
+  tech: ["React Native", "TypeScript/JavaScript"]
   tags: ["mobile", "education", "biodiversity"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
-  created: 2019-04-28
-  lastUpdated: 2024-08-08
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
   featured: false
 
 - id: "sidd"
@@ -104,10 +104,10 @@
   github: "https://github.com/khusmann/sidd"
   # paper: "/posts/sidd-post"
   # package: ""
-  tech: ["TypeScript", "Python"]
+  tech: ["TypeScript/JavaScript"]
   tags: ["data-science", "metadata", "documentation"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
-  created: 2023-09-15
-  lastUpdated: 2025-02-23
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
   featured: false

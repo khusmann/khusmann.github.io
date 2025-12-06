@@ -17,16 +17,21 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
 ---
 
 <article
-  class="project-card group relative mb-12"
+  class="project-card group relative mb-4 rounded-lg bg-white/[0.02] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_1px_2px_0_rgba(0,0,0,0.3)]"
   data-tech={JSON.stringify(project.tech || [])}
   data-tags={JSON.stringify(project.tags || [])}
   data-status={project.status}
 >
-  <div class:list={["flex", logoImage ? "flex-row-reverse gap-4" : "flex-col gap-3"]}>
+  <div
+    class:list={[
+      "flex",
+      logoImage ? "flex-row-reverse gap-4" : "flex-col gap-3",
+    ]}
+  >
     {
       logoImage && (
         <div
-          class="flex flex-shrink-0 items-center justify-center rounded self-stretch"
+          class="flex flex-shrink-0 items-center justify-center self-stretch rounded"
           style="width: 120px;"
         >
           <Image
@@ -39,8 +44,6 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
       )
     }
     <div class:list={["flex flex-col gap-3", logoImage ? "flex-1" : ""]}>
-
-
       <div class="flex items-baseline gap-3">
         <h3 class="text-xl font-semibold">
           {
