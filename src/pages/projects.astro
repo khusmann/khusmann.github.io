@@ -7,8 +7,22 @@ import Hr from "@/components/Hr.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { SITE } from "@/config";
 import { getProjects } from "@/utils/getProjects";
+import type { ImageMetadata } from "astro";
 
 const projects = getProjects();
+
+// Load all project logos once
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/projects/**/*.{png,jpg,jpeg,svg}",
+  { eager: true }
+);
+
+// Helper to get logo image for a project
+const getLogoImage = (project: ReturnType<typeof getProjects>[number]) => {
+  if (!project.logo) return null;
+  const logoPath = `/src/assets/projects/${project.id}/${project.logo}`;
+  return images[logoPath]?.default || null;
+};
 
 // Separate featured and non-featured projects
 const featuredProjects = projects.filter(p => p.featured);
@@ -63,7 +77,7 @@ const techList = Array.from(allTech).sort();
           </h2>
           <div>
             {featuredProjects.map(project => (
-              <ProjectCard project={project} />
+              <ProjectCard project={project} logoImage={getLogoImage(project)} />
             ))}
           </div>
         </section>
@@ -83,7 +97,7 @@ const techList = Array.from(allTech).sort();
             </h2>
             <div>
               {otherProjects.map(project => (
-                <ProjectCard project={project} />
+                <ProjectCard project={project} logoImage={getLogoImage(project)} />
               ))}
             </div>
           </section>

@@ -8,23 +8,12 @@ import type { ImageMetadata } from "astro";
 
 export interface Props {
   project: Project;
+  logoImage?: ImageMetadata | null;
 }
 
-const { project } = Astro.props;
+const { project, logoImage } = Astro.props;
 
 const packageInfo = project.package ? parsePackage(project.package) : null;
-
-// Load project logo dynamically if it exists
-const projectLogos = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/projects/**/*.{png,jpg,jpeg,svg}",
-  { eager: true }
-);
-
-const logoPath = project.logo
-  ? `/src/assets/projects/${project.id}/${project.logo}`
-  : null;
-const logoImage =
-  logoPath && projectLogos[logoPath] ? projectLogos[logoPath].default : null;
 ---
 
 <article
