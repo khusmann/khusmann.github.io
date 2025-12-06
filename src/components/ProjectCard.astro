@@ -22,23 +22,24 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
   data-tags={JSON.stringify(project.tags || [])}
   data-status={project.status}
 >
-  <div class:list={["flex", logoImage ? "gap-4" : "flex-col gap-3"]}>
+  <div class:list={["flex", logoImage ? "flex-row-reverse gap-4" : "flex-col gap-3"]}>
     {
       logoImage && (
         <div
-          class="flex flex-shrink-0 items-center justify-center rounded bg-[#1a1a1a]"
-          style="width: 80px; height: 80px;"
+          class="flex flex-shrink-0 items-center justify-center rounded self-stretch"
+          style="width: 120px;"
         >
           <Image
             src={logoImage}
             alt={`${project.name} logo`}
-            width={64}
-            height={64}
+            width={96}
+            height={96}
           />
         </div>
       )
     }
     <div class:list={["flex flex-col gap-3", logoImage ? "flex-1" : ""]}>
+
 
       <div class="flex items-baseline gap-3">
         <h3 class="text-xl font-semibold">
