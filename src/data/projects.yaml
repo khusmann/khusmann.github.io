@@ -39,7 +39,7 @@
   url: "https://interlacer.kylehusmann.com"
   github: "https://github.com/khusmann/interlacer"
   # paper: "/posts/interlacer-post"
-  package: "cran:interlacer"
+  # package: "cran:interlacer"
   tech: ["R"]
   tags: ["data-science", "tidyverse"]
   # logo: "logo.svg"
@@ -54,9 +54,9 @@
   status: "active"
   # url: ""
   github: "https://github.com/khusmann/ble-bike-tracker"
-  paper: "/posts/esp32-stationary-bike"
+  paper: "/posts/2025/esp32-stationary-bike"
   # package: ""
-  tech: ["Kotlin", "Python", "OpenSCAD"]
+  tech: ["MicroPython", "OpenSCAD"]
   tags: ["hardware", "iot", "android", "3d-printing"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
@@ -71,7 +71,7 @@
   # url: ""
   github: "https://github.com/khusmann/mxmmod"
   # paper: "/posts/mxmmod-post"
-  # package: ""
+  package: "cran:mxmmod"
   tech: ["R"]
   tags: ["statistics", "research", "longitudinal-analysis"]
   # logo: "logo.svg"
