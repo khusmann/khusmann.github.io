@@ -26,18 +26,10 @@ const primaryUrl = project.url || paperInfo?.url || project.github || packageInf
   data-tags={JSON.stringify(project.tags || [])}
   data-status={project.status}
 >
-  <div
-    class:list={[
-      "flex",
-      logoImage ? "flex-row-reverse gap-4" : "flex-col gap-3",
-    ]}
-  >
+  <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row-reverse">
     {
       logoImage && (
-        <div
-          class="flex flex-shrink-0 items-center justify-center self-stretch rounded"
-          style="width: 180px; padding: 1rem;"
-        >
+        <div class="logo-container hidden flex-shrink-0 items-center justify-center rounded p-4 sm:flex">
           <Image
             src={logoImage}
             alt={`${project.name} logo`}
@@ -46,7 +38,7 @@ const primaryUrl = project.url || paperInfo?.url || project.github || packageInf
         </div>
       )
     }
-    <div class:list={["flex flex-col gap-3", logoImage ? "flex-1" : ""]}>
+    <div class="flex flex-col gap-3 sm:flex-1">
       <div class="flex items-baseline gap-3">
         <h3 class="text-xl font-semibold">
           {
@@ -70,6 +62,18 @@ const primaryUrl = project.url || paperInfo?.url || project.github || packageInf
           )
         }
       </div>
+
+      {
+        logoImage && (
+          <div class="logo-container-mobile flex flex-shrink-0 items-center justify-center rounded p-4 sm:hidden">
+            <Image
+              src={logoImage}
+              alt={`${project.name} logo`}
+              class="project-logo"
+            />
+          </div>
+        )
+      }
 
       <p class="text-base leading-relaxed opacity-90">
         {project.description}
@@ -142,6 +146,16 @@ const primaryUrl = project.url || paperInfo?.url || project.github || packageInf
 </article>
 
 <style>
+  .logo-container-mobile {
+    height: 160px;
+    width: 100%;
+  }
+
+  .logo-container {
+    width: 180px;
+    align-self: stretch;
+  }
+
   .project-logo {
     max-width: 100%;
     max-height: 100%;
