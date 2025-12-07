@@ -54,7 +54,7 @@
   status: "active"
   # url: ""
   github: "https://github.com/khusmann/ble-bike-tracker"
-  paper: "/posts/2025/esp32-stationary-bike"
+  paper: "post:2025/esp32-stationary-bike"
   # package: ""
   tech: ["MicroPython", "OpenSCAD"]
   tags: ["hardware", "iot", "android", "3d-printing"]
@@ -70,7 +70,7 @@
   status: "active"
   # url: ""
   github: "https://github.com/khusmann/mxmmod"
-  # paper: "/posts/mxmmod-post"
+  paper: "doi:10.1016/j.jsp.2022.04.004"
   package: "cran:mxmmod"
   tech: ["R"]
   tags: ["statistics", "research", "longitudinal-analysis"]

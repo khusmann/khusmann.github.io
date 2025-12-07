@@ -1,6 +1,6 @@
 ---
 import type { Project } from "@/types/project";
-import { parsePackage } from "@/types/project";
+import { parsePackage, parsePaper } from "@/types/project";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { Image } from "astro:assets";
@@ -14,6 +14,10 @@ export interface Props {
 const { project, logoImage } = Astro.props;
 
 const packageInfo = project.package ? parsePackage(project.package) : null;
+const paperInfo = project.paper ? parsePaper(project.paper) : null;
+
+// Determine the primary URL in order: website, blog post, github, package
+const primaryUrl = project.url || paperInfo?.url || project.github || packageInfo?.url || null;
 ---
 
 <article
@@ -46,9 +50,9 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
       <div class="flex items-baseline gap-3">
         <h3 class="text-xl font-semibold">
           {
-            project.url ? (
+            primaryUrl ? (
               <a
-                href={project.url}
+                href={primaryUrl}
                 class="transition-colors hover:text-accent"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -83,19 +87,6 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
 
       <div class="flex flex-wrap gap-4 text-base opacity-75">
         {
-          project.github && (
-            <a
-              href={project.github}
-              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <IconGitHub width={14} height={14} />
-              <span>GitHub</span>
-            </a>
-          )
-        }
-        {
           project.url && (
             <a
               href={project.url}
@@ -109,6 +100,31 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
           )
         }
         {
+          paperInfo && (
+            <a
+              href={paperInfo.url}
+              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+              target={paperInfo.type === "doi" ? "_blank" : undefined}
+              rel={paperInfo.type === "doi" ? "noopener noreferrer" : undefined}
+            >
+              {paperInfo.label}
+            </a>
+          )
+        }
+        {
+          project.github && (
+            <a
+              href={project.github}
+              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconGitHub width={14} height={14} />
+              <span>GitHub</span>
+            </a>
+          )
+        }
+        {
           packageInfo && (
             <a
               href={packageInfo.url}
@@ -117,16 +133,6 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
               rel="noopener noreferrer"
             >
               {packageInfo.registry}
-            </a>
-          )
-        }
-        {
-          project.paper && (
-            <a
-              href={project.paper}
-              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-            >
-              Blog Post
             </a>
           )
         }

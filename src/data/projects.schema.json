@@ -35,7 +35,8 @@
       },
       "paper": {
         "type": "string",
-        "description": "Blog post or paper URL (can be relative)"
+        "pattern": "^(post:|doi:).+$",
+        "description": "Blog post or paper in format 'post:2025/post-slug' or 'doi:10.1016/j.example.2022.04.004'"
       },
       "package": {
         "type": "string",
