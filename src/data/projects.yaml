@@ -52,7 +52,7 @@
   github: "https://github.com/khusmann/ble-bike-tracker"
   paper: "post:2025/esp32-stationary-bike"
   # package: ""
-  tech: ["Python", "OpenSCAD", "Hardware"]
+  tech: ["Python", "Hardware"]
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: false
