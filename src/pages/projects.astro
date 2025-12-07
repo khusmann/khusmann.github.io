@@ -66,7 +66,7 @@ const techList = Array.from(techCounts.entries())
     <section class="mb-12">
       <h1 class="text-2xl font-semibold sm:text-3xl">Projects</h1>
       <p class="mt-2 text-base italic opacity-90">
-        A collection of open-source software and side projects I’ve created.
+        A collection of open-source software and side projects I've created.
       </p>
 
       <!-- Filter Controls -->
@@ -91,7 +91,7 @@ const techList = Array.from(techCounts.entries())
 
     {
       featuredProjects.length > 0 && (
-        <section class="mb-16">
+        <section id="featured-section" class="mb-16">
           <h2
             id="featured-heading"
             class="mb-8 text-xl font-semibold opacity-50"
@@ -114,7 +114,7 @@ const techList = Array.from(techCounts.entries())
       otherProjects.length > 0 && (
         <>
           {featuredProjects.length > 0 && <Hr id="section-divider" />}
-          <section class="mt-16 mb-16">
+          <section id="other-section" class="mt-16 mb-16">
             <h2
               id="other-heading"
               class="mb-8 text-xl font-semibold opacity-50"
@@ -157,11 +157,13 @@ const techList = Array.from(techCounts.entries())
       document.querySelector<HTMLButtonElement>("#clear-filters");
     const projectCards =
       document.querySelectorAll<HTMLElement>(".project-card");
-    const featuredHeading =
-      document.querySelector<HTMLElement>("#featured-heading");
-    const otherHeading = document.querySelector<HTMLElement>("#other-heading");
-    const sectionDivider =
-      document.querySelector<HTMLElement>("#section-divider");
+    const sectionHeadings = document.querySelectorAll<HTMLElement>(
+      "#featured-heading, #other-heading"
+    );
+    const sectionDivider = document.querySelector<HTMLElement>("#section-divider");
+    const sections = document.querySelectorAll<HTMLElement>(
+      "#featured-section, #other-section"
+    );
 
     function updateCardVisibility() {
       const hasActiveFilters =
@@ -169,16 +171,19 @@ const techList = Array.from(techCounts.entries())
         filterState.tags.size > 0 ||
         filterState.status.size > 0;
 
-      // Hide/show section headings and divider based on filter state
-      if (featuredHeading) {
-        featuredHeading.style.display = hasActiveFilters ? "none" : "";
-      }
-      if (otherHeading) {
-        otherHeading.style.display = hasActiveFilters ? "none" : "";
-      }
+      // Toggle visibility of section headings and dividers
+      sectionHeadings.forEach(heading => {
+        heading.style.display = hasActiveFilters ? "none" : "";
+      });
+
       if (sectionDivider) {
         sectionDivider.style.display = hasActiveFilters ? "none" : "";
       }
+
+      // Remove section margins when filtering
+      sections.forEach(section => {
+        section.style.margin = hasActiveFilters ? "0" : "";
+      });
 
       projectCards.forEach(card => {
         const cardTech = JSON.parse(card.dataset.tech || "[]") as string[];
