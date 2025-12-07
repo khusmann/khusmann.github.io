@@ -13,8 +13,8 @@
   # paper: "/posts/bydantic-post"
   package: "pypi:bydantic"
   tech: ["Python"]
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
+  created: 2025-03-03
+  lastUpdated: 2025-05-24
   featured: true
 
 - id: "benlink"
@@ -27,8 +27,8 @@
   package: "pypi:benlink"
   tech: ["Python"]
   logoShadow: false
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
+  created: 2024-12-15
+  lastUpdated: 2025-08-14
   featured: true
 
 - id: "interlacer"
@@ -40,8 +40,8 @@
   # paper: "/posts/interlacer-post"
   # package: "cran:interlacer"
   tech: ["R"]
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
+  created: 2024-02-27
+  lastUpdated: 2025-05-18
   featured: true
 
 - id: "ble-bike-tracker"
@@ -53,8 +53,8 @@
   paper: "post:2025/esp32-stationary-bike"
   # package: ""
   tech: ["Python", "Hardware"]
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
+  created: 2025-07-06
+  lastUpdated: 2025-11-09
   featured: false
 
 - id: "mxmmod"
@@ -66,8 +66,8 @@
   paper: "doi:10.1016/j.jsp.2022.04.004"
   package: "cran:mxmmod"
   tech: ["R"]
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
+  created: 2019-10-17
+  lastUpdated: 2024-01-19
   featured: false
 
 - id: "pa-butterfly-field-guide"
@@ -79,8 +79,8 @@
   paper: "pub:https://etda.libraries.psu.edu/catalog/17455mrt226"
   # package: ""
   tech: ["TypeScript/JavaScript", "React Native"]
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
+  created: 2024-08-08
+  lastUpdated: 2024-08-08
   featured: false
 
 - id: "sidd"
@@ -92,6 +92,6 @@
   # paper: "/posts/sidd-post"
   # package: ""
   tech: ["TypeScript/JavaScript"]
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
+  created: 2023-09-15
+  lastUpdated: 2025-02-23
   featured: false
