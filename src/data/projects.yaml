@@ -92,7 +92,7 @@
   github: "https://github.com/khusmann/pa-butterfly-field-guide"
   # paper: "/posts/butterfly-guide"
   # package: ""
-  tech: ["React Native", "TypeScript/JavaScript"]
+  tech: ["TypeScript/JavaScript", "React Native"]
   tags: ["mobile", "education", "biodiversity"]
   logo: "logo.png"
   # screenshot: "screenshot.png"
