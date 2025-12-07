@@ -18,7 +18,7 @@ const paperInfo = project.paper ? parsePaper(project.paper) : null;
 
 // Determine the primary URL in order: website, blog post, github, package
 const primaryUrl =
-  project.url || paperInfo?.url || project.github || packageInfo?.url || null;
+  project.url || project.github || paperInfo?.url || packageInfo?.url || null;
 ---
 
 <article
@@ -105,18 +105,6 @@ const primaryUrl =
           )
         }
         {
-          paperInfo && (
-            <a
-              href={paperInfo.url}
-              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-              target={paperInfo.type === "doi" ? "_blank" : undefined}
-              rel={paperInfo.type === "doi" ? "noopener noreferrer" : undefined}
-            >
-              {paperInfo.label}
-            </a>
-          )
-        }
-        {
           project.github && (
             <a
               href={project.github}
@@ -126,6 +114,18 @@ const primaryUrl =
             >
               <IconGitHub width={14} height={14} />
               <span>GitHub</span>
+            </a>
+          )
+        }
+        {
+          paperInfo && (
+            <a
+              href={paperInfo.url}
+              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+              target={paperInfo.type === "doi" ? "_blank" : undefined}
+              rel={paperInfo.type === "doi" ? "noopener noreferrer" : undefined}
+            >
+              {paperInfo.label}
             </a>
           )
         }

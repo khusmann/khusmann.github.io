@@ -1,20 +1,8 @@
 # yaml-language-server: $schema=./projects.schema.json
 
-- id: "benlink"
-  name: "Benlink"
-  description: "A cross-platform Python library for controlling Benshi radios over BLE & Bluetooth Classic"
-  status: "active"
-  url: "https://benlink.kylehusmann.com"
-  github: "https://github.com/khusmann/benlink"
-  # paper: "/posts/benlink-post"
-  package: "pypi:benlink"
-  tech: ["Python"]
-  tags: ["hardware", "radio", "bluetooth", "iot"]
-  logo: "logo.svg"
-  # screenshot: "screenshot.png"
-  created: 2023-01-01
-  lastUpdated: 2024-12-01
-  featured: true
+# TODO:
+# - Add decoding driller
+# - Add beep boop tutor
 
 - id: "bydantic"
   name: "Bydantic"
@@ -27,6 +15,22 @@
   tech: ["Python"]
   tags: ["serialization", "bitfields", "parsing"]
   # logo: "logo.svg"
+  # screenshot: "screenshot.png"
+  created: 2023-01-01
+  lastUpdated: 2024-12-01
+  featured: true
+
+- id: "benlink"
+  name: "Benlink"
+  description: "A cross-platform Python library for controlling Benshi radios over BLE & Bluetooth Classic"
+  status: "active"
+  url: "https://benlink.kylehusmann.com"
+  github: "https://github.com/khusmann/benlink"
+  # paper: "/posts/benlink-post"
+  package: "pypi:benlink"
+  tech: ["Python"]
+  tags: ["hardware", "radio", "bluetooth", "iot"]
+  logo: "logo.svg"
   # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01

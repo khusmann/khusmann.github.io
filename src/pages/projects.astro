@@ -45,11 +45,13 @@ const techList = Array.from(allTech).sort();
     <section class="mb-12">
       <h1 class="text-2xl font-semibold sm:text-3xl">Projects</h1>
       <p class="mt-2 text-base italic opacity-90">
-        A collection of open-source software projects I've created and maintain.
+        A collection of open-source software and side projects I’ve created.
       </p>
 
       <!-- Filter Controls -->
-      <div class="mt-6 flex flex-wrap items-center gap-2 rounded-lg border border-skin-line bg-skin-card-muted p-4">
+      <div
+        class="border-skin-line bg-skin-card-muted mt-6 flex flex-wrap items-center gap-2 rounded-lg border p-4"
+      >
         <span class="text-sm font-semibold opacity-60">Filter:</span>
         {
           techList.map(tech => (
@@ -57,7 +59,7 @@ const techList = Array.from(allTech).sort();
               type="button"
               data-filter-type="tech"
               data-filter-value={tech}
-              class="filter-btn rounded-full border border-skin-line px-3 py-1 text-sm opacity-80 transition-all hover:opacity-100 hover:border-skin-accent"
+              class="filter-btn border-skin-line hover:border-skin-accent rounded-full border px-3 py-1 text-sm opacity-80 transition-all hover:opacity-100"
             >
               {tech}
             </button>
@@ -77,7 +79,10 @@ const techList = Array.from(allTech).sort();
           </h2>
           <div>
             {featuredProjects.map(project => (
-              <ProjectCard project={project} logoImage={getLogoImage(project)} />
+              <ProjectCard
+                project={project}
+                logoImage={getLogoImage(project)}
+              />
             ))}
           </div>
         </section>
@@ -97,7 +102,10 @@ const techList = Array.from(allTech).sort();
             </h2>
             <div>
               {otherProjects.map(project => (
-                <ProjectCard project={project} logoImage={getLogoImage(project)} />
+                <ProjectCard
+                  project={project}
+                  logoImage={getLogoImage(project)}
+                />
               ))}
             </div>
           </section>

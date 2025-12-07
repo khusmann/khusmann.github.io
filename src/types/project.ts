@@ -43,9 +43,9 @@ export function parsePackage(packageStr: string): ParsedPackage | null {
   if (!registry || !name) return null;
 
   const registryUrls: Record<ProjectRegistry, (name: string) => string> = {
-    npm: (name) => `https://www.npmjs.com/package/${name}`,
-    pypi: (name) => `https://pypi.org/project/${name}/`,
-    cran: (name) => `https://cran.r-project.org/package=${name}`,
+    npm: name => `https://www.npmjs.com/package/${name}`,
+    pypi: name => `https://pypi.org/project/${name}/`,
+    cran: name => `https://cran.r-project.org/package=${name}`,
   };
 
   if (!(registry in registryUrls)) return null;
@@ -90,7 +90,7 @@ export function parsePaper(paperStr: string): ParsedPaper | null {
   if (type === "doi") {
     return {
       type: "doi",
-      label: "Paper",
+      label: "Publication",
       url: `https://doi.org/${value}`,
     };
   }
