@@ -126,7 +126,9 @@ const primaryUrl =
               href={paperInfo.url}
               class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
               target={paperInfo.type !== "post" ? "_blank" : undefined}
-              rel={paperInfo.type !== "post" ? "noopener noreferrer" : undefined}
+              rel={
+                paperInfo.type !== "post" ? "noopener noreferrer" : undefined
+              }
             >
               {paperInfo.label}
             </a>
@@ -169,13 +171,13 @@ const primaryUrl =
   }
 
   .tech-badge {
-    border-color: var(--color-border);
+    border-color: var(--color-accent);
   }
 
   /* Soften logo appearance in light mode with drop shadow */
   :root .project-logo[data-shadow="true"],
   html[data-theme="light"] .project-logo[data-shadow="true"] {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15))
-            drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
+      drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
   }
 </style>
