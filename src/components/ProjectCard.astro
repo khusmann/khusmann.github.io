@@ -19,6 +19,30 @@ const paperInfo = project.paper ? parsePaper(project.paper) : null;
 // Determine the primary URL in order: website, blog post, github, package
 const primaryUrl =
   project.url || project.github || paperInfo?.url || packageInfo?.url || null;
+
+// Format dates
+const formatDate = (dateInput: string | Date | undefined) => {
+  if (!dateInput) return null;
+
+  let year: number, month: number, day: number;
+
+  if (dateInput instanceof Date) {
+    // Use UTC methods to avoid timezone issues with YAML-parsed dates
+    year = dateInput.getUTCFullYear();
+    month = dateInput.getUTCMonth();
+    day = dateInput.getUTCDate();
+  } else {
+    // Parse YYYY-MM-DD manually
+    [year, month, day] = dateInput.split("-").map(Number);
+    month = month - 1; // Adjust to 0-indexed
+  }
+
+  const date = new Date(year, month, day);
+  return date.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+};
+
+const createdDate = formatDate(project.created);
+const updatedDate = formatDate(project.lastUpdated);
 ---
 
 <article
@@ -80,6 +104,16 @@ const primaryUrl =
       <p class="text-base leading-relaxed opacity-90">
         {project.description}
       </p>
+
+      {
+        (createdDate || updatedDate) && (
+          <div class="text-sm opacity-60">
+            {createdDate && <span>Created {createdDate}</span>}
+            {createdDate && updatedDate && <span> • </span>}
+            {updatedDate && <span>Updated {updatedDate}</span>}
+          </div>
+        )
+      }
 
       {
         project.tech && project.tech.length > 0 && (
