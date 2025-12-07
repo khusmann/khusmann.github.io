@@ -56,8 +56,8 @@
   github: "https://github.com/khusmann/ble-bike-tracker"
   paper: "post:2025/esp32-stationary-bike"
   # package: ""
-  tech: ["MicroPython", "OpenSCAD"]
-  tags: ["hardware", "iot", "android", "3d-printing"]
+  tech: ["Python", "OpenSCAD", "Hardware"]
+  tags: ["iot", "android", "3d-printing"]
   # logo: "logo.svg"
   # screenshot: "screenshot.png"
   created: 2023-01-01

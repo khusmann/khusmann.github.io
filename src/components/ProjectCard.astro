@@ -17,7 +17,8 @@ const packageInfo = project.package ? parsePackage(project.package) : null;
 const paperInfo = project.paper ? parsePaper(project.paper) : null;
 
 // Determine the primary URL in order: website, blog post, github, package
-const primaryUrl = project.url || paperInfo?.url || project.github || packageInfo?.url || null;
+const primaryUrl =
+  project.url || paperInfo?.url || project.github || packageInfo?.url || null;
 ---
 
 <article
@@ -26,7 +27,7 @@ const primaryUrl = project.url || paperInfo?.url || project.github || packageInf
   data-tags={JSON.stringify(project.tags || [])}
   data-status={project.status}
 >
-  <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row-reverse">
+  <div class="flex flex-col gap-3 sm:flex-row-reverse sm:gap-4">
     {
       logoImage && (
         <div class="logo-container hidden flex-shrink-0 items-center justify-center rounded p-4 sm:flex">
