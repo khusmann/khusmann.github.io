@@ -26,14 +26,19 @@ const getLogoImage = (project: ReturnType<typeof getProjects>[number]) => {
 };
 
 // Sort projects by lastUpdated date (most recent first)
-const sortByLastUpdated = (a: ReturnType<typeof getProjects>[number], b: ReturnType<typeof getProjects>[number]) => {
+const sortByLastUpdated = (
+  a: ReturnType<typeof getProjects>[number],
+  b: ReturnType<typeof getProjects>[number]
+) => {
   const dateA = a.lastUpdated ? new Date(a.lastUpdated).getTime() : 0;
   const dateB = b.lastUpdated ? new Date(b.lastUpdated).getTime() : 0;
   return dateB - dateA;
 };
 
 // Separate featured and non-featured projects, then sort each by last update
-const featuredProjects = projects.filter(p => p.featured).sort(sortByLastUpdated);
+const featuredProjects = projects
+  .filter(p => p.featured)
+  .sort(sortByLastUpdated);
 const otherProjects = projects.filter(p => !p.featured).sort(sortByLastUpdated);
 
 // Collect all unique tech for filtering and count occurrences
@@ -66,7 +71,7 @@ const techList = Array.from(techCounts.entries())
 
       <!-- Filter Controls -->
       <div
-        class="border-skin-line bg-skin-card-muted mt-6 flex flex-wrap items-center justify-center gap-2 rounded-lg border p-4"
+        class="border-skin-line bg-skin-card-muted mt-6 flex flex-wrap items-center justify-center gap-2 rounded-lg p-4"
       >
         <span class="text-sm font-semibold opacity-60">Filter:</span>
         {
