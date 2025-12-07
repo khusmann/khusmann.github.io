@@ -29,14 +29,22 @@ const getLogoImage = (project: ReturnType<typeof getProjects>[number]) => {
 const featuredProjects = projects.filter(p => p.featured);
 const otherProjects = projects.filter(p => !p.featured);
 
-// Collect all unique tech for filtering
-const allTech = new Set<string>();
+// Collect all unique tech for filtering and count occurrences
+const techCounts = new Map<string, number>();
 
 projects.forEach(project => {
-  project.tech?.forEach(t => allTech.add(t));
+  project.tech?.forEach(t => {
+    techCounts.set(t, (techCounts.get(t) || 0) + 1);
+  });
 });
 
-const techList = Array.from(allTech).sort();
+// Sort by count (descending), then alphabetically
+const techList = Array.from(techCounts.entries())
+  .sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1]; // Sort by count descending
+    return a[0].localeCompare(b[0]); // Then alphabetically
+  })
+  .map(([tech]) => tech);
 ---
 
 <Layout title={`Projects | ${SITE.title}`}>
