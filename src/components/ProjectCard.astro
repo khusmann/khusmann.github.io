@@ -1,6 +1,6 @@
 ---
-import type { Project } from "@/types/project";
-import { parsePackage, parsePaper } from "@/types/project";
+import type { Project } from "@/utils/getProjects";
+import { parsePackage, parsePaper } from "@/utils/getProjects";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { Image } from "astro:assets";
@@ -135,11 +135,11 @@ const primaryUrl =
           packageInfo && (
             <a
               href={packageInfo.url}
-              class="inline-flex items-center gap-1.5 uppercase transition-opacity hover:opacity-100"
+              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {packageInfo.registry}
+              {packageInfo.displayName}
             </a>
           )
         }
