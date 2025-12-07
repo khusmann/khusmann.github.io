@@ -16,11 +16,9 @@ export interface Project {
 
   // Optional tech & categorization
   tech?: string[];
-  tags?: string[];
 
   // Optional asset fields (relative to src/assets/projects/{id}/)
   logo?: string; // defaults to "logo.svg"
-  screenshot?: string; // defaults to "screenshot.png"
 
   // Optional metadata
   created?: string; // YYYY-MM-DD

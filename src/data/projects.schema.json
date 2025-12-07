@@ -50,22 +50,10 @@
         },
         "description": "Technology stack used in the project"
       },
-      "tags": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "description": "Tags for categorization"
-      },
       "logo": {
         "type": "string",
         "default": "logo.svg",
         "description": "Logo filename (relative to src/assets/projects/{id}/)"
-      },
-      "screenshot": {
-        "type": "string",
-        "default": "screenshot.png",
-        "description": "Screenshot filename (relative to src/assets/projects/{id}/)"
       },
       "created": {
         "type": "string",

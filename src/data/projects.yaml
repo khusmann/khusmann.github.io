@@ -13,9 +13,7 @@
   # paper: "/posts/bydantic-post"
   package: "pypi:bydantic"
   tech: ["Python"]
-  tags: ["serialization", "bitfields", "parsing"]
   # logo: "logo.svg"
-  # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: true
@@ -29,9 +27,7 @@
   # paper: "/posts/benlink-post"
   package: "pypi:benlink"
   tech: ["Python"]
-  tags: ["hardware", "radio", "bluetooth", "iot"]
   logo: "logo.svg"
-  # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: true
@@ -45,9 +41,7 @@
   # paper: "/posts/interlacer-post"
   # package: "cran:interlacer"
   tech: ["R"]
-  tags: ["data-science", "tidyverse"]
   logo: "logo.png"
-  # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: true
@@ -61,9 +55,7 @@
   paper: "post:2025/esp32-stationary-bike"
   # package: ""
   tech: ["Python", "OpenSCAD", "Hardware"]
-  tags: ["iot", "android", "3d-printing"]
   # logo: "logo.svg"
-  # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: false
@@ -77,9 +69,7 @@
   paper: "doi:10.1016/j.jsp.2022.04.004"
   package: "cran:mxmmod"
   tech: ["R"]
-  tags: ["statistics", "research", "longitudinal-analysis"]
   # logo: "logo.svg"
-  # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: false
@@ -93,9 +83,7 @@
   # paper: "/posts/butterfly-guide"
   # package: ""
   tech: ["TypeScript/JavaScript", "React Native"]
-  tags: ["mobile", "education", "biodiversity"]
   logo: "logo.png"
-  # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: false
@@ -109,9 +97,7 @@
   # paper: "/posts/sidd-post"
   # package: ""
   tech: ["TypeScript/JavaScript"]
-  tags: ["data-science", "metadata", "documentation"]
   # logo: "logo.svg"
-  # screenshot: "screenshot.png"
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: false
