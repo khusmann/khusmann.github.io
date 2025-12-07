@@ -120,13 +120,12 @@ const updatedDate = formatDate(project.lastUpdated);
           </div>
         )
       }
-
       <div class="flex flex-wrap gap-4 text-base opacity-75">
         {
           project.url && (
             <a
               href={project.url}
-              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -139,7 +138,7 @@ const updatedDate = formatDate(project.lastUpdated);
           project.github && (
             <a
               href={project.github}
-              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -152,7 +151,7 @@ const updatedDate = formatDate(project.lastUpdated);
           paperInfo && (
             <a
               href={paperInfo.url}
-              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
               target={paperInfo.type !== "post" ? "_blank" : undefined}
               rel={
                 paperInfo.type !== "post" ? "noopener noreferrer" : undefined
@@ -166,7 +165,7 @@ const updatedDate = formatDate(project.lastUpdated);
           packageInfo && (
             <a
               href={packageInfo.url}
-              class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
               target="_blank"
               rel="noopener noreferrer"
             >
