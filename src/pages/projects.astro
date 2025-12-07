@@ -1,0 +1,246 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Hr from "@/components/Hr.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { SITE } from "@/config";
+import { getProjects } from "@/utils/getProjects";
+import type { ImageMetadata } from "astro";
+
+const projects = getProjects();
+
+// Load all project logos once
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/projects/*.{png,jpg,jpeg,svg}",
+  { eager: true }
+);
+
+// Helper to get logo image for a project
+const getLogoImage = (project: ReturnType<typeof getProjects>[number]) => {
+  const logoPath = Object.keys(images).find(path =>
+    path.startsWith(`/src/assets/projects/${project.id}.`)
+  );
+  return logoPath ? images[logoPath].default : null;
+};
+
+// Sort projects by lastUpdated date (most recent first)
+const sortByLastUpdated = (
+  a: ReturnType<typeof getProjects>[number],
+  b: ReturnType<typeof getProjects>[number]
+) => {
+  const dateA = a.lastUpdated ? new Date(a.lastUpdated).getTime() : 0;
+  const dateB = b.lastUpdated ? new Date(b.lastUpdated).getTime() : 0;
+  return dateB - dateA;
+};
+
+// Separate featured and non-featured projects, then sort each by last update
+const featuredProjects = projects
+  .filter(p => p.featured)
+  .sort(sortByLastUpdated);
+const otherProjects = projects.filter(p => !p.featured).sort(sortByLastUpdated);
+
+// Collect all unique tech for filtering and count occurrences
+const techCounts = new Map<string, number>();
+
+projects.forEach(project => {
+  project.tech?.forEach(t => {
+    techCounts.set(t, (techCounts.get(t) || 0) + 1);
+  });
+});
+
+// Sort by count (descending), then alphabetically
+const techList = Array.from(techCounts.entries())
+  .sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1]; // Sort by count descending
+    return a[0].localeCompare(b[0]); // Then alphabetically
+  })
+  .map(([tech]) => tech);
+---
+
+<Layout title={`Projects | ${SITE.title}`}>
+  <Header activeNav="projects" />
+  <Breadcrumb />
+  <main id="main-content" class="mx-auto w-full max-w-3xl pb-12">
+    <section class="mb-12">
+      <h1 class="text-2xl font-semibold sm:text-3xl">Projects</h1>
+      <p class="mt-2 text-base italic opacity-90">
+        A collection of open-source software and side projects I've created.
+      </p>
+
+      <!-- Filter Controls -->
+      <div
+        class="border-skin-line bg-skin-card-muted mt-6 flex flex-wrap items-center justify-center gap-2 rounded-lg p-4"
+      >
+        <span class="text-sm font-semibold opacity-60">Filter:</span>
+        {
+          techList.map(tech => (
+            <button
+              type="button"
+              data-filter-type="tech"
+              data-filter-value={tech}
+              class="filter-btn hover:border-skin-accent rounded-full border px-3 py-1 text-sm opacity-80 transition-all hover:opacity-100"
+            >
+              {tech}
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    {
+      featuredProjects.length > 0 && (
+        <section id="featured-section" class="mb-16">
+          <h2
+            id="featured-heading"
+            class="mb-8 text-xl font-semibold opacity-50"
+          >
+            Featured
+          </h2>
+          <div>
+            {featuredProjects.map(project => (
+              <ProjectCard
+                project={project}
+                logoImage={getLogoImage(project)}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      otherProjects.length > 0 && (
+        <>
+          {featuredProjects.length > 0 && <Hr id="section-divider" />}
+          <section id="other-section" class="mt-16 mb-16">
+            <h2
+              id="other-heading"
+              class="mb-8 text-xl font-semibold opacity-50"
+            >
+              Other Projects
+            </h2>
+            <div>
+              {otherProjects.map(project => (
+                <ProjectCard
+                  project={project}
+                  logoImage={getLogoImage(project)}
+                />
+              ))}
+            </div>
+          </section>
+        </>
+      )
+    }
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  function initFilters() {
+    const activeTechFilters = new Set<string>();
+
+    const filterButtons =
+      document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+    const clearButton =
+      document.querySelector<HTMLButtonElement>("#clear-filters");
+    const projectCards =
+      document.querySelectorAll<HTMLElement>(".project-card");
+    const sectionHeadings = document.querySelectorAll<HTMLElement>(
+      "#featured-heading, #other-heading"
+    );
+    const sectionDivider = document.querySelector<HTMLElement>("#section-divider");
+    const sections = document.querySelectorAll<HTMLElement>(
+      "#featured-section, #other-section"
+    );
+
+    function updateCardVisibility() {
+      const hasActiveFilters = activeTechFilters.size > 0;
+
+      // Toggle visibility of section headings and dividers
+      sectionHeadings.forEach(heading => {
+        heading.style.display = hasActiveFilters ? "none" : "";
+      });
+
+      if (sectionDivider) {
+        sectionDivider.style.display = hasActiveFilters ? "none" : "";
+      }
+
+      // Remove section margins when filtering
+      sections.forEach(section => {
+        section.style.margin = hasActiveFilters ? "0" : "";
+      });
+
+      projectCards.forEach(card => {
+        const cardTech = JSON.parse(card.dataset.tech || "[]") as string[];
+
+        // If no filters are active, show all
+        if (!hasActiveFilters) {
+          card.style.display = "";
+          return;
+        }
+
+        // Show card if it matches the active tech filter
+        const matchesTech = cardTech.some(t => activeTechFilters.has(t));
+        card.style.display = matchesTech ? "" : "none";
+      });
+    }
+
+    function toggleFilter(value: string, button: HTMLButtonElement) {
+      // If clicking the same filter, deselect it
+      if (activeTechFilters.has(value)) {
+        activeTechFilters.delete(value);
+        button.classList.remove("active-filter");
+      } else {
+        // Clear all filters and deactivate all buttons
+        activeTechFilters.clear();
+        filterButtons.forEach(btn => btn.classList.remove("active-filter"));
+
+        // Activate only the clicked filter
+        activeTechFilters.add(value);
+        button.classList.add("active-filter");
+      }
+
+      updateCardVisibility();
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const value = button.dataset.filterValue;
+        if (value) {
+          toggleFilter(value, button);
+        }
+      });
+    });
+
+    clearButton?.addEventListener("click", () => {
+      activeTechFilters.clear();
+
+      filterButtons.forEach(button => {
+        button.classList.remove("active-filter");
+      });
+
+      updateCardVisibility();
+    });
+  }
+
+  initFilters();
+
+  // Re-initialize on Astro view transitions
+  document.addEventListener("astro:page-load", initFilters);
+</script>
+
+<style>
+  .filter-btn {
+    border-color: var(--color-accent);
+  }
+
+  .active-filter {
+    opacity: 1;
+    font-weight: 600;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    border-color: var(--color-accent);
+  }
+</style>

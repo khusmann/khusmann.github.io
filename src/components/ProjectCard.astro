@@ -1,0 +1,210 @@
+---
+import type { Project } from "@/utils/getProjects";
+import { parsePackage, parsePaper } from "@/utils/getProjects";
+import IconGitHub from "@/assets/icons/IconGitHub.svg";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+export interface Props {
+  project: Project;
+  logoImage?: ImageMetadata | null;
+}
+
+const { project, logoImage } = Astro.props;
+
+const packageInfo = project.package ? parsePackage(project.package) : null;
+const paperInfo = project.paper ? parsePaper(project.paper) : null;
+
+// Determine the primary URL in order: website, blog post, github, package
+const primaryUrl =
+  project.url || project.github || paperInfo?.url || packageInfo?.url || null;
+
+// Format dates
+const formatDate = (dateInput: string | Date | undefined) => {
+  if (!dateInput) return null;
+
+  let year: number, month: number, day: number;
+
+  if (dateInput instanceof Date) {
+    // Use UTC methods to avoid timezone issues with YAML-parsed dates
+    year = dateInput.getUTCFullYear();
+    month = dateInput.getUTCMonth();
+    day = dateInput.getUTCDate();
+  } else {
+    // Parse YYYY-MM-DD manually
+    [year, month, day] = dateInput.split("-").map(Number);
+    month = month - 1; // Adjust to 0-indexed
+  }
+
+  const date = new Date(year, month, day);
+  return date.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+};
+
+const createdDate = formatDate(project.created);
+const updatedDate = formatDate(project.lastUpdated);
+---
+
+<article
+  class="project-card group relative mb-4 rounded-lg bg-white/[0.02] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_1px_2px_0_rgba(0,0,0,0.3)]"
+  data-tech={JSON.stringify(project.tech || [])}
+>
+  <div class="flex flex-col gap-3 sm:flex-row-reverse sm:gap-4">
+    {
+      logoImage && (
+        <div class="logo-container hidden flex-shrink-0 items-center justify-center rounded p-4 sm:flex">
+          <Image
+            src={logoImage}
+            alt={`${project.name} logo`}
+            class="project-logo"
+            data-shadow={project.logoShadow !== false}
+          />
+        </div>
+      )
+    }
+    <div class="flex flex-col gap-3 sm:flex-1">
+      <div class="flex items-baseline gap-3">
+        <h3 class="text-xl font-semibold">
+          {
+            primaryUrl ? (
+              <a
+                href={primaryUrl}
+                class="transition-colors hover:text-accent"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {project.name}
+              </a>
+            ) : (
+              project.name
+            )
+          }
+        </h3>
+      </div>
+
+      {
+        logoImage && (
+          <div class="logo-container-mobile flex flex-shrink-0 items-center justify-center rounded p-4 sm:hidden">
+            <Image
+              src={logoImage}
+              alt={`${project.name} logo`}
+              class="project-logo"
+              data-shadow={project.logoShadow !== false}
+            />
+          </div>
+        )
+      }
+
+      <p class="text-base leading-relaxed opacity-90">
+        {project.description}
+      </p>
+
+      {
+        (createdDate || updatedDate) && (
+          <div class="text-sm opacity-60">
+            {createdDate && <span>Created {createdDate}</span>}
+            {createdDate && updatedDate && <span> • </span>}
+            {updatedDate && <span>Updated {updatedDate}</span>}
+          </div>
+        )
+      }
+
+      {
+        project.tech && project.tech.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {project.tech.map(tech => (
+              <span class="tech-badge bg-skin-card-muted rounded-full border px-3 py-1 font-mono text-sm opacity-75">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )
+      }
+      <div class="flex flex-wrap gap-4 text-base opacity-75">
+        {
+          project.url && (
+            <a
+              href={project.url}
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconArrowRight width={14} height={14} />
+              <span>Website</span>
+            </a>
+          )
+        }
+        {
+          project.github && (
+            <a
+              href={project.github}
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconGitHub width={14} height={14} />
+              <span>GitHub</span>
+            </a>
+          )
+        }
+        {
+          paperInfo && (
+            <a
+              href={paperInfo.url}
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+              target={paperInfo.type !== "post" ? "_blank" : undefined}
+              rel={
+                paperInfo.type !== "post" ? "noopener noreferrer" : undefined
+              }
+            >
+              {paperInfo.label}
+            </a>
+          )
+        }
+        {
+          packageInfo && (
+            <a
+              href={packageInfo.url}
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {packageInfo.displayName}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .logo-container-mobile {
+    height: 160px;
+    width: 100%;
+  }
+
+  .logo-container {
+    width: 180px;
+    align-self: stretch;
+  }
+
+  .project-logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .tech-badge {
+    border-color: var(--color-accent);
+  }
+
+  /* Soften logo appearance in light mode with drop shadow */
+  :root .project-logo[data-shadow="true"],
+  html[data-theme="light"] .project-logo[data-shadow="true"] {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15))
+      drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
+  }
+</style>
