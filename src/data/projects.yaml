@@ -31,7 +31,7 @@
 
 - id: "interlacer"
   name: "interlacer"
-  description: "An R package for working with tabular data that contains interlaced missing values and their reasons"
+  description: "An R package for working with tabular data that contains interlaced values and missing reasons"
   url: "https://interlacer.kylehusmann.com"
   github: "https://github.com/khusmann/interlacer"
   # paper: "/posts/interlacer-post"
