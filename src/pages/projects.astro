@@ -49,15 +49,15 @@ const techList = Array.from(allTech).sort();
       </p>
 
       <!-- Filter Controls -->
-      <div class="mt-6 flex flex-wrap items-center gap-2">
-        <span class="text-sm opacity-80">Filter:</span>
+      <div class="mt-6 flex flex-wrap items-center gap-2 rounded-lg border border-white/30 bg-white/[0.05] p-4">
+        <span class="text-sm font-semibold opacity-60">Filter:</span>
         {
           techList.map(tech => (
             <button
               type="button"
               data-filter-type="tech"
               data-filter-value={tech}
-              class="filter-btn rounded-full px-3 py-1 text-sm opacity-75 transition-all hover:opacity-100"
+              class="filter-btn rounded-full border border-white/30 px-3 py-1 text-sm opacity-80 transition-all hover:opacity-100 hover:border-white/50"
             >
               {tech}
             </button>
@@ -240,10 +240,14 @@ const techList = Array.from(allTech).sort();
   .active-filter {
     opacity: 1 !important;
     font-weight: 600;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.9) !important;
   }
 
   :global(.dark) .active-filter {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.9) !important;
   }
 </style>
