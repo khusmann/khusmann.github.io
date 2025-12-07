@@ -125,8 +125,8 @@ const primaryUrl =
             <a
               href={paperInfo.url}
               class="inline-flex items-center gap-1.5 transition-opacity hover:opacity-100"
-              target={paperInfo.type === "doi" ? "_blank" : undefined}
-              rel={paperInfo.type === "doi" ? "noopener noreferrer" : undefined}
+              target={paperInfo.type !== "post" ? "_blank" : undefined}
+              rel={paperInfo.type !== "post" ? "noopener noreferrer" : undefined}
             >
               {paperInfo.label}
             </a>

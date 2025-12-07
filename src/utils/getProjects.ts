@@ -66,7 +66,7 @@ export function parsePackage(packageStr: string): ParsedPackage | null {
   };
 }
 
-export type PaperType = "post" | "doi";
+export type PaperType = "post" | "doi" | "pub";
 
 export interface ParsedPaper {
   type: PaperType;
@@ -75,7 +75,7 @@ export interface ParsedPaper {
 }
 
 /**
- * Parse paper string (e.g., "post:2025/post" or "doi:10.1016/j.jsp.2022.04.004") into type, label, and URL
+ * Parse paper string (e.g., "post:2025/post", "doi:10.1016/j.jsp.2022.04.004", or "pub:https://example.com") into type, label, and URL
  */
 export function parsePaper(paperStr: string): ParsedPaper | null {
   if (!paperStr) return null;
@@ -101,6 +101,14 @@ export function parsePaper(paperStr: string): ParsedPaper | null {
       type: "doi",
       label: "Publication",
       url: `https://doi.org/${value}`,
+    };
+  }
+
+  if (type === "pub") {
+    return {
+      type: "pub",
+      label: "Publication",
+      url: value,
     };
   }
 

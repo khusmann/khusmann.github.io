@@ -76,7 +76,7 @@
   status: "archived"
   # url: ""
   github: "https://github.com/khusmann/pa-butterfly-field-guide"
-  # paper: "/posts/butterfly-guide"
+  paper: "pub:https://etda.libraries.psu.edu/catalog/17455mrt226"
   # package: ""
   tech: ["TypeScript/JavaScript", "React Native"]
   created: 2023-01-01
