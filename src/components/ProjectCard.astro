@@ -34,6 +34,7 @@ const primaryUrl =
             src={logoImage}
             alt={`${project.name} logo`}
             class="project-logo"
+            data-shadow={project.logoShadow !== false}
           />
         </div>
       )
@@ -70,6 +71,7 @@ const primaryUrl =
               src={logoImage}
               alt={`${project.name} logo`}
               class="project-logo"
+              data-shadow={project.logoShadow !== false}
             />
           </div>
         )
@@ -171,8 +173,8 @@ const primaryUrl =
   }
 
   /* Soften logo appearance in light mode with drop shadow */
-  :root .project-logo,
-  html[data-theme="light"] .project-logo {
+  :root .project-logo[data-shadow="true"],
+  html[data-theme="light"] .project-logo[data-shadow="true"] {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15))
             drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
   }

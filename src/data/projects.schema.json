@@ -69,6 +69,11 @@
         "type": "boolean",
         "default": false,
         "description": "Whether to highlight this project"
+      },
+      "logoShadow": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to apply drop shadow to logo in light mode (disable for logos with non-transparent backgrounds)"
       }
     },
     "additionalProperties": false

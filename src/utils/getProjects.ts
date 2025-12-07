@@ -19,6 +19,7 @@ export interface Project {
 
   // Optional asset fields (relative to src/assets/projects/{id}/)
   logo?: string; // defaults to "logo.svg"
+  logoShadow?: boolean; // defaults to true - whether to apply drop shadow in light mode
 
   // Optional metadata
   created?: string; // YYYY-MM-DD

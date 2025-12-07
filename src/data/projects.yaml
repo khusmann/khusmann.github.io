@@ -28,6 +28,7 @@
   package: "pypi:benlink"
   tech: ["Python"]
   logo: "logo.svg"
+  logoShadow: false
   created: 2023-01-01
   lastUpdated: 2024-12-01
   featured: true
