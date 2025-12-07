@@ -138,16 +138,8 @@ const techList = Array.from(techCounts.entries())
 </Layout>
 
 <script>
-  interface FilterState {
-    tech: Set<string>;
-    tags: Set<string>;
-  }
-
   function initFilters() {
-    const filterState: FilterState = {
-      tech: new Set(),
-      tags: new Set(),
-    };
+    const activeTechFilters = new Set<string>();
 
     const filterButtons =
       document.querySelectorAll<HTMLButtonElement>(".filter-btn");
@@ -164,9 +156,7 @@ const techList = Array.from(techCounts.entries())
     );
 
     function updateCardVisibility() {
-      const hasActiveFilters =
-        filterState.tech.size > 0 ||
-        filterState.tags.size > 0;
+      const hasActiveFilters = activeTechFilters.size > 0;
 
       // Toggle visibility of section headings and dividers
       sectionHeadings.forEach(heading => {
@@ -184,7 +174,6 @@ const techList = Array.from(techCounts.entries())
 
       projectCards.forEach(card => {
         const cardTech = JSON.parse(card.dataset.tech || "[]") as string[];
-        const cardTags = JSON.parse(card.dataset.tags || "[]") as string[];
 
         // If no filters are active, show all
         if (!hasActiveFilters) {
@@ -192,42 +181,24 @@ const techList = Array.from(techCounts.entries())
           return;
         }
 
-        // Check if card matches active filters
-        const matchesTech =
-          filterState.tech.size === 0 ||
-          cardTech.some(t => filterState.tech.has(t));
-        const matchesTags =
-          filterState.tags.size === 0 ||
-          cardTags.some(t => filterState.tags.has(t));
-
-        // Show card only if it matches all active filter types
-        if (matchesTech && matchesTags) {
-          card.style.display = "";
-        } else {
-          card.style.display = "none";
-        }
+        // Show card if it matches the active tech filter
+        const matchesTech = cardTech.some(t => activeTechFilters.has(t));
+        card.style.display = matchesTech ? "" : "none";
       });
     }
 
-    function toggleFilter(
-      type: keyof FilterState,
-      value: string,
-      button: HTMLButtonElement
-    ) {
-      const filterSet = filterState[type];
-
+    function toggleFilter(value: string, button: HTMLButtonElement) {
       // If clicking the same filter, deselect it
-      if (filterSet.has(value)) {
-        filterSet.delete(value);
+      if (activeTechFilters.has(value)) {
+        activeTechFilters.delete(value);
         button.classList.remove("active-filter");
       } else {
         // Clear all filters and deactivate all buttons
-        filterState.tech.clear();
-        filterState.tags.clear();
+        activeTechFilters.clear();
         filterButtons.forEach(btn => btn.classList.remove("active-filter"));
 
         // Activate only the clicked filter
-        filterSet.add(value);
+        activeTechFilters.add(value);
         button.classList.add("active-filter");
       }
 
@@ -236,17 +207,15 @@ const techList = Array.from(techCounts.entries())
 
     filterButtons.forEach(button => {
       button.addEventListener("click", () => {
-        const type = button.dataset.filterType as keyof FilterState;
         const value = button.dataset.filterValue;
-        if (type && value) {
-          toggleFilter(type, value, button);
+        if (value) {
+          toggleFilter(value, button);
         }
       });
     });
 
     clearButton?.addEventListener("click", () => {
-      filterState.tech.clear();
-      filterState.tags.clear();
+      activeTechFilters.clear();
 
       filterButtons.forEach(button => {
         button.classList.remove("active-filter");
