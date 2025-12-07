@@ -6,7 +6,6 @@ export interface Project {
   id: string;
   name: string;
   description: string;
-  status: "active" | "archived" | "maintenance";
 
   // Optional link fields
   url?: string;

@@ -141,14 +141,12 @@ const techList = Array.from(techCounts.entries())
   interface FilterState {
     tech: Set<string>;
     tags: Set<string>;
-    status: Set<string>;
   }
 
   function initFilters() {
     const filterState: FilterState = {
       tech: new Set(),
       tags: new Set(),
-      status: new Set(),
     };
 
     const filterButtons =
@@ -168,8 +166,7 @@ const techList = Array.from(techCounts.entries())
     function updateCardVisibility() {
       const hasActiveFilters =
         filterState.tech.size > 0 ||
-        filterState.tags.size > 0 ||
-        filterState.status.size > 0;
+        filterState.tags.size > 0;
 
       // Toggle visibility of section headings and dividers
       sectionHeadings.forEach(heading => {
@@ -188,7 +185,6 @@ const techList = Array.from(techCounts.entries())
       projectCards.forEach(card => {
         const cardTech = JSON.parse(card.dataset.tech || "[]") as string[];
         const cardTags = JSON.parse(card.dataset.tags || "[]") as string[];
-        const cardStatus = card.dataset.status || "";
 
         // If no filters are active, show all
         if (!hasActiveFilters) {
@@ -203,11 +199,9 @@ const techList = Array.from(techCounts.entries())
         const matchesTags =
           filterState.tags.size === 0 ||
           cardTags.some(t => filterState.tags.has(t));
-        const matchesStatus =
-          filterState.status.size === 0 || filterState.status.has(cardStatus);
 
         // Show card only if it matches all active filter types
-        if (matchesTech && matchesTags && matchesStatus) {
+        if (matchesTech && matchesTags) {
           card.style.display = "";
         } else {
           card.style.display = "none";
@@ -230,7 +224,6 @@ const techList = Array.from(techCounts.entries())
         // Clear all filters and deactivate all buttons
         filterState.tech.clear();
         filterState.tags.clear();
-        filterState.status.clear();
         filterButtons.forEach(btn => btn.classList.remove("active-filter"));
 
         // Activate only the clicked filter
@@ -254,7 +247,6 @@ const techList = Array.from(techCounts.entries())
     clearButton?.addEventListener("click", () => {
       filterState.tech.clear();
       filterState.tags.clear();
-      filterState.status.clear();
 
       filterButtons.forEach(button => {
         button.classList.remove("active-filter");

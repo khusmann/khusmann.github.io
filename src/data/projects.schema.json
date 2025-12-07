@@ -3,7 +3,7 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["id", "name", "description", "status"],
+    "required": ["id", "name", "description"],
     "properties": {
       "id": {
         "type": "string",
@@ -17,11 +17,6 @@
       "description": {
         "type": "string",
         "description": "Short description of the project"
-      },
-      "status": {
-        "type": "string",
-        "enum": ["active", "archived", "maintenance"],
-        "description": "Current status of the project"
       },
       "url": {
         "type": "string",
