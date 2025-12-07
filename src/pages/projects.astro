@@ -59,7 +59,7 @@ const techList = Array.from(allTech).sort();
               type="button"
               data-filter-type="tech"
               data-filter-value={tech}
-              class="filter-btn border-skin-line hover:border-skin-accent rounded-full border px-3 py-1 text-sm opacity-80 transition-all hover:opacity-100"
+              class="filter-btn hover:border-skin-accent rounded-full border px-3 py-1 text-sm opacity-80 transition-all hover:opacity-100"
             >
               {tech}
             </button>
@@ -245,11 +245,15 @@ const techList = Array.from(allTech).sort();
 </script>
 
 <style>
+  .filter-btn {
+    border-color: var(--color-border);
+  }
+
   .active-filter {
-    opacity: 1 !important;
+    opacity: 1;
     font-weight: 600;
     background-color: var(--color-accent);
     color: var(--color-background);
-    border-color: var(--color-accent) !important;
+    border-color: var(--color-accent);
   }
 </style>

@@ -84,7 +84,9 @@ const primaryUrl =
         project.tech && project.tech.length > 0 && (
           <div class="flex flex-wrap gap-2">
             {project.tech.map(tech => (
-              <span class="font-mono text-sm opacity-75">{tech}</span>
+              <span class="tech-badge bg-skin-card-muted rounded-full border px-3 py-1 font-mono text-sm opacity-75">
+                {tech}
+              </span>
             ))}
           </div>
         )
@@ -163,5 +165,9 @@ const primaryUrl =
     width: auto;
     height: auto;
     object-fit: contain;
+  }
+
+  .tech-badge {
+    border-color: var(--color-border);
   }
 </style>
