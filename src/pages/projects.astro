@@ -13,15 +13,16 @@ const projects = getProjects();
 
 // Load all project logos once
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/projects/**/*.{png,jpg,jpeg,svg}",
+  "/src/assets/projects/*.{png,jpg,jpeg,svg}",
   { eager: true }
 );
 
 // Helper to get logo image for a project
 const getLogoImage = (project: ReturnType<typeof getProjects>[number]) => {
-  if (!project.logo) return null;
-  const logoPath = `/src/assets/projects/${project.id}/${project.logo}`;
-  return images[logoPath]?.default || null;
+  const logoPath = Object.keys(images).find(path =>
+    path.startsWith(`/src/assets/projects/${project.id}.`)
+  );
+  return logoPath ? images[logoPath].default : null;
 };
 
 // Separate featured and non-featured projects
