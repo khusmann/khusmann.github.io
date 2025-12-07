@@ -52,7 +52,7 @@
   github: "https://github.com/khusmann/ble-bike-tracker"
   paper: "post:2025/esp32-stationary-bike"
   # package: ""
-  tech: ["Python", "Hardware"]
+  tech: ["Python", "Hardware", "Mobile App"]
   created: 2025-07-06
   lastUpdated: 2025-11-09
   featured: false
@@ -78,7 +78,7 @@
   github: "https://github.com/khusmann/pa-butterfly-field-guide"
   paper: "pub:https://etda.libraries.psu.edu/catalog/17455mrt226"
   # package: ""
-  tech: ["TypeScript/JavaScript", "React Native"]
+  tech: ["TypeScript/JavaScript", "Mobile App"]
   created: 2024-08-08
   lastUpdated: 2024-08-08
   featured: false
