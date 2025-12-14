@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=./projects.schema.json
+
+# TODO:
+# - Add decoding driller
+# - Add beep boop tutor
+
+- id: "bydantic"
+  name: "Bydantic"
+  description: "A Python library for serializing and deserializing bitfields with Pydantic-style type hints"
+  url: "https://bydantic.kylehusmann.com"
+  github: "https://github.com/khusmann/bydantic"
+  # paper: "/posts/bydantic-post"
+  package: "pypi:bydantic"
+  tech: ["Python"]
+  created: 2025-03-03
+  lastUpdated: 2025-05-24
+  featured: true
+
+- id: "benlink"
+  name: "Benlink"
+  description: "A cross-platform Python library for controlling Benshi radios over BLE & Bluetooth Classic"
+  url: "https://benlink.kylehusmann.com"
+  github: "https://github.com/khusmann/benlink"
+  # paper: "/posts/benlink-post"
+  package: "pypi:benlink"
+  tech: ["Python"]
+  logoShadow: false
+  created: 2024-12-15
+  lastUpdated: 2025-08-14
+  featured: true
+
+- id: "interlacer"
+  name: "interlacer"
+  description: "An R package for working with tabular data that contains interlaced values and missing reasons"
+  url: "https://interlacer.kylehusmann.com"
+  github: "https://github.com/khusmann/interlacer"
+  # paper: "/posts/interlacer-post"
+  # package: "cran:interlacer"
+  tech: ["R"]
+  created: 2024-02-27
+  lastUpdated: 2025-05-18
+  featured: true
+
+- id: "ble-bike-tracker"
+  name: "BLE Bike Tracker"
+  description: "A DIY BLE bicycle tracker with 3D-printable enclosure, firmware, and Android companion app"
+  # url: ""
+  github: "https://github.com/khusmann/ble-bike-tracker"
+  paper: "post:2025/esp32-stationary-bike"
+  # package: ""
+  tech: ["Python", "Hardware", "Mobile App"]
+  created: 2025-07-06
+  lastUpdated: 2025-11-09
+  featured: false
+
+- id: "mxmmod"
+  name: "mxmmod"
+  description: "An R package providing a convenient interface for building Measurement Model of Derivatives (MMOD) in OpenMx"
+  # url: ""
+  github: "https://github.com/khusmann/mxmmod"
+  paper: "doi:10.1016/j.jsp.2022.04.004"
+  package: "cran:mxmmod"
+  tech: ["R"]
+  created: 2019-10-17
+  lastUpdated: 2024-01-19
+  featured: false
+
+- id: "pa-butterfly-field-guide"
+  name: "PA Butterfly Field Guide"
+  description: "A React Native mobile app for identifying 109 butterfly species in Pennsylvania, created for biodiversity education research"
+  # url: ""
+  github: "https://github.com/khusmann/pa-butterfly-field-guide"
+  paper: "pub:https://etda.libraries.psu.edu/catalog/17455mrt226"
+  # package: ""
+  tech: ["TypeScript/JavaScript", "Mobile App"]
+  created: 2024-08-08
+  lastUpdated: 2024-08-08
+  featured: false
+
+- id: "sidd"
+  name: "sidd"
+  description: "Transforms frictionless data packages into interactive, self-contained HTML data dictionaries with visualizations"
+  # url: ""
+  github: "https://github.com/khusmann/sidd"
+  # paper: "/posts/sidd-post"
+  # package: ""
+  tech: ["TypeScript/JavaScript"]
+  created: 2023-09-15
+  lastUpdated: 2025-02-23
+  featured: false
