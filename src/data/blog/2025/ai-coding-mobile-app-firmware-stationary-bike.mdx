@@ -31,15 +31,13 @@ My stationary bike project was perfect for my first foray into agentic programmi
 
 Immediately after installing Claude Code, I gave Github's [spec-kit](https://github.com/github/spec-kit) a spin. Spec-kit is an open-source toolkit that guides you through the spec-driven development workflow: creating specifications, generating implementation plans, breaking them into tasks, and then executing those tasks with an AI coding agent.
 
-It quickly felt like overkill for my little project. It also was hard to tell which aspects of Claude's behavior was a result of the spec-kit agent files vs were a part of Claude's vanilla behavior. I decided to set the spec-kit aside for now, and get more familiarity with the base-Claude behavior before I tried other frameworks.
+It quickly felt like overkill for my little project. It also was hard to tell which aspects of Claude's behavior were a result of the spec-kit agent files vs were a part of Claude's vanilla behavior. I decided to set the spec-kit aside for now, and get more familiarity with the base-Claude behavior before I tried other frameworks.
 
-Over the course of the project, I converged into my own version of a spec-driven workflow, consisting of a root `CLAUDE.md` and a `dev/` folder with a `stages.md` and a `tasks.md`. Each of these files I'd interactively create with Claude's help, often asking Claude to give me options for key decisions in the file that I could then easily select and iterate on in my code editor.
+After some experimentation, I converged into my own version of a spec-driven workflow, consisting of a root `CLAUDE.md` and a `dev/` folder with a `stages.md` and a `tasks.md`. Each of these files I'd interactively create with Claude's help, often asking Claude to give me options for key decisions in the file that I could then easily select and iterate on in my code editor.
 
-The root `CLAUDE.md` described my project and captured my goals and design guidelines for implementation. These requirements ranged from programming philosophy (e.g. "Simplicity first: suggest requirement changes when they enable simpler
-implementations") to practical implementation parameters (e.g. "Keep Android App build / setup as simple as possible, and easy to build
-without Android studio")
+The root `CLAUDE.md` (which is read by default by Claude in every session) described my project and captured my goals and design guidelines for implementation. These guidelines ranged from programming philosophy (e.g. "Simplicity first: suggest requirement changes when they enable simpler implementations") to practical implementation parameters (e.g. "Keep Android App build / setup as simple as possible, and easy to build without Android studio").
 
-At the end of my `CLAUDE.md` I pointed it to the `/dev` folder, informing it that a `stages.md` file existed for tracking high-level project goals and implementation stages and a `tasks.md` existed for tracking current actionable tasks for the active stage.
+At the end of my `CLAUDE.md` I included a note pointing Claude to the `/dev` folder, informing it that a `stages.md` file existed for tracking high-level project goals and implementation stages and a `tasks.md` existed for tracking current actionable tasks for the active stage.
 
 ## Building The Firmware + App
 
