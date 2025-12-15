@@ -70,11 +70,17 @@ The actual development experience varied significantly between the firmware and 
 
 ### Firmware
 
-As I mentioned earlier,
+As I mentioned earlier, I knew before I started the project that I was going to want to have close involvement with the development of the firmware. I quickly found that it was difficult to express _how_ I wanted problems to be solved in natural language. Because I was so familiar with Python, it was often easier to simply write something myself than explain to Claude what I wanted to see. At this stage I used Claude much like I used GitHub co-pilot: for generating biolerplate and filling in easy-to-implement items (the kind of things you'd grab from stack overflow)
 
-I found it difficult to reason with Claude about complex state and timing issues. A good example of this was the logic around periodic session saving. I wanted my system to periodically save sessions to memeory, so that if power was lost, the current session would not be lost. But I also only wanted to record sessions that were of a minimum length, and to not count the idle time at the end of the session as part of the session. The interaction of all these requirements created some nontrivial edge cases that took considerable care to get right.
+As the codebase took shape, I found I could rely more and more on Claude to extend my existing design with new features and perform sophisticated refactors. It was also an excellent [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging) to brainstorm with (that had its own good ideas!)
 
-Claude would happily brainstorm what those edge cases might be, generate code to account for them, and review the code for correctness. But it often got things subtlely wrong in ways that were not completely obvious. It also gravitated towards handling special cases by adding more branches rather than finding more general approaches that reduced overall complexity. It quickly became clear this was not just a limitation on Claude's part: my _own_ ability to reason about correctness of these delicate situations required that I spend time implementing and iterating on the problem myself.
+That said, I found it difficult to reason with Claude about complex state and timing issues. A good example of this was the logic around periodic session saving. I wanted my system to periodically save sessions to memeory, so that if power was lost, the current session would not be lost. But I also only wanted to record sessions that were of a minimum length, and to not count the idle time at the end of the session as part of the session. The interaction of all these requirements created some nontrivial edge cases that took considerable care to get right.
+
+Claude would happily brainstorm what those edge cases might be, generate code to account for them, and review the code for correctness. But it often got things subtlely wrong in ways that were not completely obvious. It also gravitated towards handling special cases by adding more branches rather than finding more general approaches that reduced overall complexity.
+
+It quickly became clear this was not just a limitation on Claude's part: my _own_ ability to reason about correctness of these delicate situations required that I spend time implementing and iterating on the problem myself. At the end of the day, it was clear I could not reliably delegate this kind of work to Claude, and needed to take full ownership of these areas of the firmware.
+
+I think the biggest wins I experienced while developing the firmware was Claude's ability to generate starightforward content that was otherwise tedious and time-consuming: documentation, type stubs for untyped libraries, and test harnesses that allowed me to connect to the firmware with my computer instead of the mobile app.
 
 ### Mobile App
 
