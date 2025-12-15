@@ -43,20 +43,18 @@ The root `CLAUDE.md` (which is read by default by Claude in every prompting cont
 
 At the end of my `CLAUDE.md` I included a note pointing Claude to the `/dev` folder, informing it that a `stages.md` file existed for tracking high-level project goals and implementation stages and a `tasks.md` existed for tracking current actionable tasks for the active stage.
 
-## Building The Firmware + App
+## Writing A `stages.md`
+
+As I worked with Claude to write a high-level plan for my project in `stages.md`, Claude was able to point out some key issues that drastically changed the direction of the project as I had originally conceived of it.
 
 When I started this project, my original plan was to run an http server on a Raspberry Pi that the ESP32 would connect to via WiFi. I figured I could have the firmware push my activity to the Pi via a simple REST API, then the Pi push my activity sessions to Google Fit via the [Python API](https://developers.google.com/fit).
 
-Unfortunately, as I quickly found out, the Google Fit API will be deprecated in 2026. In fact as of 2024, new developers can't sign up to use these APIs. Instead, developers are being encouraged to migrate to [Health Connect](https://developer.android.com/health-and-fitness/health-connect/comparison-guide) instead. (I could have also used the Fitbit Web API, but I was leery about this given Google's [slow killing of Fitbit](https://www.tomsguide.com/wellness/smartwatches/google-is-slowly-shuttering-fitbit-should-you-still-buy-one))
+Unfortunately, as Claude helpfully pointed out as we co-wrote my `stages.md`, the Google Fit API will be deprecated in 2026. In fact as of 2024, new developers can't even sign up to use these APIs. Instead, developers are being encouraged to migrate to [Health Connect](https://developer.android.com/health-and-fitness/health-connect/comparison-guide) instead. (I could have also used the Fitbit Web API, but I was leery about this given Google's [slow killing of Fitbit](https://www.tomsguide.com/wellness/smartwatches/google-is-slowly-shuttering-fitbit-should-you-still-buy-one))
 
-The downside to using Health Connect is that it's an Android API, not a REST API. So if I wanted to sync my data with Google Fit, I'd need to build a mobile app.
+The downside to using Health Connect is that it's an Android API, not a REST API. So if I wanted to sync my data with Google Fit, I'd need to build a mobile app. I really didn't want to at first-I've only done mobile development in [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/), and diving into native Android felt like a big detour. My past experiences with native Android development involved heavy tooling (like Android Studio) that felt like overkill for a simple project like this.
 
-I've done quite a bit of mobile app development, but it's all been in [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/). Although libraries exist to wrap Health Connect and BLE in React Native, they would have required custom managed builds in Expo (see [this](https://github.com/matinzd/react-native-health-connect?tab=readme-ov-file#expo-installation) and [this](https://github.com/dotintent/react-native-ble-plx)). For me, the whole fun of React Native is the ability to preview in Expo Go without building... so I resigned myself to build an actual native Android app.
+But Claude reassured me we could build a lightweight setup without Android Studio by using Gradle to bootstrap a simple build environment. Given how helpful it had been already, I said "what the heck, let's build a mobile app!"
 
-### Part 1: A Simple Cadence Monitor
+My eventual development plan in `stages.md` was essentially two stages beyond the blinking-LED proof-of-concept I had already. First I would get BLE working in both the firmware and mobile app to create a live display of cadence. Then I'd extend that proof of concept to enable session logging and a sync protocol between the bike and the app.
 
-I decided to start
-
-### Part 2: Logging Sessions to Google Health Connect
-
-## Final Thoughts
+I found `stages.md` to be a useful place to capture ideas for future features as they came up during development. Like everything else in this workflow, it wasn't static—the file evolved as Claude and I iterated on the implementation. If you're curious what the final version looked like, you can check out the [`stages.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/dev/stages.md).
