@@ -1,0 +1,46 @@
+---
+author: Kyle Husmann
+pubDatetime: 2025-12-15:00:00-08:00
+title: "AI-Coding a Mobile App and Firmware for My Stationary Bike"
+slug: ai-coding-mobile-app-firmware-stationary-bike
+featured: true
+draft: true
+tags:
+  - project
+  - software
+  - hardware
+  - mobile apps
+  - microcontrollers
+  - micropython
+description: TBA
+---
+
+In a previous post, I talked about [putting an ESP32 in my stationary bike](esp32-stationary-bike.mdx) to track my riding without relying on proprietary apps. This post picks up where that one left off: building the firmware and companion mobile app.
+
+I used this project as my first dip in the waters of AI agent-assisted coding. Over the past year I had been hearing from more and more people who I really respect as developers that agent-assisted coding was the real deal and completely changing how they worked. It was about time I gave it a try!
+
+Prior to this project, my main experience with AI-assisted coding was via Github Copilot (I had a free subscription for my last year as a grad student). I found it very useful as a "autocomplete on steroids", but my experience of its limitations made me very skeptical of an LLM's ability to be trusted with anything more than generating boilerplate or simple refactors.
+
+What made me finally take the plunge was a friend who introduced me to the idea of [spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/) workflows. In contrast to "vibe-coding", where you give an AI-agent (often vague) instructions and sort of hope for the best, spec-driven focuses on creating detailed specifications before implementation (defining requirements, constraints, and expected behavior), then having AI agents generate code against those specs while you verify at checkpoints along the way.
+
+Hearing about this way of working with AI agents "clicked" for me in a way that all the hype around vibe coding never did. The "new skill" everyone was talking about wasn't just about prompting better, it was about fundamentally changing how I think about programming: from solving problems directly to creating the right scaffolding and context for AI to solve them for me.
+
+My stationary bike project was perfect for my first foray into agentic programming because it let me try two different working styles. With the MicroPython firmware, I was highly opinionated about the architecture and communication protocol and wanted to stay closely involved in the implementation. With the mobile app, I focused on building user requirements and entrusted the AI with the entire Kotlin implementation, a language I had no prior experience with.
+
+## Building The Firmware + App
+
+When I started this project, my original plan was to run an http server on a Raspberry Pi that the ESP32 would connect to via WiFi. I figured I could have the firmware push my activity to the Pi via a simple REST API, then the Pi push my activity sessions to Google Fit via the [Python API](https://developers.google.com/fit).
+
+Unfortunately, as I quickly found out, the Google Fit API will be deprecated in 2026. In fact as of 2024, new developers can't sign up to use these APIs. Instead, developers are being encouraged to migrate to [Health Connect](https://developer.android.com/health-and-fitness/health-connect/comparison-guide) instead. (I could have also used the Fitbit Web API, but I was leery about this given Google's [slow killing of Fitbit](https://www.tomsguide.com/wellness/smartwatches/google-is-slowly-shuttering-fitbit-should-you-still-buy-one))
+
+The downside to using Health Connect is that it's an Android API, not a REST API. So if I wanted to sync my data with Google Fit, I'd need to build a mobile app.
+
+I've done quite a bit of mobile app development, but it's all been in [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/). Although libraries exist to wrap Health Connect and BLE in React Native, they would have required custom managed builds in Expo (see [this](https://github.com/matinzd/react-native-health-connect?tab=readme-ov-file#expo-installation) and [this](https://github.com/dotintent/react-native-ble-plx)). For me, the whole fun of React Native is the ability to preview in Expo Go without building... so I resigned myself to build an actual native Android app.
+
+### Part 1: A Simple Cadence Monitor
+
+I decided to start
+
+### Part 2: Logging Sessions to Google Health Connect
+
+## Final Thoughts
