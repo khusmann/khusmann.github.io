@@ -41,7 +41,7 @@ After some experimentation, I converged into a simplified spec-driven workflow, 
 
 The root `CLAUDE.md` (which is read by default by Claude in every prompting context) described my project and captured my goals and design guidelines for implementation. Guidelines ranged from programming philosophy (e.g. "Simplicity first: suggest requirement changes when they enable simpler implementations") to practical implementation parameters (e.g. "Keep Android App build / setup as simple as possible, and easy to build without Android studio").
 
-At the end of my `CLAUDE.md` I included a note pointing Claude to the `/dev` folder, informing it that a `stages.md` file existed for tracking high-level project goals and implementation stages and a `tasks.md` existed for tracking current actionable tasks for the active stage.
+At the end of my `CLAUDE.md` I included a note pointing Claude to the `/dev` folder, informing it that a `stages.md` file existed for tracking high-level project goals and implementation stages and a `tasks.md` existed for tracking current actionable tasks for the active stage. You can view my [`CLAUDE.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/CLAUDE.md) to see what the full file looked like.
 
 ## Creating A High-level Development Roadmap
 
@@ -51,12 +51,30 @@ When I started this project, my original plan was to run an http server on a Ras
 
 Unfortunately, as Claude helpfully pointed out as we co-wrote my `stages.md`, the Google Fit API will be deprecated in 2026. In fact as of 2024, new developers can't even sign up to use these APIs. Instead, developers are being encouraged to migrate to [Health Connect](https://developer.android.com/health-and-fitness/health-connect/comparison-guide) instead. (I could have also used the Fitbit Web API, but I was leery about this given Google's [slow killing of Fitbit](https://www.tomsguide.com/wellness/smartwatches/google-is-slowly-shuttering-fitbit-should-you-still-buy-one))
 
-The downside to using Health Connect is that it's an Android API, not a REST API. So if I wanted to sync my data with Google Fit, I'd need to build a mobile app. I really didn't want to at first—I've only done mobile development in [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/), and diving into native Android felt like a big detour. My past experiences with native Android development involved heavy tooling (like Android Studio) that felt like overkill for a simple project like this.
+Claude was very happy to brainstorm an alternative approach with me. My main concern with Health Connect was that it's an Android API, not a REST API. So if I wanted to sync my data with Google Fit, I'd need to build a mobile app. I really didn't want to at first-most of my mobile development experience has been in [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/), and diving into native Android felt like a big detour. My past encounters with native Android development involved heavy tooling (like Android Studio) that felt like overkill for a simple project like this.
 
 But Claude reassured me we could build a lightweight setup without Android Studio by using Gradle to bootstrap a simple build environment. Given how helpful it had been already, I said "what the heck, let's build a mobile app!"
 
 I ended up being pretty hands-on in shaping the development plan. Claude had good instincts, but tended to focus on creating a direct path to the final result: session persistence in the firmware, then a complete Bluetooth protocol, etc. From my experience with these kinds of projects, I knew the importance of getting all the end-to-end pieces running in simple form before tackling complexity.
 
-So I steered us toward an incremental approach. My eventual development plan in `stages.md` became essentially two stages beyond the blinking-LED proof-of-concept I had already (as described in my [previous post](esp32-stationary-bike.mdx)). First, get BLE working in both the firmware and mobile app to create a live display of cadence-a working end-to-end setup with app building and BLE communicating. Then, extend that to enable session logging and a sync protocol between the bike and the app.
+So I steered us toward an approach that got a simple end-to-end system up as soon as possible, and then iterated from there. My `stages.md` ended up containing only two stages beyond the blinking-LED proof-of-concept I had already set up (as described in my [previous post](esp32-stationary-bike.mdx)): First, get BLE working in both the firmware and mobile app to create a live display of cadence. Then, extend that setup to enable session logging and a sync protocol between the bike and the app.
 
-I also found my `stages.md` to be a useful place to capture ideas for future features as they came up during development. Like everything else in this workflow, it wasn't static-the file evolved as Claude and I iterated on the implementation. If you're curious what the final version looked like, you can check out my [`stages.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/dev/stages.md).
+As I worked on implemention (next section) I found my `stages.md` to be a useful place to capture ideas for future features as they came up during development. Like everything else in this workflow, it wasn't static-the file evolved as Claude and I iterated on the implementation. If you're curious what the final version looked like, you can check out my [`stages.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/dev/stages.md).
+
+## Implementation
+
+I implemented each stage by first asking Claude to generate a `tasks.md` based on my current stage. Like with the `stages.md` document, I had Claude walk me through a process of creating the document, giving me options and questions I could answer using my editor inside the document. When I was happy with the steps in the plan I'd tell Claude to execute specific steps or groups of steps, then to update my `tasks.md` accordingly.
+
+The actual development experience varied significantly between the firmware and the mobile app, reflecting my different levels of familiarity and opinions about each piece. Here's how it played out:
+
+### Firmware
+
+### Mobile App
+
+## Takeaways and Lessons Learned
+
+The key point of friction was communicating the necessary information about my context and vision for the project.
+
+I found that for aspects of the implementation that I really had strong opinons about and already knew the language, it was often easier for me to communicate what I wanted by writing example code for it to build off of. Once those preferences were clear, it (in most cases) did a good job from there.
+
+In areas where I cared about the final result more than how it was implemented (the mobile app), it genuinely surprised me by its capacity.
