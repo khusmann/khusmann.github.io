@@ -19,6 +19,10 @@ In a previous post, I talked about [putting an ESP32 in my stationary bike](esp3
 
 I used this project as my first dip in the waters of AI agent-assisted coding. Over the past year I had been hearing from more and more people who I really respect as developers that agent-assisted coding was the real deal and completely changing how they worked. It was about time I gave it a try!
 
+If you're more interested in the final result than my experience coding it with agentic AI, the complete project is on [GitHub](https://github.com/khusmann/ble-bike-tracker) with a detailed feature overview. For those curious about the process, read on!
+
+## Background
+
 Prior to this project, my main experience with AI-assisted coding was via Github Copilot (I had a free subscription for my last year as a grad student). I found it very useful as a "autocomplete on steroids", but my experience of its limitations made me very skeptical of an LLM's ability to be trusted with anything more than generating boilerplate or simple refactors.
 
 What made me finally take the plunge was a friend who introduced me to agentic [spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/). In contrast to "vibe-coding", where you give an AI-agent (often vague) instructions and sort of hope for the best, spec-driven focuses on creating detailed specifications before implementation (defining requirements, constraints, and expected behavior), then having AI agents generate code (and tests) against those specs while you verify at checkpoints along the way.
@@ -27,15 +31,15 @@ Hearing about this way of working with AI agents "clicked" for me in a way that 
 
 My stationary bike project was perfect for my first foray into agentic programming because it let me try two different working styles. With the MicroPython firmware, I was highly opinionated about the architecture and communication protocol and wanted to stay closely involved in the implementation details. With the mobile app, I focused on building user requirements and entrusted the AI with the entire Kotlin implementation, a language I had no prior experience with.
 
-## Establishing A Workflow
+## Establishing A Spec-Driven Workflow
 
 Immediately after installing Claude Code, I gave Github's [spec-kit](https://github.com/github/spec-kit) a spin. Spec-kit is an open-source toolkit that guides you through the spec-driven development workflow: creating specifications, generating implementation plans, breaking them into tasks, and then executing those tasks with an AI coding agent.
 
 It quickly felt like overkill for my little project. It also was hard to tell which aspects of Claude's behavior were a result of the spec-kit agent files vs were a part of Claude's vanilla behavior. I decided to set the spec-kit aside for now, and get more familiarity with the base-Claude behavior before I tried other frameworks.
 
-After some experimentation, I converged into my own version of a spec-driven workflow, consisting of a root `CLAUDE.md` and a `dev/` folder with a `stages.md` and a `tasks.md`. Each of these files I'd interactively create with Claude's help, often asking Claude to give me options for key decisions in the file that I could then easily select and iterate on in my code editor.
+After some experimentation, I converged into a simplified spec-driven workflow, consisting of a root `CLAUDE.md` and a `dev/` folder with a `stages.md` and a `tasks.md`. Each of these files I iterated on with Claude's help over the course of the project, often asking Claude to give me options for key decisions directly in the file that I could then easily select and iterate on the ideas in my code editor.
 
-The root `CLAUDE.md` (which is read by default by Claude in every session) described my project and captured my goals and design guidelines for implementation. These guidelines ranged from programming philosophy (e.g. "Simplicity first: suggest requirement changes when they enable simpler implementations") to practical implementation parameters (e.g. "Keep Android App build / setup as simple as possible, and easy to build without Android studio").
+The root `CLAUDE.md` (which is read by default by Claude in every prompting context) described my project and captured my goals and design guidelines for implementation. Guidelines ranged from programming philosophy (e.g. "Simplicity first: suggest requirement changes when they enable simpler implementations") to practical implementation parameters (e.g. "Keep Android App build / setup as simple as possible, and easy to build without Android studio").
 
 At the end of my `CLAUDE.md` I included a note pointing Claude to the `/dev` folder, informing it that a `stages.md` file existed for tracking high-level project goals and implementation stages and a `tasks.md` existed for tracking current actionable tasks for the active stage.
 
