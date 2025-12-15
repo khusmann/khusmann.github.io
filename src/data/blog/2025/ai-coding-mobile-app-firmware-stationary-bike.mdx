@@ -43,7 +43,7 @@ The root `CLAUDE.md` (which is read by default by Claude in every prompting cont
 
 At the end of my `CLAUDE.md` I included a note pointing Claude to the `/dev` folder, informing it that a `stages.md` file existed for tracking high-level project goals and implementation stages and a `tasks.md` existed for tracking current actionable tasks for the active stage.
 
-## Writing A `stages.md`
+## Creating A High-level Development Roadmap
 
 As I worked with Claude to write a high-level plan for my project in `stages.md`, Claude was able to point out some key issues that drastically changed the direction of the project as I had originally conceived of it.
 
@@ -55,6 +55,8 @@ The downside to using Health Connect is that it's an Android API, not a REST API
 
 But Claude reassured me we could build a lightweight setup without Android Studio by using Gradle to bootstrap a simple build environment. Given how helpful it had been already, I said "what the heck, let's build a mobile app!"
 
-My eventual development plan in `stages.md` was essentially two stages beyond the blinking-LED proof-of-concept I had already. First I would get BLE working in both the firmware and mobile app to create a live display of cadence. Then I'd extend that proof of concept to enable session logging and a sync protocol between the bike and the app.
+I ended up being pretty hands-on in the development plan. Claude had some good instincts here, but tended to focus on creating a direct path to the final result: set up session persistance, define a bluetooth protocol, etc. From my experience working on these kinds of projects I knew the importance of getting all of the end-to-end pieces of system running in a simple form before trying to dig into the more complex pieces. So I ensured that we first create a simple app that just displayed the cadence information in real time from the bike. This way we'd have a working setup with an app building, BLE working before we started trying to dive into more complicated session management logic.
 
-I found `stages.md` to be a useful place to capture ideas for future features as they came up during development. Like everything else in this workflow, it wasn't static—the file evolved as Claude and I iterated on the implementation. If you're curious what the final version looked like, you can check out the [`stages.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/dev/stages.md).
+My eventual development plan in `stages.md` was essentially two stages beyond the blinking-LED proof-of-concept I had already (as described in my [previous post](esp32-stationary-bike.mdx)). First I would get BLE working in both the firmware and mobile app to create a live display of cadence. Then I'd extend that proof of concept to enable session logging and a sync protocol between the bike and the app.
+
+I also found my `stages.md` to be a useful place to capture ideas for future features as they came up during development. Like everything else in this workflow, it wasn't static-the file evolved as Claude and I iterated on the implementation. If you're curious what the final version looked like, you can check out my [`stages.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/dev/stages.md).
