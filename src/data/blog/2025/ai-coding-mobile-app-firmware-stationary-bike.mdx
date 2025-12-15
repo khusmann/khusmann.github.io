@@ -74,7 +74,7 @@ I knew before I started the project that I was going to want to have close invol
 
 At this stage I used Claude much like I used GitHub Copilot: for generating boilerplate and filling in easy-to-implement items (the kind of things you'd grab from Stack Overflow).
 
-Once I had established the basic architecture and design patterns, I found I could rely more and more on Claude to extend my existing design with new features and perform sophisticated refactors. It was also an excellent [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging) to brainstorm with (that had its own good ideas!)
+Once I had established the basic architecture and design patterns, I found I could rely more and more on Claude executing plans from my `tasks.md` to extend my existing design with new features and perform sophisticated refactors. It was also an excellent [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging) to brainstorm with (that had its own good ideas!)
 
 That said, I found it difficult to reason with Claude about complex state and timing issues. This limitation became especially clear when working on the logic around periodic session saving: I wanted my system to periodically save sessions to memory, so that if power was lost, the current session would not be lost. But I also only wanted to record sessions that were of a minimum length, and to not count the idle time at the end of the session as part of the session. The interaction of all these requirements created some nontrivial edge cases that took considerable care to get right.
 
