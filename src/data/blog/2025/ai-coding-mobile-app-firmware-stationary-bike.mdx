@@ -20,12 +20,20 @@ import { Image } from "astro:assets";
 import disconnected from "ai-coding-mobile-app-firmware-stationary-bike/disconnected.png";
 import connected from "ai-coding-mobile-app-firmware-stationary-bike/connected.png";
 import syncSettings from "ai-coding-mobile-app-firmware-stationary-bike/sync-settings.png";
+import all_together from "ai-coding-mobile-app-firmware-stationary-bike/PXL_20250602_003236489.jpg";
 
 In a previous post, I talked about [putting an ESP32 in my stationary bike](esp32-stationary-bike.mdx) to track my riding without relying on proprietary apps. This post picks up where that one left off: building the firmware and companion mobile app.
 
 I used this project as my first dip into the waters of AI agent-assisted coding. Over the past year I had been hearing from more and more people who I really respect as developers that agent-assisted coding was the real deal and completely changing how they worked. It was about time I gave it a try!
 
 If you're more interested in the final result than my experience coding it with agentic AI, the complete project is on [GitHub](https://github.com/khusmann/ble-bike-tracker) with a detailed feature overview. For those curious about the process, read on!
+
+<Image
+  src={all_together}
+  alt="The bike open and connected to my computer"
+  class="rounded border-0 shadow"
+  width="400"
+/>
 
 ## Background
 
@@ -115,7 +123,7 @@ Here's what the final app looked like:
       src={disconnected}
       alt="App disconnected from bike"
       width="250"
-      class="border-0"
+      class="rounded border-0 shadow"
     />
     <figcaption class="mt-2 text-center text-sm">Disconnected</figcaption>
   </figure>
@@ -124,7 +132,7 @@ Here's what the final app looked like:
       src={connected}
       alt="App connected to bike showing live cadence"
       width="250"
-      class="border-0"
+      class="rounded border-0 shadow"
     />
     <figcaption class="mt-2 text-center text-sm">Connected</figcaption>
   </figure>
@@ -133,7 +141,7 @@ Here's what the final app looked like:
       src={syncSettings}
       alt="Background sync settings"
       width="250"
-      class="border-0"
+      class="rounded border-0 shadow"
     />
     <figcaption class="mt-2 text-center text-sm">Sync Settings</figcaption>
   </figure>
