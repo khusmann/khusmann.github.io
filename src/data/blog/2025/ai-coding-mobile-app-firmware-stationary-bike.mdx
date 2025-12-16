@@ -1,6 +1,6 @@
 ---
 author: Kyle Husmann
-pubDatetime: 2025-12-15T21:00:00-08:00
+pubDatetime: 2025-12-15T21:30:00-08:00
 title: "AI-Coding a Mobile App and Firmware for My Stationary Bike"
 slug: ai-coding-mobile-app-firmware-stationary-bike
 featured: true
@@ -23,7 +23,7 @@ import syncSettings from "ai-coding-mobile-app-firmware-stationary-bike/sync-set
 
 In a previous post, I talked about [putting an ESP32 in my stationary bike](esp32-stationary-bike.mdx) to track my riding without relying on proprietary apps. This post picks up where that one left off: building the firmware and companion mobile app.
 
-I used this project as my first dip in the waters of AI agent-assisted coding. Over the past year I had been hearing from more and more people who I really respect as developers that agent-assisted coding was the real deal and completely changing how they worked. It was about time I gave it a try!
+I used this project as my first dip into the waters of AI agent-assisted coding. Over the past year I had been hearing from more and more people who I really respect as developers that agent-assisted coding was the real deal and completely changing how they worked. It was about time I gave it a try!
 
 If you're more interested in the final result than my experience coding it with agentic AI, the complete project is on [GitHub](https://github.com/khusmann/ble-bike-tracker) with a detailed feature overview. For those curious about the process, read on!
 
@@ -57,7 +57,7 @@ When I started this project, my original plan was to run an http server on a Ras
 
 Unfortunately, as Claude helpfully pointed out while we co-planned the project, the Google Fit API will be deprecated in 2026. In fact as of 2024, new developers can't even sign up to use these APIs. Instead, developers are being encouraged to migrate to [Health Connect](https://developer.android.com/health-and-fitness/health-connect/comparison-guide) instead. (I could have also used the Fitbit Web API, but I was leery about this given Google's [slow killing of Fitbit](https://www.tomsguide.com/wellness/smartwatches/google-is-slowly-shuttering-fitbit-should-you-still-buy-one))
 
-Claude was very happy to brainstorm an alternative approach with me. My main concern with Health Connect was that it's an Android API, not a REST API. So if I wanted to sync my data with Google Fit, I'd need to build a mobile app. I really didn't want to at first--most of my mobile development experience has been in [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/), and diving into native Android felt like a big detour. My past encounters with native Android development involved heavy tooling (like Android Studio) that felt like overkill for a simple project like this.
+Claude was very happy to brainstorm an alternative approach with me. My main concern with Health Connect was that it's an Android API, not a REST API. So if I wanted to sync my data with Google Fit, I'd need to build a mobile app. I really didn't want to do that at first--most of my mobile development experience has been in [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/), and diving into native Android felt like a big detour. My past encounters with native Android development involved heavy tooling (like Android Studio) that felt like overkill for a simple project like this.
 
 But Claude reassured me we could build a lightweight setup without Android Studio by using Gradle to bootstrap a simple build environment. Given how helpful it had been already, I said "what the heck, let's build a mobile app!"
 
@@ -65,7 +65,7 @@ I ended up being pretty hands-on in shaping the development plan. Claude had goo
 
 So I steered us toward an approach that got a simple end-to-end system up as soon as possible, and then iterated from there. My `stages.md` ended up containing only two stages beyond the blinking-LED proof-of-concept I had already set up (as described in my [previous post](esp32-stationary-bike.mdx)): First, get BLE working in both the firmware and mobile app to create a live display of cadence. Then, extend that setup to enable session logging and a sync protocol between the bike and the app.
 
-As I worked on implemention (next section) I found my `stages.md` to be a useful place to capture ideas for future features as they came up during development. Like everything else in this workflow, it wasn't static--the file evolved as Claude and I iterated on the implementation. If you're curious what the final version looked like, you can check out my [`stages.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/dev/stages.md).
+As I worked on implementation (next section) I found my `stages.md` to be a useful place to capture ideas for future features as they came up during development. Like everything else in this workflow, it wasn't static--the file evolved as Claude and I iterated on the implementation. If you're curious what the final version looked like, you can check out my [`stages.md` on GitHub](https://github.com/khusmann/ble-bike-tracker/blob/main/dev/stages.md).
 
 ## Implementation
 
