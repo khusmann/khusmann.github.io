@@ -13,7 +13,7 @@ tags:
   - mobile apps
   - microcontrollers
   - micropython
-description: TBA
+description: I built ESP32 firmware and an Android app for my stationary bike with Claude Code. My honest take on what worked, what didn't, and why managing context mattered more than crafting perfect prompts.
 ---
 
 In a previous post, I talked about [putting an ESP32 in my stationary bike](esp32-stationary-bike.mdx) to track my riding without relying on proprietary apps. This post picks up where that one left off: building the firmware and companion mobile app.
@@ -108,7 +108,7 @@ That said, Claude still had the same fundamental limitation I encountered with t
 
 The first thing I need to acknowledge: it's difficult to distinguish between my perception of productivity gains and the actual reality. Big successes (like Claude one-shotting the first iteration of the mobile app) were such a dopamine hit that it's easy to forget the time spent iterating on requests and plans to specify exactly what I wanted to build. On the surface, it felt like a modest boost in development velocity on the firmware, and a massive boost on the mobile app (I never had to learn Kotlin!). But how much of that is perception vs reality? I honestly can't say for certain.
 
-What I can say is that I now understand the "new skill" everyone talks about with agentic programming: it's all about effectively managing the agent's context. Until AIs have much larger context windows (and we get those cyborg brain implants), the results of agentic programming depend on your ability to communicate context and requirements, and to track what's currently in the agent's view.
+What I can say is that I now have a clearer understanding of the "new skill" in agentic coding that everyone has been talking about: it's all about effectively managing the agent's context. Until AIs have much larger context windows (and we get those cyborg brain implants), the results of agentic programming depend on your ability to communicate context and requirements, and to track what's currently in the agent's view.
 
 This is where the key point of friction emerged for me. When I didn't know the programming language (Kotlin), communicating requirements in natural language felt natural and efficient. But for Python, a language I know intimately, breaking down my vision into natural language often felt more burdensome than just writing the code myself. These agentic workflows provide the most value when the translation cost is lower than the implementation cost.
 
