@@ -16,6 +16,10 @@ tags:
 description: I built ESP32 firmware and an Android app for my stationary bike with Claude Code. My honest take on what worked, what didn't, and the agentic-coding skills I picked up along the way.
 ---
 
+import { Image } from "astro:assets";
+import disconnected from "ai-coding-mobile-app-firmware-stationary-bike/disconnected.png";
+import connected from "ai-coding-mobile-app-firmware-stationary-bike/connected.png";
+
 In a previous post, I talked about [putting an ESP32 in my stationary bike](esp32-stationary-bike.mdx) to track my riding without relying on proprietary apps. This post picks up where that one left off: building the firmware and companion mobile app.
 
 I used this project as my first dip in the waters of AI agent-assisted coding. Over the past year I had been hearing from more and more people who I really respect as developers that agent-assisted coding was the real deal and completely changing how they worked. It was about time I gave it a try!
@@ -93,6 +97,27 @@ I had it start by creating a plan for the first stage of development: a simple d
 I made some minimal modifications, and gave Claude the thumbs up to execute all the tasks. It did a bunch of work, and then guided me through the process of compiling the project and running it on my phone.
 
 To my complete surprise, it just worked, right out of the box. I was greeted by a screen on my phone that allowed me to grant the app BLE permissions, and then got a dashboard displaying the number of revolutions and current cadence of the bike. I started pedaling, and the revolutions incremented and cadence updated.
+
+<div class="flex flex-col items-center justify-center gap-6 sm:flex-row sm:items-start">
+  <figure class="flex flex-col items-center">
+    <Image
+      src={disconnected}
+      alt="App disconnected from bike"
+      width="250"
+      class="border-0"
+    />
+    <figcaption class="mt-2 text-center text-sm">Disconnected</figcaption>
+  </figure>
+  <figure class="flex flex-col items-center">
+    <Image
+      src={connected}
+      alt="App connected to bike showing live cadence"
+      width="250"
+      class="border-0"
+    />
+    <figcaption class="mt-2 text-center text-sm">Connected</figcaption>
+  </figure>
+</div>
 
 If you've worked on projects like these before, then you can really appreciate what a win this was: There are often a ton of fiddly things you need to get right on the microcontroller and mobile app side in order for a system like this to work, and it's not uncommon to spend a lot of time at the beginning of a project like this going back and forth between your system and web searches in order to get a minimal system up and running. Claude nailed it on the first try.
 
