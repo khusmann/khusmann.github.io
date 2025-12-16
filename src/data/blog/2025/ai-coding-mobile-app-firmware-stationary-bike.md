@@ -1,6 +1,6 @@
 ---
 author: Kyle Husmann
-pubDatetime: 2025-12-15T00:00:00-08:00
+pubDatetime: 2025-12-15T20:30:00-08:00
 title: "AI-Coding a Mobile App and Firmware for My Stationary Bike"
 slug: ai-coding-mobile-app-firmware-stationary-bike
 featured: true
@@ -26,7 +26,7 @@ If you're more interested in the final result than my experience coding it with 
 
 Prior to this project, my main experience with AI-assisted coding was via Github Copilot (I had a free subscription for my last year as a grad student). I found it very useful as a "autocomplete on steroids", but my experience of its limitations made me very skeptical of an LLM's ability to be trusted with anything more than generating boilerplate or simple refactors.
 
-What made me finally take the plunge was a friend who introduced me to agentic [spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/). In contrast to "vibe-coding", where you give an AI-agent (often vague) instructions and sort of hope for the best, spec-driven focuses on first working with the agent to craft detailed specifications before implementation (defining requirements, constraints, and expected behavior), then having AI agents generate code (and tests) against those specs while you verify at checkpoints along the way.
+What made me finally take the plunge was a friend who introduced me to agentic [spec-driven development](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/). In contrast to "vibe-coding", where you give an AI-agent (often vague) instructions and sort of hope for the best, spec-driven focuses on first working with the agent to craft detailed specifications before implementation (defining requirements, constraints, and expected behavior), then having the agent generate code (and tests) against those specs while you verify at checkpoints along the way.
 
 Hearing about this way of working with AI agents "clicked" for me in a way that all the hype around vibe coding never did. The "new skill" everyone was talking about wasn't just about prompting better, it was about fundamentally changing how I think about programming: from solving problems directly to creating the right scaffolding and context for AI to solve them for me.
 
