@@ -21,14 +21,22 @@ Miles was talking about "world states" at a grand scale: the fate of the human r
 
 From this reference point, alignment is no longer some deep philosophical / theoretical concept with long time horizons, it's immediately relevant to whatever I'm trying to use AI to accomplish in a given moment. In fact, the more "aligned" an AI system is to me, the more useful it is to me.
 
-This idea of viewing alignment as capability rather than constraint is not new: see [Gavriel Cohen's](https://www.off-policy.com/alignment-is-capability/) post.
+I know I'm not the only one who is thinking about alignment in this way: See Gavriel Cohen's recent post ["Alignment is Capability"](https://www.off-policy.com/alignment-is-capability/) as an excellent example.
 
-The thing that I want to add to this conversation are some thoughts about the nature of fundamental tradeoffs that exist in models of human behavior that I don't see being discussed in conversations about AI alignment (well, in popular discourse anyway).
+I think I have something unique to add to this conversation though, that comes from my graduate work in human development and family studies. We thought a lot about fundamental tradeoffs that exist in models of human behavior -- tradeoffs that seem extremely relevant to AI alignment but that I'm not seeing discussed or considered (well, in popular discourse at least).
 
-The crux of my argument is this: I think we may be making a category error
+What would a "perfectly aligned" agent for me be?
+
+What would a "perfectly aligned" agent for humanity be?
+
+A framework for understanding the continuum between these models.
 
 ## A Perfectly Aligned AI Is A Copy Of You
 
 ## The Average Human Has One Testicle
 
 ## Nomothetic vs Ideographic Models
+
+## Final Thoughts
+
+Parallel to bias variance tradeoff
