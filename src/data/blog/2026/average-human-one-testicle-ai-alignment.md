@@ -31,7 +31,7 @@ What would it look like for an AI coding agent to be perfectly aligned to me?
 
 What would it look like for an AI coding agent to be perfectly aligned to software engineers in general?
 
-As you'll see, these are very different questions that describe two extremes on a fundamental spectrum. Understanding this spectrum matters--not just for building better coding assistants, but for thinking clearly about what alignment can and can't mean.
+At first glance, these might seem like the same question at different scales. They're not. As you'll see, they describe two extremes on a fundamental spectrum. Understanding this spectrum matters--not just for building better coding assistants, but for thinking clearly about what alignment can and can't mean.
 
 ## A Perfectly Aligned AI Is A Copy Of You
 
