@@ -15,7 +15,7 @@ The more I've been using Claude Code, the more I've started to think about AI al
 
 It surprised me, because prior to working with Claude, AI alignment felt abstract -- a problem of distant superintelligence risks or safety guardrails against harmful outputs. Not something relevant to my daily coding activities.
 
-That changed when I recently watched an interview with AI researcher Robert Miles where he defined "alignment" in a system as a system that "wants the same thing as what you want... its preference ordering over world states is the same as yours" (around [5:20 in this interview](https://youtu.be/kMLKbhY0ji0?si=JYZIarN7jPS9cUGW&t=320)).
+That changed when I recently watched an interview with AI researcher Robert Miles where he defined an "aligned" system as a system that "wants the same thing as what you want... its preference ordering over world states is the same as yours" (around [5:20 in this interview](https://youtu.be/kMLKbhY0ji0?si=JYZIarN7jPS9cUGW&t=320)).
 
 Miles was talking about "world states" at a grand scale: the fate of the human race. But working with Claude, I've been getting hands-on experience with this same concept at a much smaller scale. In the microcosm of my work on a codebase, an aligned agent is one that understands what I want my codebase to become -- an agent that shares my preference ordering over codebase states. In this context, it's easy to see how "alignment" is inextricably linked to a model's usefulness. The more a model can anticipate what I want -- and the less context I need to provide -- the faster we can converge on my desired final product. Gavriel Cohen articulates this idea succinctly in his recent post, ["Alignment is Capability"](https://www.off-policy.com/alignment-is-capability/).
 
