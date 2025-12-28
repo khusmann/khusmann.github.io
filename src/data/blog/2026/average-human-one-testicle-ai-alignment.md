@@ -31,7 +31,7 @@ My graduate work was in human development and family studies, where we spent a l
 
 ## The Average Human Has One Testicle
 
-## Ideographic vs Nomothetic Models
+## The Ideographic-Nomothetic Continuum
 
 ## Final Thoughts
 
