@@ -43,11 +43,23 @@ Either way, predicting my preference for world state ordering requires a model o
 
 This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns. To get what _I_ want, I have to condition those probabilities through context: "You're an experienced Kotlin developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate human patterns toward my specific situation and goals. In a very real sense, prompting and context engineering _is_ alignment.
 
+It's worth noting that LLMs work as well as they do for programming precisely because "what a typical software engineer would do" often aligns with what I want. Code has conventions, shared patterns, established best practices. So I can typically get what I want with the right context. But this will start to break down for less conventional tasks, or domains where preferences diverge more (like individual values!).
+
 It's important to note that no amount of training in aggregate will eliminate this gap. You can't derive individual-level predictions from population-level patterns without losing information. Context and prompting help, but they're still constrained by what the model learned from aggregate data. The mismatch between population patterns and individual cases is fundamental: aggregate models are optimized for typical cases, not for you and your current context.
 
-In other words, true alignment requires personalized training: a model whose weights update based on interactions with _you specifically_.
+In other words, true alignment to _you and your intents and goals_ requires personalized training: a model whose weights update based on interactions with _you specifically_.
 
 ## The Average Human Has One Testicle
+
+Ok, now let's zoom out a bit. What about alignment to _humanity_? This is the driving concern of the x-risk folks. What would it look like for an agent to be perfectly aligned with the intents and goals of _humanity_?
+
+...I'm not sure this is actually possible, because...
+
+The problem is that the intents and goals of "humanity" are not necessarily coherent. "Humanity" is population with wildly divergent intents and goals.
+
+As the old statistical joke goes: the average human has one testicle and one ovary, slightly less than two arms, and 2.5 children. Technically true in aggregate, but useless for describing any actual person.
+
+This reveals the other side of the problem. Earlier we saw that aggregate models fail to capture individual preferences. But there's no escaping to "just align with humanity instead" -- because humanity isn't a coherent entity with preferences to align to. Any attempt to define "humanity's values" is either an arbitrary choice of whose values to prioritize, or an incoherent average that satisfies no one.
 
 ## The Ideographic-Nomothetic Continuum
 
