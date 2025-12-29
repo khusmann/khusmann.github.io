@@ -21,7 +21,7 @@ Miles was talking about "world states" at a grand scale: the fate of the human r
 
 Most conversations I've heard around "alignment" focus on issues at a grand scale, like Miles' interview. The concern is that we have no way to tell the difference between an agent that is truly aligned with our intents and goals, and one that just _appears_ aligned on the surface while secretly plotting our demise. Call this the problem of "deep alignment": the ability for _us_ to know an agent's true intents and goals.
 
-But there's another alignment problem -- one that's easier to overlook because it seems so much more tractable. Call it "shallow alignment": the ability for an _agent_ to know and act in accordance with _our_ intents and goals. Deep alignment is necessary for safety; shallow alignment is necessary for capability.
+But there's another alignment problem -- one that's easier to overlook because it seems so much more tractable. Call it "shallow alignment": the ability for an agent to know and act in accordance with _our_ intents and goals. Deep alignment is necessary for safety; shallow alignment is necessary for capability.
 
 For the rest of this post, I want to set deep alignment aside and focus on shallow alignment: the ability of an agent to model _us_. Most discussions I've encountered acknowledge this is hard, but treat it as an open engineering problem -- something that better architectures or more data will eventually solve. I'm not so sure.
 
