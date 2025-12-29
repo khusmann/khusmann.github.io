@@ -25,7 +25,7 @@ But there's another alignment problem -- one that's easier to overlook because i
 
 For the rest of this post, I want to set deep alignment aside and focus on shallow alignment: the ability of an agent to model _us_. Most discussions I've encountered acknowledge this is hard, but treat it as an open engineering problem -- something that better architectures or more data will eventually solve. I'm not so sure.
 
-My graduate work was in human development and family studies, where we spent a lot of time thinking about what it means to model and predict human behavior. There's an inherent tradeoff in this space that's well-known in behavioral science but I haven't seen touched on in discussions about AI -- and I think it's fundamental to the problem of shallow alignment.
+My graduate work was in human development and family studies, where we spent a lot of time thinking about what it means to model and predict human behavior. There's an inherent tradeoff when modeling human behavior that's well-known in behavioral science but I haven't seen touched on in discussions about AI -- and I think it's fundamental to the problem of shallow alignment.
 
 ## A Perfectly Aligned AI Is A Copy Of You
 
