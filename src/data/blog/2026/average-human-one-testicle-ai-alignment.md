@@ -37,7 +37,11 @@ What would this require? A complete understanding of everything that shaped me -
 
 Either way, predicting my preference for world state ordering requires a model of _me_. But that's not what LLMs are. LLMs are trained on massive datasets of human behavior -- they're models of _humans in aggregate_, not models of specific individuals. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
 
-This is why agentic coding requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns. To get what _I_ want, I have to constrain those probabilities through context: "You're an experienced Kotlin developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate human patterns toward my specific situation.
+This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns. To get what _I_ want, I have to constrain those probabilities through context: "You're an experienced Kotlin developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate human patterns toward my specific situation and goals. In a very real sense, prompting and context engineering _is_ alignment.
+
+It's important to note that no amount of training in aggregate will eliminate this gap. You can't derive individual-level predictions from population-level patterns without losing information. Context and prompting help, but they're still constrained by what the model learned from aggregate data. The mismatch between population patterns and individual cases is fundamental: aggregate models are optimized for typical cases, not for you and your current context.
+
+In other words, true alignment requires personalized training: a model whose weights update based on interactions with _you specifically_.
 
 ## The Average Human Has One Testicle
 
