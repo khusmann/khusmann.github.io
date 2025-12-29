@@ -29,6 +29,14 @@ My graduate work was in human development and family studies, where we spent a l
 
 ## A Perfectly Aligned AI Is A Copy Of You
 
+As a thought experiment, let's imagine what a perfectly aligned agent would be, according to Miles' definition: an agent that shares an identical ordering over world states as you do.
+
+If this existed in a coding assistant, it would be seamless to work with. It would know, out of the box, exactly what I wanted to build and how I wanted to build it. It wouldn't require endless tweaking to its `CLAUDE.md` and loading up its context window, because it would already be attuned to my preferences and styles and goals.
+
+What would this require? A complete understanding of everything that shaped me -- all my life experiences leading to this moment, how they were absorbed through my biology into my current mental state. Or alternatively, a way to directly read my internal neural weights and predict from there.
+
+Either way, predicting my preference for world state ordering requires a model of _me_. But that's not what LLMs are. LLMs are trained on massive datasets of human behavior -- they're models of _humans in general_, not models of specific individuals. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
+
 ## The Average Human Has One Testicle
 
 ## The Ideographic-Nomothetic Continuum
