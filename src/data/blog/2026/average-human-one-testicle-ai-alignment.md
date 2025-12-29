@@ -21,9 +21,9 @@ Miles was talking about "world states" at a grand scale: the fate of the human r
 
 Most conversations I've heard around "alignment" focus on issues at a grand scale, like Miles' interview. The concern is that we have no way to tell the difference between an agent that is truly aligned with our intents and goals, and one that just _appears_ aligned on the surface while secretly plotting our demise. Call this the problem of "deep alignment": the ability for _us_ to know an agent's true intents and goals.
 
-But there's another alignment problem -- one that's easier to overlook because it seems so much more tractable. Call it "shallow alignment": the ability for an agent to know and act in accordance with _our_ intents and goals. Deep alignment is necessary for safety; shallow alignment is necessary for capability.
+But there's another alignment problem -- one that's easier to overlook because it seems so much more tractable. Call it "shallow alignment": the ability for an agent to know and act in accordance with _our_ intents and goals, independent of whether they have deeper ulterior motives. Deep alignment is necessary for safety; shallow alignment is necessary for capability.
 
-For the rest of this post, I want to set deep alignment aside and focus on shallow alignment: the ability of an agent to model _us_. Most discussions I've encountered acknowledge this is hard, but treat it as an open engineering problem -- something that better architectures or more data will eventually solve. I'm not so sure.
+For the rest of this post, I want to set deep alignment aside and focus on shallow alignment: the ability of an agent to model _us_, or at least model what we want in a given situation. Most discussions I've encountered acknowledge this is hard, but treat it as an open engineering problem -- something that better architectures or more data will eventually solve. I'm not so sure.
 
 My graduate work was in human development and family studies, where we spent a lot of time thinking about what it means to model and predict human behavior. There's an inherent tradeoff when modeling human behavior that's well-known in behavioral science but I haven't seen touched on in discussions about AI -- and I think it's fundamental to the problem of shallow alignment.
 
