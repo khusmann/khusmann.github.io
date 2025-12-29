@@ -27,9 +27,7 @@ For the rest of this post, I want to set deep alignment aside and focus on shall
 
 My graduate work was in human development and family studies, where we spent a lot of time thinking about what it means to model and predict human behavior. There's an inherent tradeoff when modeling human behavior that's well-known in behavioral science but I haven't seen touched on in discussions about AI -- and I think it's fundamental to the problem of shallow alignment.
 
-The tradeoff is between individual accuracy and population generalizability. Models optimized to predict specific individuals perform poorly when generalized to others. Models optimized for populations perform poorly when applied to specific individuals. You can't have both at once.
-
-To see what I mean, it helps to start with an extreme case: what would perfect shallow alignment actually require?
+Before I explain what this tradeoff is, let's build some intuition first.
 
 ## A Perfectly Aligned AI Is A Model Of You
 
@@ -41,7 +39,7 @@ What would this require? A complete understanding of everything that shaped me -
 
 Either way, predicting my preference for world state ordering requires a model of _me_. But that's not what LLMs are. LLMs are trained on massive datasets of human behavior -- they're models of _humans in aggregate_, not models of specific individuals. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
 
-This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns. To get what _I_ want, I have to condition those probabilities through context: "You're an experienced Kotlin developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate human patterns toward my specific situation and goals. In a very real sense, prompting and context engineering _is_ alignment.
+This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns. To get what _I_ want, I have to condition those probabilities through context: "You're an experienced Kotlin developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. In a very real sense, prompting and context engineering _is_ alignment.
 
 It's worth noting that LLMs work as well as they do for programming precisely because "what a typical software engineer would do" often aligns with what I want. Code has conventions, shared patterns, established best practices. So I can typically get what I want with the right context. But this will start to break down for less conventional tasks, or domains where preferences diverge more (like individual values!).
 
@@ -51,15 +49,11 @@ In other words, true alignment to _you and your intents and goals_ requires pers
 
 ## The Average Human Has One Testicle
 
-Ok, now let's zoom out a bit. What about alignment to _humanity_? This is the driving concern of the x-risk folks. What would it look like for an agent to be perfectly aligned with the intents and goals of _humanity_?
+Ok, now let's zoom out a bit. What about (shallow) alignment to _humanity_? What would it look like for an agent to be perfectly aligned with the intents and goals of _humanity_?
 
-...I'm not sure this is actually possible, because...
+...I'm not sure this is actually possible. What would "humanity's intents and goals" even mean? Should an aligned AI prefer democracy or autocracy? Individualism or collectivism? Economic growth or environmental preservation? Different humans -- and different human cultures -- have fundamentally incompatible answers.
 
-The problem is that the intents and goals of "humanity" are not necessarily coherent. "Humanity" is population with wildly divergent intents and goals.
-
-As the old statistical joke goes: the average human has one testicle and one ovary, slightly less than two arms, and 2.5 children. Technically true in aggregate, but useless for describing any actual person.
-
-This reveals the other side of the problem. Earlier we saw that aggregate models fail to capture individual preferences. But there's no escaping to "just align with humanity instead" -- because humanity isn't a coherent entity with preferences to align to. Any attempt to define "humanity's values" is either an arbitrary choice of whose values to prioritize, or an incoherent average that satisfies no one.
+As the old statistical joke goes: the average human has one testicle, one ovary, and slightly less than two arms. True in aggregate, but not true for most of the individuals in the population. Similarly, any attempt to define "humanity's values" is either an arbitrary choice of whose values to prioritize, or an incoherent average that satisfies no one.
 
 ## The Ideographic-Nomothetic Continuum
 
