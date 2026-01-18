@@ -25,15 +25,21 @@ But there's another alignment problem -- one that's easier to overlook because i
 
 ## Perfect Alignment
 
-As a thought experiment, let's imagine what a perfectly aligned agent would be, according to Miles' definition: an agent that shares an identical ordering over world states as you do.
+As a thought experiment, let's imagine what a perfectly aligned agent would be, according to Miles' definition: an agent that shares an identical ordering over world states as you do, and no ulterior goals or motives. So perfectly aligned, both deep and shallow.
 
 If this existed in a coding assistant, it would be seamless to work with. It would know, out of the box, exactly what I wanted to build and how I wanted to build it. It wouldn't require endless tweaking to its `CLAUDE.md` and loading up its context window, because it would already be attuned to my preferences and styles and goals.
 
 What would this require? A complete understanding of everything that shaped me -- all my life experiences leading to this moment, how they were absorbed through my biology into my current mental state. Or alternatively, a way to directly read my internal neural weights and predict from there.
 
-Either way, predicting my preference for world state ordering requires a model of _me_. But that's not what LLMs are. LLMs are trained on massive datasets of human behavior -- they're models of _humans in aggregate_, not models of specific individuals. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
+Either way, predicting my preference for world state ordering requires a model of _me_.
 
-This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns. To get what _I_ want, I have to condition those probabilities through context: "You're an experienced Kotlin developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. In a very real sense, prompting and context engineering _is_ alignment.
+## Why LLMs Can't Do This
+
+But that's not what LLMs are. LLMs are trained on massive datasets of human behavior -- they're models of _humans in aggregate_, not models of specific individuals. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
+
+This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns.
+
+To get what _I_ want, I have to condition those probabilities through context: "You're an experienced Python developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. In a very real sense, prompting and context engineering _is_ alignment.
 
 It's worth noting that LLMs work as well as they do for programming precisely because "what a typical software engineer would do" often aligns with what I want. Code has conventions, shared patterns, established best practices. So I can typically get what I want with the right context. But this will start to break down for less conventional tasks, or domains where preferences diverge more (like individual values!).
 
