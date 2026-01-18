@@ -35,7 +35,7 @@ Either way, predicting my preference for world state ordering requires a model o
 
 Here's the troubling part: even if we achieved this -- a perfect model of you with no ulterior motives -- that model becomes a dangerous tool in the wrong hands. A malicious agent could run your perfectly aligned model internally, using it to predict exactly how you'll respond to any manipulation. The perfect model of you becomes the perfect tool for deceiving you.
 
-## Back to Reality
+## Back to The Present Reality
 
 This thought experiment might seem abstract, but it helps explain why my experience with Claude Code feels the way it does. LLMs aren't -- and can't be -- perfect models of individuals. They're trained on massive datasets of human behavior, making them models of _humans in aggregate_, not models of specific individuals. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
 
