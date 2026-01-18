@@ -33,11 +33,9 @@ What would this require? A complete understanding of everything that shaped me -
 
 Either way, predicting my preference for world state ordering requires a model of _me_. And for that model to be deeply aligned -- to not have ulterior motives -- it would need to be a literal _copy_ of me, that is, something with no additional goals or preferences beyond what I already have.
 
-Here's the troubling part: even if we achieved this -- a perfect model of you with no ulterior motives -- that model becomes a dangerous tool in the wrong hands. A malicious agent could run your perfectly aligned model internally, using it to predict exactly how you'll respond to any manipulation. The perfect model of you becomes the perfect tool for deceiving you.
-
 ## Back to The Present Reality
 
-This thought experiment might seem abstract, but it helps explain why my experience with Claude Code feels the way it does. LLMs aren't -- and can't be -- perfect models of individuals. They're trained on massive datasets of human behavior, making them models of _humans in aggregate_, not models of specific individuals. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
+This thought experiment might seem abstract, but it helps explain why my experience with Claude Code feels the way it does. LLMs aren't -- and can't be -- perfect models of individuals. They're trained on massive datasets of human behavior, making them models of _humans in aggregate_. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
 
 This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns.
 
@@ -47,4 +45,16 @@ It's worth noting that LLMs work as well as they do for programming precisely be
 
 It's important to note that no amount of training in aggregate will eliminate this gap. You can't derive individual-level predictions from population-level patterns without losing information. Context and prompting help, but they're still constrained by what the model learned from aggregate data. The mismatch between population patterns and individual cases is fundamental: aggregate models are optimized for typical cases, not for you and your current context.
 
-In other words, true alignment to _you and your intents and goals_ requires personalized training: a model whose weights update based on interactions with _you specifically_.
+In other words, true alignment to _you and your intents and goals_ requires personalized training: a model whose weights update based on interactions with _you in your context specifically_.
+
+## TBA
+
+Takeaways:
+
+1. An agent that is aligned to me and my context is not aligned to you and your context.
+
+2. Generalization sacrifices individual alignment (I'll write more on this in a future post)
+
+3. Here's the troubling part: even if we achieved perfect alignment -- a perfect model of you with no ulterior motives -- that model becomes a dangerous tool in the wrong hands. A malicious agent could run your perfectly aligned model internally, using it to predict exactly how you'll respond to any manipulation. The perfect model of you becomes the perfect tool for deceiving you.
+
+This reveals an uncomfortable truth: a perfectly aligned model can always be used to build a malicious system. It's not sufficient for us to "solve the alignment problem" -- we must also prevent perfect alignment from falling into malicious hands.
