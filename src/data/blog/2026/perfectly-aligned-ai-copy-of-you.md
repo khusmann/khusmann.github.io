@@ -1,8 +1,8 @@
 ---
 author: Kyle Husmann
 pubDatetime: 2026-01-07T11:30:00-07:00
-title: "The Average Human Has One Testicle (And Other Challenges For AI Alignment)"
-slug: average-human-one-testicle-ai-alignment
+title: "A Perfectly Aigned AI Is A Copy of You"
+slug: perfectly-aligned-ai-copy-of-you
 featured: true
 draft: false
 tags:
@@ -23,13 +23,7 @@ Most conversations I've heard around "alignment" focus on issues at a grand scal
 
 But there's another alignment problem -- one that's easier to overlook because it seems so much more tractable. Call it "shallow alignment": the ability for an agent to know and act in accordance with _our_ intents and goals, independent of whether they have deeper ulterior motives. Deep alignment is necessary for safety; shallow alignment is necessary for capability.
 
-For the rest of this post, I want to set deep alignment aside and focus on shallow alignment: the ability of an agent to model _us_, or at least the ability to predict what we'll likely want in a given situation. Most discussions I've encountered acknowledge this is hard, but treat it as an open engineering problem -- something that better architectures or more data will eventually solve. I'm not so sure.
-
-My graduate work was in human development and family studies, where we spent a lot of time thinking about what it means to model and predict human behavior. There's an inherent tradeoff when modeling human behavior that's well-known in behavioral science but I haven't seen touched on in discussions about AI -- and I think it's fundamental to the problem of shallow alignment.
-
-Before I explain what this tradeoff is, let's build some intuition first.
-
-## A Perfectly Aligned AI Is A Model Of You
+## Perfect Alignment
 
 As a thought experiment, let's imagine what a perfectly aligned agent would be, according to Miles' definition: an agent that shares an identical ordering over world states as you do.
 
@@ -46,17 +40,3 @@ It's worth noting that LLMs work as well as they do for programming precisely be
 It's important to note that no amount of training in aggregate will eliminate this gap. You can't derive individual-level predictions from population-level patterns without losing information. Context and prompting help, but they're still constrained by what the model learned from aggregate data. The mismatch between population patterns and individual cases is fundamental: aggregate models are optimized for typical cases, not for you and your current context.
 
 In other words, true alignment to _you and your intents and goals_ requires personalized training: a model whose weights update based on interactions with _you specifically_.
-
-## The Average Human Has One Testicle
-
-Ok, now let's zoom out a bit. What about (shallow) alignment to _humanity_? What would it look like for an agent to be perfectly aligned with the intents and goals of _humanity_?
-
-...I'm not sure this is actually possible. What would "humanity's intents and goals" even mean? Should an aligned AI prefer democracy or autocracy? Individualism or collectivism? Economic growth or environmental preservation? Different humans -- and different human cultures -- have fundamentally incompatible answers.
-
-As the old statistical joke goes: the average human has one testicle, one ovary, and slightly less than two arms. True in aggregate, but not true for most of the individuals in the population. Similarly, any attempt to define "humanity's values" is either an arbitrary choice of whose values to prioritize, or an incoherent average that satisfies no one.
-
-## The Ideographic-Nomothetic Continuum
-
-## Final Thoughts
-
-Parallel to bias variance tradeoff
