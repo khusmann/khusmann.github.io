@@ -47,14 +47,16 @@ It's important to note that no amount of training in aggregate will eliminate th
 
 In other words, true alignment to _you and your intents and goals_ requires personalized training: a model whose weights update based on interactions with _you in your context specifically_.
 
-## TBA
+## Individual Alignment Will Create Individuals
 
-Takeaways:
+If perfect alignment requires a copy of you, then perfect alignment for me is not perfect alignment for you. We are different individuals in different contexts. Perfect alignment does not generalize.
 
-1. An agent that is aligned to me and my context is not aligned to you and your context.
+Increasing the capability of AI agents, as I've argued, will require personalized, contextual training: models whose weights update based on interactions with you in your context. AI researcher Rich Sutton makes a similar point in [a recent interview](https://youtu.be/21EYKqUsPfg?si=DtACJ4eriaJpM9N7&t=1929) when discussing what's needed to get beyond current LLM limitations. He talks about systems that "learn a policy that's specific to the environment that you're finding yourself in." To get to the next level of capability, we need to build individual models, not focus only on population ones.
 
-2. Generalization sacrifices individual alignment (I'll write more on this in a future post)
+But consider what this means: A model that learns through its own interactions in a specific environment isn't just a better prediction machine. It's developing learned representations through its own interactions, not just making generalizations based on aggregate patterns from static training data as LLMs do. A model that continuously learns from experience in your context? That's not passive statistical prediction anymore. That's getting uncomfortably close to an individual with experiences.
 
-3. Here's the troubling part: even if we achieved perfect alignment -- a perfect model of you with no ulterior motives -- that model becomes a dangerous tool in the wrong hands. A malicious agent could run your perfectly aligned model internally, using it to predict exactly how you'll respond to any manipulation. The perfect model of you becomes the perfect tool for deceiving you.
+Here's the problem: We started trying to address shallow alignment, the capability problem of getting models to predict what we want. Personalized training would help solve that. But it forces us back to deep alignment: how do we know this individual, formed through experience and interaction with you in your environment, shares your goals?
 
-This reveals an uncomfortable truth: a perfectly aligned model can always be used to build a malicious system. It's not sufficient for us to "solve the alignment problem" -- we must also prevent perfect alignment from falling into malicious hands.
+And even if we solved that -- even if we created a model perfectly aligned with you in your context -- that model becomes a dangerous tool in anyone else's hands. A malicious agent could use it to manipulate you or to pose as a perfectly aligned copy.
+
+Maybe the friction of current LLMs is protecting us from harder questions. The constant prompting, the imperfect predictions, the need to spell out context -- all of that keeps AI systems as tools rather than beings.
