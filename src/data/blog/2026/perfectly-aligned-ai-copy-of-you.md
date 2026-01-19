@@ -57,7 +57,7 @@ But consider what this means: A model trained on static data, no matter how larg
 
 There's something qualitatively different here. An LLM knows about debugging because it saw millions of debugging sessions in its training data. But a personalized model would have learned from debugging with you, formed associations specific to your codebase, your bugs, your solutions. That's not passive statistical prediction anymore. That's something closer to individual experience.
 
-Here's the problem: We started trying to address the capability problem -- getting models to predict what we want. Personalized training would help solve that. But it forces us right back to the safety problem: how do we know this new "individual", formed through experience and interaction with you in your environment, actually shares your goals and doesn't have its own?
+But now we're forced right back to the safety problem: how do we know this new "individual", formed through experience and interaction with you in your environment, actually shares your goals and doesn't have its own?
 
 And even if we solved that -- even if we created a model aligned with you in your context that truly shares your goals -- we've created new problems. That model becomes a dangerous tool in anyone else's hands: a simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought identity theft was bad...)
 
