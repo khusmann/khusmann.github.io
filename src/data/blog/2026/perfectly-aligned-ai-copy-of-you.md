@@ -29,9 +29,11 @@ To answer that, let's start with Miles' definition: a perfectly aligned agent wo
 
 If this existed in a coding assistant, it would be seamless to work with. It would know, out of the box, exactly what I wanted to build and how I wanted to build it. It wouldn't require endless tweaking to its `CLAUDE.md` and loading up its context window, because it would already be attuned to my preferences and styles and goals.
 
-What would this require? A complete understanding of everything that shaped me: all my life experiences leading to this moment, how they were absorbed through my biology into my current mental state. Or alternatively, a way to directly read my internal neural weights and predict from there.
+What would this require? At minimum, it would need to know all the code I've ever written, every project I've worked on, my formal education, the design patterns I favor, the trade-offs I typically make. It would need my understanding of the current project and everything that led up to it: the problem I'm trying to solve, who the users are and what they need, the domain knowledge that shapes the solution space, the business constraints, etc. etc.
 
-Either way, predicting my preference for world state ordering requires a model of _me_. And for that model to not have ulterior motives -- to truly share my goals rather than just appear to -- it would need to be a literal _copy_ of me, that is, something with no additional goals or preferences beyond what I already have.
+But that's still not enough to perfectly predict my intent in every situation. It also needs to understand why I make those choices: the past projects that taught me certain lessons, the bugs that shaped my caution around edge cases, the teammates whose styles influenced mine. And to understand that, it would need everything that shaped those experiences: my cognitive biases, my personality, my life circumstances. A complete understanding of everything that shaped me into this moment. Or alternatively, a way to directly read my internal neural weights and predict from there.
+
+Either way, perfectly predicting my preference for world state ordering requires a perfect model of _me_. And for that model to not have ulterior motives -- to truly share my goals rather than just appear to -- it would need to be a literal _copy_ of me, that is, something with no additional goals or preferences beyond what I already have.
 
 ## Back to The Present Reality
 
@@ -43,7 +45,7 @@ To get what _I_ want, I have to condition those probabilities through context: "
 
 LLMs work as well as they do for programming precisely because "what a typical software engineer would do" often aligns with what I want. Code has conventions, shared patterns, established best practices. So I can typically get what I want with the right context. But this breaks down for less conventional tasks, or domains where preferences diverge more (like individual values!).
 
-But no amount of training in aggregate will eliminate this gap. Population-level patterns can't capture the specifics that make you and your context different: your particular coding style quirks, your project's unique constraints, your individual trade-offs between readability and performance. When Claude suggests a solution, it's predicting from what it's seen across millions of developers -- not what works for you, right now, in this specific situation. Context and prompting help narrow that gap, but they're still constrained by what the model learned from aggregate data.
+No amount of training in aggregate will eliminate this gap. Population-level patterns can't capture the specifics that make you and your context different: your particular coding style quirks, your project's unique constraints, your individual trade-offs between readability and performance. When Claude suggests a solution, it's predicting from what it's seen across millions of developers -- not what works for you, right now, in this specific situation. Context and prompting help narrow that gap, but they're still constrained by what the model learned from aggregate data.
 
 In other words, true alignment to _you and your intents and goals_ requires personalized training: a model whose weights update based on interactions with _you in your context specifically_.
 
@@ -51,14 +53,14 @@ In other words, true alignment to _you and your intents and goals_ requires pers
 
 If perfect alignment requires a copy of you, then perfect alignment for me is not perfect alignment for you. We are different individuals in different contexts. Perfect alignment does not generalize.
 
-Increasing the capability of AI agents, as I've argued, will require personalized, contextual training: models whose weights update based on interactions with you in your context. AI researcher Richard Sutton makes a similar point in [a recent interview](https://youtu.be/21EYKqUsPfg?si=DtACJ4eriaJpM9N7&t=1929) when discussing what's needed to get beyond current LLM limitations. He talks about systems that "learn a policy that's specific to the environment that you're finding yourself in." To get to the next level of capability, we need to build individual models.
+Increasing the capability of AI agents, as I've argued, will require personalized, contextual training: models whose weights update based on interactions with you in your context. AI researcher Richard Sutton makes a similar point in [a recent interview](https://youtu.be/21EYKqUsPfg?si=DtACJ4eriaJpM9N7&t=1929) when discussing what's needed to get beyond current LLM limitations. He talks about systems that "learn a policy that's specific to the environment that you're finding yourself in." To get to the next level of capability, I expect we'll need to build individual models.
 
 But consider what this means: A model trained on static data, no matter how large, is fundamentally passive -- it learned to predict patterns that already existed. But a model that continuously learns from its own interactions in a specific environment? That's different. It's not just retrieving and recombining existing patterns. It's forming new representations based on its own experiences -- experiences that are unique to its interactions with you in your environment.
 
-There's something qualitatively different here. An LLM knows about debugging because it saw millions of debugging sessions in its training data. But a personalized model would have learned from debugging with you, formed associations specific to your codebase, your bugs, your solutions. That's not passive statistical prediction anymore. That's something closer to individual experience.
+There's something qualitatively different here. An LLM knows about debugging because it saw millions of debugging sessions in its training data. But a personalized model would have learned from debugging with you, formed associations specific to your codebases, your bugs, your solutions. That's not passive statistical prediction anymore. That's something closer to individual experience.
 
 But now we're forced right back to the safety problem: how do we know this new "individual", formed through experience and interaction with you in your environment, actually shares your goals and doesn't have its own?
 
-And even if we solved that -- even if we created a model aligned with you in your context that truly shares your goals -- we've created new problems. That model becomes a dangerous tool in anyone else's hands: a simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought identity theft was bad...)
+And even if we solved that -- even if we created a model aligned with you in your context that truly shares your goals -- we've created new problems. That model becomes a dangerous tool in anyone else's hands: a simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
 
-I suppose we should count the friction we currently experience with LLMs as a feature, not a bug. The constant prompting, the need to spell out context... maybe that's what's keeping us safe for now.
+I suppose we should count the friction we currently experience with LLMs as a feature, not a bug. The constant prompting, the need to spell out context... maybe that's exactly what's keeping us safe for now.
