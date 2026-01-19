@@ -61,4 +61,4 @@ Here's the problem: We started trying to address shallow alignment, the capabili
 
 And even if we solved that -- even if we created a model deeply aligned with you in your context -- we've created new problems. That model becomes a dangerous tool in anyone else's hands: a simulacrum of you and your context that could be used to manipulate and exploit you.
 
-Maybe the friction of current LLMs is protecting us from harder questions. The constant prompting, the need to spell out context... maybe all of that is what keeps them as tools rather than beings.
+I suppose the inherent limitations of current LLMs are protecting us from these harder questions. The constant prompting, the need to spell out context... maybe all of that is what keeps them as tools rather than beings.
