@@ -23,7 +23,7 @@ In this context, it's easy to see how "alignment" is inextricably linked to a mo
 
 So I started wondering: what would it actually take to build a perfectly aligned coding assistant? One that just knows what I want, without all the context management and prompting?
 
-## Perfect Alignment Is A Copy Of You
+## Imagining Perfect Alignment
 
 To answer that, let's start with Miles' definition: a perfectly aligned agent would share an identical ordering over world states as you do, with no ulterior goals or motives.
 
