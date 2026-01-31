@@ -1,10 +1,10 @@
 ---
 author: Kyle Husmann
-pubDatetime: 2026-01-07T11:30:00-07:00
+pubDatetime: 2026-02-01T11:00:00-07:00
 title: "A Perfectly Aligned AI Is A Copy of You"
 slug: perfectly-aligned-ai-copy-of-you
 featured: true
-draft: false
+draft: true
 tags:
   - ai
   - thoughts
