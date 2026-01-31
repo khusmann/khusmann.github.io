@@ -8,7 +8,7 @@ draft: false
 tags:
   - ai
   - thoughts
-description: The better AI gets at predicting what you want, the less it looks like a tool and the more it looks like you
+description: The better AI gets at predicting what you want, the less it looks like a tool and the more it looks like you. Maybe that's not something we want.
 ---
 
 The more I've been using Claude Code, the more I've started to think about AI alignment.
@@ -55,13 +55,13 @@ If perfect alignment requires a copy of you, then perfect alignment for me is no
 
 What's remarkable is how "good enough" aggregate alignment is. A model trained on patterns from millions of people can be incredibly helpful to an individual in a specific context, when we handle the "last mile" alignment ourselves through context. We load up the prompt with specifics about our project, our goals, our preferences, temporarily conditioning the aggregate model toward our needs. But I think as we're all finding, this approach has limits. Context windows are finite, context takes effort to provide, and even with perfect context, we're still constraining an aggregate model rather than working with one that's fundamentally aligned to us.
 
-I expect that increasing the capability of AI agents will require personalized, contextual training: models whose weights update based on interactions with you in your context. AI researcher Richard Sutton makes a similar point in [a recent interview](https://youtu.be/21EYKqUsPfg?si=DtACJ4eriaJpM9N7&t=1929) when discussing what's needed to get beyond current LLM limitations. He talks about systems that "learn a policy that's specific to the environment that you're finding yourself in." To get to the next level of capability, I expect we'll need to build individual models.
+I expect that increasing the capability of AI agents will require personalized, contextual training: models whose weights update based on interactions with you in your context. AI researcher Richard Sutton makes a similar point in [a recent interview](https://youtu.be/21EYKqUsPfg?si=DtACJ4eriaJpM9N7&t=1929) when discussing what's needed to get beyond current LLM limitations. He talks about systems that "learn a policy that's specific to the environment that you're finding yourself in." To get to the next level of capability, it seems likely we'll need to build individual models.
 
-But consider what this means: a model that continuously learns from its own interactions in a specific environment? That's a kind of entity qualitatively different to the agents that we have now. Current agents are entities produced from aggregate experiences; this would be an entity produced from individual experiences. It wouldn't just know about debugging from millions of examples -- it would have debugged with you, formed associations specific to your codebases, your patterns, your solutions. And over time, through continued interaction, it would increasingly converge toward being a model of you -- or at least, toward having a model of you.
+But consider what this means: a model that continuously learns from its own interactions in a specific environment? That's a kind of entity qualitatively different to the agents that we have now. Current agents are entities produced from aggregate experiences from many individuals; this would be an entity produced from _individual_ experiences. It wouldn't just know about debugging from millions of examples -- it would have debugged with you, formed associations specific to your codebases, your patterns, your solutions. And over time, through continued interaction, it would increasingly converge toward becoming a model of you -- or at least, toward having a model of you.
 
 This distinction of "being a model" vs "having a model" brings us right back to the safety problem: how do we know this new "individual", formed through experience and interaction with you in your environment, actually shares your goals and doesn't have its own?
 
-And there's another concern I haven't seen discussed much in popular AI discourse: you can't have individual alignment without individual variability. Humans are generally well-behaved on average, but every once in a while you get a psychopath. Aggregate training likely reduces variance in model personalities and helps avoid dangerous extremes. But individual models trained on individual experiences? We lose that safety buffer.
+And there's another concern I haven't seen discussed much in popular AI discourse: you can't have individual alignment without individual variability. Humans are generally well-behaved on average, but every once in a while you get a psychopath. I expect aggregate training reduces variance in model personalities and helps avoid dangerous extremes. But individual models trained on individual experiences? We lose that safety buffer.
 
 Furthermore, even if we could guarantee safety in these models, a personalized model becomes a dangerous tool in anyone else's hands. A simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
 
