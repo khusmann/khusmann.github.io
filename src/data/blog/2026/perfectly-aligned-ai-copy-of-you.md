@@ -25,7 +25,7 @@ So I started wondering: what would it actually take to build a perfectly aligned
 
 ## Imagining Perfect Alignment
 
-To answer that, let's start with Miles' definition: a perfectly aligned agent would share an identical ordering over world states as you do, with no ulterior goals or motives.
+Let's start with Miles' definition: a perfectly aligned agent would share an identical ordering over world states as you do, with no ulterior goals or motives.
 
 If this existed in a coding assistant, it would be seamless to work with. It would know, out of the box, exactly what I wanted to build and how I wanted to build it. It wouldn't require endless tweaking to its `CLAUDE.md` and loading up its context window, because it would already be attuned to my preferences and styles and goals.
 
