@@ -51,7 +51,7 @@ In other words, true alignment to _you and your intents and goals_ requires cont
 
 ## The Price of Perfect Alignment
 
-If perfect alignment requires a copy of you, then perfect alignment for me is not perfect alignment for you. We are different individuals in different contexts. Perfect alignment does not generalize.
+If perfect alignment requires a perfect model of you, then perfect alignment for me is not perfect alignment for you. We are different individuals in different contexts. Perfect alignment does not generalize.
 
 What's remarkable is how "good enough" aggregate alignment is. A model trained on patterns from millions of people -- then steered through [RLHF](https://en.wikipedia.org/wiki/Reinforcement_learning_from_human_feedback) toward "helpful" outputs -- can be incredibly useful to a particular individual in a particular situation. But only when we handle the "last mile" alignment ourselves by manipulating its context window. We load up the prompt with specifics about our project, our goals, our preferences, temporarily conditioning the aggregate model toward our needs. As we're all finding, though, this approach has limits. Context windows are finite, context takes effort to provide, and even with perfect context, we're still constraining an aggregate model rather than working with one that's fundamentally aligned to us.
 
