@@ -41,7 +41,7 @@ This thought experiment might seem abstract, but it helps explain why my experie
 
 This is why agentic coding currently requires such finesse in prompting and context. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns.
 
-To get what _I_ want, I have to condition those probabilities through context: "You're an experienced Python developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. Prompting and context engineering _is_ alignment.
+To get what _I_ want, I have to condition those probabilities: "You're an experienced Python developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. Prompting and context engineering _is_ alignment.
 
 LLMs work as well as they do for programming precisely because "what a typical software engineer would do" often aligns with what I want. Code has conventions, shared patterns, established best practices. So I can typically get what I want with the right prompting. But the key word is "typically" -- there's still a gap between what I want and what the model predicts, which is why I'm constantly clarifying, refining, and providing more context.
 
