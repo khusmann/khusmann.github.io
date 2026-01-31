@@ -49,7 +49,7 @@ No amount of training in aggregate will eliminate this gap. Population-level pat
 
 In other words, true alignment to _you and your intents and goals_ requires continual personalized training: a model whose weights update based on interactions with _you in your context specifically_.
 
-## Will Individual Alignment Create Individuals?
+## The Price of Perfect Alignment
 
 If perfect alignment requires a copy of you, then perfect alignment for me is not perfect alignment for you. We are different individuals in different contexts. Perfect alignment does not generalize.
 
@@ -61,8 +61,8 @@ But consider what this means: a model that continuously learns from its own inte
 
 This distinction of "being a model" vs "having a model" brings us right back to the safety problem: how do we know this new "individual", formed through experience and interaction with you in your environment, actually shares your goals and doesn't have its own?
 
-But also it raises another concern I haven't really seen discussed in popular AI discourse: individual alignment will have individual variability. Humans are generally well-behaved, on average. But every once in a while, you get a psychopath. Intuitively, I expect aggregate training reduces variance in the personality of the resulting models and help avoid extremes -- dangerous models.
+And there's another concern I haven't seen discussed much in popular AI discourse: you can't have individual alignment without individual variability. Humans are generally well-behaved on average, but every once in a while you get a psychopath. Aggregate training likely reduces variance in model personalities and helps avoid dangerous extremes. But individual models trained on individual experiences? We lose that safety buffer.
 
-And yet even if we solved these issues, we still have serious problems. That model becomes a dangerous tool in anyone else's hands: a simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
+Furthermore, even if we could guarantee safety in these models, a personalized model becomes a dangerous tool in anyone else's hands. A simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
 
 I suppose we should count the friction we currently experience with today's non-individualized LLMs as a feature, not a bug. The constant prompting, the need to spell out context... maybe that's exactly what's keeping us safe for now.
