@@ -29,9 +29,9 @@ To answer that, let's start with Miles' definition: a perfectly aligned agent wo
 
 If this existed in a coding assistant, it would be seamless to work with. It would know, out of the box, exactly what I wanted to build and how I wanted to build it. It wouldn't require endless tweaking to its `CLAUDE.md` and loading up its context window, because it would already be attuned to my preferences and styles and goals.
 
-What would this require? At minimum, it would need to know all the code I've ever written, every project I've worked on, my formal education, the design patterns I favor, the trade-offs I typically make. It would need my understanding of the current project and everything that led up to it: the problem I'm trying to solve, who the users are and what they need, the domain knowledge that shapes the solution space, the business constraints, etc. etc.
+What would this require? It would need my understanding of the current project and everything that led up to it: the problem I'm trying to solve, who the users are and what they need, the domain knowledge that shapes the solution space, the business constraints, etc. etc But to really match my intent and preferences, it would also need to know all the code I've ever written, every project I've worked on, my formal education, the design patterns I favor, the trade-offs I typically make.
 
-But that's still not enough to perfectly predict my intent in every situation. It also needs to understand why I make those choices: the past projects that taught me certain lessons, the bugs that shaped my caution around edge cases, the teammates whose styles influenced mine. And to understand that, it would need everything that shaped those experiences: my cognitive biases, my personality, my life circumstances. A complete understanding of everything that shaped me into this moment. Or alternatively, a way to directly read my internal neural weights and predict from there.
+But that's still not enough to perfectly predict my intent in every situation. It still needs more context: my cognitive biases, my personality, my life circumstances. A complete understanding of everything that shaped me into this moment. Or alternatively, a way to directly read my internal neural weights and predict from there.
 
 Either way, perfectly predicting my preference for world state ordering requires a perfect model of _me_. And for that model to not have ulterior motives -- to truly share my goals rather than just appear to -- it would need to be a literal _copy_ of me, that is, something with no additional goals or preferences beyond what I already have.
 
@@ -47,7 +47,7 @@ LLMs work as well as they do for programming precisely because "what a typical s
 
 No amount of training in aggregate will eliminate this gap. Population-level patterns can't capture the specifics that make you and your context different: your particular coding style quirks, your project's unique constraints, your individual trade-offs between readability and performance. When Claude suggests a solution, it's predicting from what it's seen across millions of developers -- not what works for you, right now, in this specific situation. Context and prompting help narrow that gap, but they're still constrained by what the model learned from aggregate data.
 
-In other words, true alignment to _you and your intents and goals_ requires personalized training: a model whose weights update based on interactions with _you in your context specifically_.
+In other words, true alignment to _you and your intents and goals_ requires continual personalized training: a model whose weights update based on interactions with _you in your context specifically_.
 
 ## Will Individual Alignment Create Individuals?
 
