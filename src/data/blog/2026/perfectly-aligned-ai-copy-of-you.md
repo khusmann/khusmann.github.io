@@ -39,7 +39,7 @@ Either way, perfectly predicting my preference for world state ordering requires
 
 This thought experiment might seem abstract, but it helps explain why my experience with Claude Code feels the way it does. LLMs aren't (and can't be) perfect models of specific individuals. They're trained on massive datasets of human behavior, making them models of _humans in aggregate_. An LLM can only be aligned with me insofar as I happen to align with the aggregate patterns in its training data.
 
-This is why agentic coding currently requires such finesse in context and prompting. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns.
+This is why agentic coding currently requires such finesse in prompting and context. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns.
 
 To get what _I_ want, I have to condition those probabilities through context: "You're an experienced Python developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. Prompting and context engineering _is_ alignment.
 
