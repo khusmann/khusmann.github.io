@@ -45,7 +45,7 @@ To get what _I_ want, I have to condition those probabilities through context: "
 
 LLMs work as well as they do for programming precisely because "what a typical software engineer would do" often aligns with what I want. Code has conventions, shared patterns, established best practices. So I can typically get what I want with the right context. But this breaks down for less conventional tasks, or domains where preferences diverge more (like individual values!).
 
-No amount of training in aggregate will eliminate this gap. Population-level patterns can't capture the specifics that make you and your context different: your particular coding style quirks, your project's unique constraints, your individual trade-offs between readability and performance. When Claude suggests a solution, it's predicting from what it's seen across millions of developers -- not what works for you, right now, in this specific situation. Context and prompting help narrow that gap, but they're still constrained by what the model learned from aggregate data.
+No amount of training in aggregate will eliminate this gap. Population-level patterns can't capture the specifics that make you and your context different: your project's unique history, and your individual goals for this exact moment. When Claude suggests a solution, it's predicting from what it's seen across millions of developers -- not what works for you, right now, in this specific situation. Context and prompting help narrow that gap, but they're still constrained by what the model learned from aggregate data.
 
 In other words, true alignment to _you and your intents and goals_ requires continual personalized training: a model whose weights update based on interactions with _you in your context specifically_.
 
