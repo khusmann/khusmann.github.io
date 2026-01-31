@@ -65,4 +65,4 @@ And there's another concern that potentially subsumes that particular safety pro
 
 Furthermore, even if we could guarantee safety in these models, a personalized model becomes a dangerous tool in anyone else's hands: A simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
 
-I suppose we should count the friction we currently experience with today's non-individualized LLMs as a feature, not a bug. The constant prompting, the need to spell out context... maybe that's exactly what's keeping us safe for now.
+I suppose we should count the friction we currently experience with today's non-individualized LLMs as a feature, not a bug. The constant prompting, the context window juggling... maybe that's exactly what's keeping us safe for now.
