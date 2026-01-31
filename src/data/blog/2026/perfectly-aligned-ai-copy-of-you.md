@@ -63,6 +63,6 @@ This distinction of "being a model" vs "having a model" brings us right back to 
 
 And there's another concern that potentially subsumes that safety problem: you can't have individual alignment without individual variability. Humans are generally well-behaved on average, but every once in a while you get a psychopath. I expect aggregate training reduces variance in model personalities and helps avoid dangerous extremes. But individual models trained on individual experiences? We lose that safety buffer. Even training on well-behaved individuals in benign contexts could occasionally produce dangerous outliers.
 
-Furthermore, even if we could guarantee safety in these models, a personalized model becomes a dangerous tool in anyone else's hands. A simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
+Furthermore, even if we could guarantee safety in these models, a personalized model becomes a dangerous tool in anyone else's hands: A simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
 
 I suppose we should count the friction we currently experience with today's non-individualized LLMs as a feature, not a bug. The constant prompting, the need to spell out context... maybe that's exactly what's keeping us safe for now.
