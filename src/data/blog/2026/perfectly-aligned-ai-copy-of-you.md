@@ -61,7 +61,7 @@ But consider what this means: a model that continuously learns from its own inte
 
 This distinction of "being a model" vs "having a model" brings us right back to the familiar AI safety problem: how do we know this new "individual", formed through experience and interaction with you in your environment, actually shares your goals and doesn't have its own?
 
-And there's another concern that potentially subsumes that particular safety problem: you can't have individual alignment without individual variability. Humans are generally well-behaved on average, but every once in a while you get a psychopath. I expect aggregate training reduces variance in model personalities and helps avoid dangerous extremes. But individual models trained on individual experiences? We lose that safety buffer. Even training with well-behaved individuals in benign contexts could occasionally produce dangerous outliers.
+But even if we could know a model's true intents, there's another issue: you can't have individual alignment without individual variability. Humans are generally well-behaved on average, but every once in a while you get a psychopath. I expect aggregate training reduces variance in model personalities and helps avoid dangerous extremes. But individual models trained on individual experiences? We lose that safety buffer. Even training with well-behaved individuals in benign contexts could occasionally produce dangerous outliers.
 
 Furthermore, even if we could guarantee safety in these models, a personalized model becomes a dangerous tool in anyone else's hands: A simulacrum of you and your context that could be used to manipulate and exploit you. (And you thought today's identity theft was bad...)
 
