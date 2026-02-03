@@ -1,10 +1,10 @@
 ---
 author: Kyle Husmann
-pubDatetime: 2026-02-01T11:00:00-07:00
+pubDatetime: 2026-02-03T08:00:00-07:00
 title: "A Perfectly Aligned AI Is A Copy of You"
 slug: perfectly-aligned-ai-copy-of-you
 featured: true
-draft: true
+draft: false
 tags:
   - ai
   - thoughts
@@ -21,7 +21,7 @@ Miles was focusing on "world states" at a grand scale: the fate of the human rac
 
 In this context, it's easy to see how "alignment" is inextricably linked to a model's usefulness. The more a model can anticipate what I want -- and the less context I need to provide -- the faster we can converge on my desired final product. Gavriel Cohen articulates this idea succinctly in the title of his recent post, ["Alignment is Capability"](https://www.off-policy.com/alignment-is-capability/).
 
-So I started wondering: what would it actually take to build a perfectly aligned agent? One that just knows what I want, without all the context management and prompting?
+So I started wondering: what would it actually take to build a perfectly aligned agent? One that just knows what I want, without all the prompting and context management?
 
 ## Imagining Perfect Alignment
 
@@ -41,7 +41,7 @@ This thought experiment might seem abstract, but it helps explain why my experie
 
 This is why agentic coding currently requires such finesse in prompting and context. Without context, an LLM essentially returns "what would humans typically write here": a prediction grounded in aggregate patterns.
 
-To get what _I_ want, I have to condition those probabilities: "You're an experienced Python developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. Prompting and context engineering _is_ alignment.
+To get what _I_ want, I have to condition those probabilities: "You're an experienced Python developer. Here's the current codebase. Here's the function you're writing. Now, given all that, what comes next?" I'm conditioning the model to shift from aggregate patterns in its corpus toward my specific situation and goals. Prompting and context engineering _are_ alignment.
 
 LLMs work as well as they do for programming precisely because "what a typical software engineer would do" often aligns with what I want. Code has conventions, shared patterns, established best practices. So I can typically get what I want with the right prompting. But the key word is "typically" -- there's still a gap between what I want and what the model predicts, which is why I'm constantly clarifying, refining, and providing more context.
 
