@@ -184,7 +184,7 @@ iridApp(App)
 
 [Try it live →](https://irid.kylehusmann.com/apps/composing/index.html?_shinylive-mode=editor-terminal-viewer)
 
-`Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. No `ns()`, no matching string IDs in two places, no separate UI and server halves to keep in sync.
+`Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. No `ns()`, no matching string IDs in two places, no separate UI and server halves to keep in sync, no `updateSliderInput()` to push values back into an input.
 
 ### Dynamic UI
 
