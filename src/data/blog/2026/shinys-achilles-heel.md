@@ -49,13 +49,11 @@ Modules don't fix this -- they don't even fully contain it. Each module still ha
 
 ## Shiny Got Half of It Right
 
-Shiny got one half of modern UI right. Its reactive primitives auto-track dependencies and propagate changes -- the model the mainstream frontend world is converging on now with "signals" (popularized by [Solid.js](https://www.solidjs.com/)).
+Shiny got one half of modern UI right. Its reactive primitives auto-track dependencies and propagate changes -- the same "signals" model behind [Solid.js](https://www.solidjs.com/).
 
-React took a different path for a decade, rebuilding UI from scratch on every change. The industry is only now circling back to the fine-grained reactive model Shiny has had all along.
+But Shiny never picked up the other half: the component model popularized by [React](https://react.dev/).
 
-But Shiny never picked up the other half: the component model.
-
-If you've used React, you already know the idea: a component owns its structure, state, and behavior all in one place. No separate "UI definition" and "behavior definition" wired together with brittle string IDs. That's what makes components genuinely composable -- you can pass them around, nest them, reuse them, and reason about them locally.
+A component owns its structure, state, and behavior all in one place -- no separate "UI definition" and "behavior definition" wired together with brittle string IDs. That's what makes components genuinely composable: you can pass them around, nest them, reuse them, and reason about them locally.
 
 Without one, every dynamic UI becomes a fight -- building component-like patterns on a framework that was never designed for them.
 
