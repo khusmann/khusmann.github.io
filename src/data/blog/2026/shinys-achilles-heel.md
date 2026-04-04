@@ -8,7 +8,7 @@ draft: true
 tags:
   - r
   - shiny
-description:
+description: "Shiny works great for simple dashboards but hits a complexity wall once your UI needs to be dynamic. Here's why, and how my new package irid fixes it."
 ---
 
 If you've done extensive development in Shiny, you know the pain. For simple dashboards, Shiny works great: you define your UI layout, hook up a reactive data pipeline between your inputs and outputs, and ship it. Your client is happy. But then the requests start coming in.
