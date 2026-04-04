@@ -223,6 +223,8 @@ The live demo wraps this component in a dataset selector and column dropdown to 
 
 [Try it live →](https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer)
 
+As a bonus, here's a [todo list example](https://irid.kylehusmann.com/apps/todo/index.html?_shinylive-mode=editor-terminal-viewer) that uses the same pattern.
+
 ### Controlled Inputs
 
 TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need two-way binding or multiple inputs sharing state. Then show irid's controlled inputs where binding a reactiveVal to an input's value attribute makes it the single source of truth. Mention this allows inputs to be re-hydrated easily, no complicated gymnatics like shiny bookmarks require.
