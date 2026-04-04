@@ -80,7 +80,93 @@ No UI/server split, no string IDs, no lifecycle to manage -- and once that's gon
 
 ### Composing Components
 
-TODO: Show how Shiny modules require ui/server pairs, ns() wiring, string IDs to communicate between modules. Then show irid components as plain functions that accept and return reactive values -- composable without boilerplate.
+Say you want two counters side by side, with a running total above them. In Shiny, the standard way to do this is with modules. Each counter gets a UI function and a server function, linked by a namespaced ID:
+
+```r
+counterUI <- function(id, label) {
+  ns <- NS(id)
+  card(
+    card_header(label),
+    card_body(
+      tags$h2(class = "text-center", textOutput(ns("display"))),
+      sliderInput(ns("value"), NULL, min = 0, max = 100, value = 0),
+      actionButton(ns("reset"), "Reset")
+    )
+  )
+}
+
+counterServer <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    output$display <- renderText(paste("Count:", input$value))
+    observeEvent(input$reset, {
+      updateSliderInput(session, "value", value = 0)
+    })
+    reactive(input$value)
+  })
+}
+
+ui <- page_fluid(
+  tags$h3(class = "text-center", textOutput("total")),
+  layout_columns(
+    counterUI("a", "A"),
+    counterUI("b", "B")
+  )
+)
+
+server <- function(input, output, session) {
+  count_a <- counterServer("a")
+  count_b <- counterServer("b")
+  output$total <- renderText(paste("Total:", count_a() + count_b()))
+}
+
+shinyApp(ui, server)
+```
+
+Notice everything you have to coordinate: string IDs passed into `NS()`, a UI function and a server function that must agree on those IDs, `updateSliderInput()` to push a value back into an input, and a `reactive()` returned from the module so the parent can read the count. The parent doesn't own the counter's state -- the module does -- so the parent has to reach in through a return value.
+
+Here's the same thing in irid:
+
+```r
+Counter <- function(label, count) {
+  card(
+    card_header(label),
+    card_body(
+      tags$h2(class = "text-center", \() paste("Count:", count())),
+      tags$input(
+        type = "range", min = 0, max = 100,
+        value = count,
+        onInput = \(event) count(event$valueAsNumber)
+      ),
+      tags$button(
+        class = "btn btn-outline-secondary btn-sm",
+        disabled = \() count() == 0,
+        onClick = \() count(0),
+        "Reset"
+      )
+    )
+  )
+}
+
+App <- function() {
+  count_a <- reactiveVal(0)
+  count_b <- reactiveVal(0)
+  total <- reactive(count_a() + count_b())
+
+  page_fluid(
+    tags$h3(class = "text-center", \() paste("Total:", total())),
+    layout_columns(
+      Counter("A", count_a),
+      Counter("B", count_b)
+    )
+  )
+}
+
+iridApp(App)
+```
+
+[Try it live →](https://irid.kylehusmann.com/apps/composing/index.html?_shinylive-mode=editor-terminal-viewer)
+
+`Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent creates the state, passes it down, and the child reads and writes it directly through the same reactive reference. No `ns()`, no matching string IDs in two places, no `updateSliderInput()` to reset the value -- `count(0)` just works. And the parent already has the reactives in scope, so the total is a one-liner.
 
 ### Dynamic UI
 
