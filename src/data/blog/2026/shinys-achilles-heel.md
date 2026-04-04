@@ -37,11 +37,11 @@ Modules don't fix this -- they don't even fully contain it. Each module still ha
 
 ## Shiny Came Before Components
 
-Shiny was released in 2012, and its _reactivity model_ was genuinely ahead of its time. Reactive primitives that automatically track dependencies and propagate changes -- the mainstream frontend world wouldn't arrive at a similar model until [Solid.js](https://www.solidjs.com/) in 2021, nearly a decade later.
+If you've used React, you already know the core idea that Shiny is missing: a component owns its structure, state, and behavior all in one place. No separate "UI definition" and "behavior definition" wired together with brittle string IDs. This is what makes components genuinely composable -- you can pass them around, nest them, reuse them, and reason about them locally.
 
-But the web also learned something else in that decade: UI is best expressed as composable, self-contained components. If you've used React, you know the idea -- a component owns its structure, state, and behavior all in one place. No separate "UI definition" and "behavior definition" wired together with string IDs. This is what makes components genuinely composable: you can pass them around, nest them, reuse them, and reason about them locally.
+But here's the thing -- Shiny got a different part of the puzzle right _first_. It was released in 2012 with reactive primitives that automatically track dependencies and propagate changes. The mainstream frontend world wouldn't arrive at a similar model until [Solid.js](https://www.solidjs.com/) in 2021, nearly a decade later. Shiny's reactivity was genuinely ahead of its time.
 
-Shiny got the reactivity story right early. What it never picked up is the component model to go with it. And without that, as your UI gets more dynamic, you're fighting to build component-like patterns on top of a framework that was never designed for them.
+What it never picked up is the component model to go with it. And without that, as your UI gets more dynamic, you're fighting to build component-like patterns on top of a framework that was never designed for them.
 
 ## A Way Forward
 
