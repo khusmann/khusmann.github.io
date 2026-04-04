@@ -102,6 +102,6 @@ TODO: The UI/server split is hard for humans, and LLMs don't eliminate that comp
 
 irid can be used in two ways: `iridApp()` for new projects or full migrations, or `iridOutput()` / `renderIrid()` to embed components into an existing Shiny app. With the embedded path, you don't have to do it all at once -- start with the places where Shiny's complexity wall hits hardest, and grow from there.
 
-Heads up: irid is still early -- the API isn't stable yet, and rough edges are likely. I'm releasing it now because feedback from people actually building with it is how it matures. If you hit a bug or want a feature, please [open an issue](https://github.com/khusmann/irid/issues). I'll be actively working through them.
+Heads up: I think the core API is stable, but no guarantees. It's also pretty bare-bones right now -- next step is adding reactive "stores" like [SolidJS](https://docs.solidjs.com/concepts/stores). But what's there should be enough to do some pretty cool stuff. I'm releasing it now because feedback from people actually building with it is how it matures. If you hit a bug or want a feature, please [open an issue](https://github.com/khusmann/irid/issues). I'll be actively working through them.
 
 If you've felt the pain at the top of this post, [give irid a try](https://irid.kylehusmann.com). I think you'll find that the component model is what Shiny's reactive engine was waiting for.
