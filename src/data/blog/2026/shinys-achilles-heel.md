@@ -225,7 +225,7 @@ The live demo wraps this component in a dataset selector and column dropdown to 
 
 ### Controlled Inputs
 
-TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need two-way binding or multiple inputs sharing state. Then show irid's controlled inputs where binding a reactiveVal to an input's value attribute makes it the single source of truth.
+TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need two-way binding or multiple inputs sharing state. Then show irid's controlled inputs where binding a reactiveVal to an input's value attribute makes it the single source of truth. Mention this allows inputs to be re-hydrated easily, no complicated gymnatics like shiny bookmarks require.
 
 ## Try It Out
 
