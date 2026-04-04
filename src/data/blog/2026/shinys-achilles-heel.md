@@ -91,9 +91,9 @@ TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need 
 
 TODO: Show how Shiny's bookmark system is limited to input values and requires explicit exclude/onBookmark/onRestore handling. Then show how irid's approach simplifies this.
 
-## AI-Generated Apps
+## A Better Target for LLMs
 
-TODO: The UI/server split is hard for humans, and LLMs don't eliminate that complexity -- they just raise the ceiling on how much of it you can tolerate before things fall apart. Generating a Shiny app still requires coordinating two separate code locations linked by string IDs, managing observer lifecycles, knowing when to use renderUI vs updateXxxInput vs custom JS. irid's component model is a much better target for AI code generation: self-contained functions with local state, no string ID wiring, no lifecycle footguns. Simpler to generate, simpler to verify.
+TODO: The UI/server split is hard for humans, and LLMs don't eliminate that complexity -- they just raise the ceiling on how much of it you can tolerate before things fall apart. Generating a Shiny app still requires coordinating two separate code locations linked by string IDs, managing observer lifecycles, knowing when to use renderUI vs updateXxxInput vs custom JS. irid's component model is a much better target for AI code generation: self-contained functions with local state, no string ID wiring, no lifecycle footguns. And because irid components sit one step away from React/Solid -- patterns LLMs have seen millions of times in training -- the model's existing knowledge transfers directly. Simpler to generate, simpler to verify.
 
 ## Try It Out
 
