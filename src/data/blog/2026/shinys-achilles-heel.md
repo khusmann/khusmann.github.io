@@ -47,15 +47,15 @@ But dynamic UIs break this contract. When your UI needs to change shape at runti
 
 Modules don't fix this -- they don't even fully contain it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension. Worse, there's no lifecycle management: when you remove a module's UI, its server-side observers [keep firing](https://github.com/rstudio/shiny/issues/2281), its inputs [linger as ghosts](https://github.com/rstudio/shiny/issues/2374), and there are no [hooks](https://github.com/rstudio/shiny/issues/3812) to clean any of it up.
 
-## Shiny Came Before Components
+## Shiny Got Half of It Right
 
-If you've used React, you already know the core idea that Shiny is missing: a component owns its structure, state, and behavior all in one place. No separate "UI definition" and "behavior definition" wired together with brittle string IDs.
+Shiny got one half of modern UI right. Its reactive primitives auto-track dependencies and propagate changes -- the model the mainstream frontend world is converging on now with "signals" (popularized by [Solid.js](https://www.solidjs.com/)).
 
-This is what makes components genuinely composable -- you can pass them around, nest them, reuse them, and reason about them locally.
+React took a different path for a decade, rebuilding UI from scratch on every change. The industry is only now circling back to the fine-grained reactive model Shiny has had all along.
 
-Interestingly, Shiny got a different part of the puzzle right _early_. It was released in 2012 with reactive primitives that automatically track dependencies and propagate changes -- a model the mainstream frontend world is only now converging on with signals (popularized by [Solid.js](https://www.solidjs.com/) in 2021).
+But Shiny never picked up the other half: the component model.
 
-Shiny's reactivity was genuinely ahead of its time. But it never picked up the component model to go with it.
+If you've used React, you already know the idea: a component owns its structure, state, and behavior all in one place. No separate "UI definition" and "behavior definition" wired together with brittle string IDs. That's what makes components genuinely composable -- you can pass them around, nest them, reuse them, and reason about them locally.
 
 Without one, every dynamic UI becomes a fight -- building component-like patterns on a framework that was never designed for them.
 
