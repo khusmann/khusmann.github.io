@@ -17,7 +17,7 @@ If you've done extensive development in Shiny, you know the pain. For simple das
 
 "Can users add and remove their own cards?" "Can we make the sidebar reorganize itself based on what step they're on?" Ok, so now you're reaching for `shinyjs` to run jQuery expressions client-side, using `insertUI()` and `removeUI()` to manage dynamic elements...
 
-But now you need the inserted UI to be reactive, so you need nested observers. Now you need to manage the lifecycle of those observers to avoid memory leaks and phantom clicks and other surprising behavior. (I wrote about this particular rabbit hole in [A Shiny Puzzle: Dynamic Observers](/posts/2025/shiny-dynamic-observers/).)
+But now you need the inserted UI to be reactive, so you need nested observers. Now you need to manually manage the lifecycle of those observers to avoid phantom clicks and memory leaks and other [surprising behavior](/posts/2025/shiny-dynamic-observers/).
 
 Pretty soon, your project is a brittle mess of workarounds and hacks. Adding new features risks creating oscillating updates or cascades of rerenders. You're spending more time fighting the framework than building your app.
 
