@@ -74,7 +74,7 @@ Three things to notice here: `count` appears as a reactive text child inside `ta
 
 If you're a Shiny developer, you might recoil at the idea of reactive values scattered throughout your markup -- won't this explode the DOM on every change? Reset cursor position, lose focus, restart animations? That's `renderUI()`'s world. irid's updates are surgical: the browser gets "set this value here" and applies it to the existing DOM node in place. Nothing around it moves, and only the changed value crosses the wire.
 
-No UI/server split, no string IDs, no lifecycle to manage. Let's look at a few common pain points in Shiny that this solves.
+No UI/server split, no string IDs, no lifecycle to manage -- and once that's gone, a whole category of Shiny pain points just unravels. They don't need to be solved; they stop existing. Let's look at a few.
 
 ## What This Unlocks
 
