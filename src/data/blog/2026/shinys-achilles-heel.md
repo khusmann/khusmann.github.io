@@ -215,11 +215,11 @@ App <- function() {
 }
 ```
 
-`Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with `Each()`, which mounts a card when an item is added and tears it down when one is removed.
+`Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), which mounts a card when an item is added and tears it down when one is removed.
 
 The `onClick` handler lives inside the card, so when the card goes away the handler goes with it. There are no dangling observers because there were never standalone observers to begin with.
 
-Conditional rendering works the same way: `When()` and `Match()` mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
+Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
 
 The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
 
@@ -231,7 +231,7 @@ TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need 
 
 ## Try It Out
 
-irid can be used in two ways: `iridApp()` for new projects or full migrations, or `iridOutput()` / `renderIrid()` to embed components into an existing Shiny app. With the embedded path, you don't have to do it all at once -- start with the places where Shiny's complexity wall hits hardest, and grow from there.
+irid can be used in two ways: [`iridApp()`](https://irid.kylehusmann.com/reference/iridApp.html) for new projects or full migrations, or [`iridOutput()`](https://irid.kylehusmann.com/reference/iridOutput.html) / [`renderIrid()`](https://irid.kylehusmann.com/reference/renderIrid.html) to embed components into an existing Shiny app. With the embedded path, you don't have to do it all at once -- start with the places where Shiny's complexity wall hits hardest, and grow from there.
 
 Heads up: I think the core API is stable, but no guarantees. It's also pretty bare-bones right now -- next step is adding reactive "stores" like [SolidJS](https://docs.solidjs.com/concepts/stores). But what's there should be enough to do some pretty cool stuff.
 
