@@ -170,7 +170,40 @@ iridApp(App)
 
 ### Dynamic UI
 
-TODO: Show the Shiny pain of insertUI/removeUI, renderUI, and the lifecycle problems they cause (dangling observers, ghost inputs). Show irid's control flow primitives -- When(), Each(), Match()/Case() -- that handle conditional and list rendering declaratively, with automatic cleanup. And because any attribute can be reactive, you don't need renderUI or custom JS just to toggle a class or disable a button.
+I wrote about this pain in detail [previously](/posts/2025/shiny-dynamic-observers/), walking through an example where users select a list of columns and each one gets a card with a close button. In Shiny, that escalates into nested observers, ghost inputs from old `actionButton()`s, and a memory leak that only shows up if you know where to look.
+
+In irid, the same thing is a function and a `reactiveVal`:
+
+```r
+Card <- function(col, on_close) {
+  tags$div(
+    class = "card",
+    tags$strong(col),
+    tags$button(onClick = on_close, "\u00d7")
+  )
+}
+
+App <- function() {
+  selected_columns <- reactiveVal(character(0))
+
+  tags$div(
+    # ...add-back UI...
+    Each(selected_columns, \(col) {
+      Card(col, on_close = \() selected_columns(setdiff(selected_columns(), col)))
+    })
+  )
+}
+```
+
+`Card` is just a function that takes a column name and a close callback -- it doesn't know about the list. The parent owns `selected_columns` (a `reactiveVal`), iterates with `Each()`, and wires each card's `on_close` to remove that column from the shared state.
+
+`Each()` takes a reactive list and a render function, and does the bookkeeping: when the list grows, it mounts new cards; when items are removed, it destroys the corresponding DOM nodes _and_ any reactive context they captured. There are no dangling observers because there were never standalone observers to dangle -- the `onClick` handler's lifetime is bound to the card that owns it. When the card goes away, the handler goes with it.
+
+Conditionals work the same way. `When(cond, ...)` and `Match(Case(...), Default(...))` mount their active branch and tear down the inactive one. No `renderUI()` regenerating a whole block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- you don't need `renderUI()` at all. The attribute is a function, the function re-runs, that single DOM attribute updates in place.
+
+The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
+
+[Try it live →](https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer)
 
 ### Controlled Inputs
 
