@@ -25,7 +25,7 @@ No problem, you say, and wire up some `uiOutput()` / `renderUI()` pairs. The cli
 
 > Make the sidebar reorganize itself based on what step they're on.
 
-Ok, so now you're reaching for `shinyjs` to run jQuery expressions client-side, using `insertUI()` and `removeUI()` to manage dynamic elements...
+Ok, so now you're reaching for `insertUI()` and `removeUI()` to manage dynamic elements, using `shinyjs` to run jQuery expressions client-side...
 
 ...But the inserted UI needs to be reactive, so you add nested observers -- and now you're manually managing their lifecycle to avoid phantom clicks, memory leaks, and other [surprising behavior](/posts/2025/shiny-dynamic-observers/).
 
