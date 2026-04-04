@@ -15,19 +15,23 @@ If you've done extensive development in Shiny, you know the pain. For simple das
 
 But then the requests start coming in.
 
-"Can we hide this panel when nothing's selected?" "Can we add a dropdown that changes which filters are shown?"
+> Hide this panel when nothing's selected.
+
+> Add a dropdown that changes which filters are shown.
 
 No problem, you say, and wire up some `uiOutput()` / `renderUI()` pairs. The client is happy, but then they want more.
 
-"Can users add and remove their own cards?" "Can we make the sidebar reorganize itself based on what step they're on?"
+> Let users add and remove their own cards.
+
+> Make the sidebar reorganize itself based on what step they're on.
 
 Ok, so now you're reaching for `shinyjs` to run jQuery expressions client-side, using `insertUI()` and `removeUI()` to manage dynamic elements...
 
-But now you need the inserted UI to be reactive, so you need nested observers. Now you need to manually manage the lifecycle of those observers to avoid phantom clicks, memory leaks, and other [surprising behavior](/posts/2025/shiny-dynamic-observers/).
+...But the inserted UI needs to be reactive, so you add nested observers -- and now you're manually managing their lifecycle to avoid phantom clicks, memory leaks, and other [surprising behavior](/posts/2025/shiny-dynamic-observers/).
 
-Pretty soon, your project is a brittle mess of workarounds and hacks. Adding new features risks creating oscillating updates or cascades of rerenders. You're spending more time fighting the framework than building your app. You're writing more Javascript than R now -- wasn't avoiding that the whole point?
+Pretty soon, your project is a brittle mess of workarounds and hacks. You're writing more Javascript than R now. Wasn't Shiny supposed to save you from that?
 
-I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as your UI needs to be genuinely dynamic -- responding to user actions by restructuring itself, not just updating values -- you hit a cliff.
+I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as your UI needs to restructure itself at runtime, you hit a cliff.
 
 ## The Root Cause
 
