@@ -207,14 +207,6 @@ The live demo wraps this component in a dataset selector and column dropdown to 
 
 TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need two-way binding or multiple inputs sharing state. Then show irid's controlled inputs where binding a reactiveVal to an input's value attribute makes it the single source of truth.
 
-### Bookmarkable State
-
-TODO: Show how Shiny's bookmark system is limited to input values and requires explicit exclude/onBookmark/onRestore handling. Then show how irid's approach simplifies this.
-
-## A Better Target for LLMs
-
-TODO: The UI/server split is hard for humans, and LLMs don't eliminate that complexity -- they just raise the ceiling on how much of it you can tolerate before things fall apart. Generating a Shiny app still requires coordinating two separate code locations linked by string IDs, managing observer lifecycles, knowing when to use renderUI vs updateXxxInput vs custom JS. irid's component model is a much better target for AI code generation: self-contained functions with local state, no string ID wiring, no lifecycle footguns. And because irid components sit one step away from React/Solid -- patterns LLMs have seen millions of times in training -- the model's existing knowledge transfers directly. Simpler to generate, simpler to verify.
-
 ## Try It Out
 
 irid can be used in two ways: `iridApp()` for new projects or full migrations, or `iridOutput()` / `renderIrid()` to embed components into an existing Shiny app. With the embedded path, you don't have to do it all at once -- start with the places where Shiny's complexity wall hits hardest, and grow from there.
