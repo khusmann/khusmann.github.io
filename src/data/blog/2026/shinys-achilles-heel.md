@@ -25,7 +25,7 @@ I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as you
 
 ## The Root Cause
 
-The standard advice for managing this complexity is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules do help with organizing code. But they don't address the fundamental issue -- they just put walls around it.
+The standard advice for managing this complexity is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules do help with organizing code. But they don't address the fundamental issue.
 
 The real problem is the UI/server split itself.
 
@@ -33,7 +33,7 @@ In Shiny, every piece of your app lives in one of two places: a UI function that
 
 For static layouts, this works fine. The UI is declared once, the server hooks into it, and everything is clean. But dynamic UIs break this contract. When your UI needs to change shape at runtime, you're forced to generate UI _from the server_ (via `renderUI`) and then somehow wire up reactive behavior for the things you just generated. You end up with server code that generates UI that references other server code. The clean separation that made simple apps elegant becomes a liability.
 
-Modules don't fix this -- they just scope it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension. You've traded one big tangled app for a bunch of smaller tangled boxes.
+Modules don't fix this -- they don't even fully contain it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension. Worse, there's no lifecycle management: when you remove a module's UI, its server-side observers [keep firing](https://github.com/rstudio/shiny/issues/2281), its inputs [linger as ghosts](https://github.com/rstudio/shiny/issues/2374), and there are no [hooks](https://github.com/rstudio/shiny/issues/3812) to clean any of it up.
 
 ## Shiny Came Before Components
 
