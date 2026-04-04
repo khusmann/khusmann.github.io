@@ -37,13 +37,11 @@ Modules don't fix this -- they don't even fully contain it. Each module still ha
 
 ## Shiny Came Before Components
 
-Shiny was released in 2012 -- before React (2013), before the entire modern web learned the lesson that UI is best expressed as composable, self-contained components that own both their structure and their behavior.
+Shiny was released in 2012, and its _reactivity model_ was genuinely ahead of its time. Reactive primitives that automatically track dependencies and propagate changes -- the mainstream frontend world wouldn't arrive at a similar model until [Solid.js](https://www.solidjs.com/) in 2021, nearly a decade later.
 
-In React, a component is a function. It returns what to render, holds its own state, and responds to events -- all in one place. There's no separate "UI definition" and "behavior definition" that you wire together with string IDs. This isn't just an ergonomic preference; it's what makes components genuinely composable. You can pass them around, nest them, reuse them, and reason about them locally.
+But the web also learned something else in that decade: UI is best expressed as composable, self-contained components. If you've used React, you know the idea -- a component owns its structure, state, and behavior all in one place. No separate "UI definition" and "behavior definition" wired together with string IDs. This is what makes components genuinely composable: you can pass them around, nest them, reuse them, and reason about them locally.
 
-That said, Shiny's _reactivity model_ was ahead of its time. The idea of fine-grained reactive primitives that automatically track dependencies and propagate changes -- that's exactly what Solid.js (2021) brought to the frontend world nearly a decade later. Shiny had the right reactivity story early. What it currently lacks is the component model to go with it.
-
-Without that, as your UI gets more dynamic, you're essentially fighting to build component-like patterns on top of a framework that was never designed for them.
+Shiny got the reactivity story right early. What it never picked up is the component model to go with it. And without that, as your UI gets more dynamic, you're fighting to build component-like patterns on top of a framework that was never designed for them.
 
 ## A Way Forward
 
