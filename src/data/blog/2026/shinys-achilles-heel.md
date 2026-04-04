@@ -25,7 +25,7 @@ Ok, so now you're reaching for `shinyjs` to run jQuery expressions client-side, 
 
 But now you need the inserted UI to be reactive, so you need nested observers. Now you need to manually manage the lifecycle of those observers to avoid phantom clicks, memory leaks, and other [surprising behavior](/posts/2025/shiny-dynamic-observers/).
 
-Pretty soon, your project is a brittle mess of workarounds and hacks. You're writing more Javascript than R. Adding new features risks creating oscillating updates or cascades of rerenders. You're spending more time fighting the framework than building your app.
+Pretty soon, your project is a brittle mess of workarounds and hacks. Adding new features risks creating oscillating updates or cascades of rerenders. You're spending more time fighting the framework than building your app. You're writing more Javascript than R now -- wasn't avoiding that the whole point?
 
 I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as your UI needs to be genuinely dynamic -- responding to user actions by restructuring itself, not just updating values -- you hit a cliff.
 
