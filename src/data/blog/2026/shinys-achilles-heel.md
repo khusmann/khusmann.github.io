@@ -61,6 +61,7 @@ Counter <- function() {
     tags$p("Count: ", count),
     tags$button(
       "Increment",
+      disabled = \() count() >= 10,
       onClick = \(ev) count(count() + 1)
     )
   )
@@ -69,9 +70,11 @@ Counter <- function() {
 iridApp(Counter)
 ```
 
-If you're a Shiny developer, you might recoil at "reactive attributes" -- won't this explode the DOM on every change? Reset cursor position, lose focus, restart animations? That's `renderUI()`'s world. irid's updates are surgical: the browser gets "set this attribute to this value" and applies it to the existing DOM node in place. Nothing around it moves, and only the changed value crosses the wire.
+Three things to notice here: `count` appears as a reactive text child inside `tags$p()`, the button's `disabled` attribute is a function that re-evaluates whenever `count` changes, and `onClick` is wired directly on the tag -- no observers, no input / output IDs, no `updateActionButton()` or `observeEvent()`.
 
-State, markup, and event handling -- all in one function. Let's look at a few common pain points in Shiny that this solves.
+If you're a Shiny developer, you might recoil at the idea of reactive values scattered throughout your markup -- won't this explode the DOM on every change? Reset cursor position, lose focus, restart animations? That's `renderUI()`'s world. irid's updates are surgical: the browser gets "set this value here" and applies it to the existing DOM node in place. Nothing around it moves, and only the changed value crosses the wire.
+
+No UI/server split, no string IDs, no lifecycle to manage. Let's look at a few common pain points in Shiny that this solves.
 
 ## What This Unlocks
 
