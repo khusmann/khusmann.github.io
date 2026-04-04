@@ -195,11 +195,9 @@ App <- function() {
 }
 ```
 
-`Card` is just a function that takes a column name and a close callback -- it doesn't know about the list. The parent owns `selected_columns` (a `reactiveVal`), iterates with `Each()`, and wires each card's `on_close` to remove that column from the shared state.
+`Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with `Each()`, which mounts a card when an item is added and tears it down when one is removed. The `onClick` handler lives inside the card, so when the card goes away the handler goes with it. There are no dangling observers because there were never standalone observers to begin with.
 
-`Each()` takes a reactive list and a render function, and does the bookkeeping: when the list grows, it mounts new cards; when items are removed, it destroys the corresponding DOM nodes _and_ any reactive context they captured. There are no dangling observers because there were never standalone observers to dangle -- the `onClick` handler's lifetime is bound to the card that owns it. When the card goes away, the handler goes with it.
-
-Conditionals work the same way. `When(cond, ...)` and `Match(Case(...), Default(...))` mount their active branch and tear down the inactive one. No `renderUI()` regenerating a whole block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- you don't need `renderUI()` at all. The attribute is a function, the function re-runs, that single DOM attribute updates in place.
+Conditional rendering works the same way: `When()` and `Match()` mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
 
 The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
 
