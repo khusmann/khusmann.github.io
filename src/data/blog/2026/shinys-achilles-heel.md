@@ -53,11 +53,11 @@ If you've used React, you already know the core idea that Shiny is missing: a co
 
 This is what makes components genuinely composable -- you can pass them around, nest them, reuse them, and reason about them locally.
 
-But here's the thing. Shiny got a different part of the puzzle right _first_. It was released in 2012 with reactive primitives that automatically track dependencies and propagate changes. The mainstream frontend world wouldn't arrive at a similar model until [Solid.js](https://www.solidjs.com/) in 2021, nearly a decade later.
+Interestingly, Shiny got a different part of the puzzle right _early_. It was released in 2012 with reactive primitives that automatically track dependencies and propagate changes -- a model the mainstream frontend world is only now converging on with signals (popularized by [Solid.js](https://www.solidjs.com/) in 2021).
 
-Shiny's reactivity was genuinely ahead of its time.
+Shiny's reactivity was genuinely ahead of its time. But it never picked up the component model to go with it.
 
-What it never picked up is the component model to go with it. And without that, as your UI gets more dynamic, you're fighting to build component-like patterns on top of a framework that was never designed for them.
+Without one, every dynamic UI becomes a fight -- building component-like patterns on a framework that was never designed for them.
 
 ## A Way Forward
 
