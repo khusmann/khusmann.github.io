@@ -41,7 +41,9 @@ Shiny was released in 2012 -- before React (2013), before the entire modern web 
 
 In React, a component is a function. It returns what to render, holds its own state, and responds to events -- all in one place. There's no separate "UI definition" and "behavior definition" that you wire together with string IDs. This isn't just an ergonomic preference; it's what makes components genuinely composable. You can pass them around, nest them, reuse them, and reason about them locally.
 
-Shiny doesn't have this. And as a result, as your UI gets more dynamic, you're essentially fighting to build component-like patterns on top of a framework that was never designed for them.
+That said, Shiny's _reactivity model_ was ahead of its time. The idea of fine-grained reactive primitives that automatically track dependencies and propagate changes -- that's exactly what Solid.js (2021) brought to the frontend world nearly a decade later. Shiny had the right reactivity story early. What it currently lacks is the component model to go with it.
+
+Without that, as your UI gets more dynamic, you're essentially fighting to build component-like patterns on top of a framework that was never designed for them.
 
 ## A Way Forward
 
@@ -69,7 +71,31 @@ Counter <- function() {
 iridApp(Counter)
 ```
 
-State, markup, and event handling -- all in one function. You can compose these, nest them, pass reactive values between them. The things that required `renderUI` and nested observers and lifecycle management in standard Shiny just... work.
+State, markup, and event handling -- all in one function. Let's look at a few common pain points in Shiny that this solves.
+
+## What This Unlocks
+
+### Composing Components
+
+TODO: Show how Shiny modules require ui/server pairs, ns() wiring, string IDs to communicate between modules. Then show irid components as plain functions that accept and return reactive values -- composable without boilerplate.
+
+### Dynamic UI
+
+TODO: Show the Shiny pain of insertUI/removeUI, renderUI, and the lifecycle problems they cause (dangling observers, ghost inputs). Show irid's control flow primitives -- When(), Each(), Match()/Case() -- that handle conditional and list rendering declaratively, with automatic cleanup. And because any attribute can be reactive, you don't need renderUI or custom JS just to toggle a class or disable a button.
+
+### Controlled Inputs
+
+TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need two-way binding or multiple inputs sharing state. Then show irid's controlled inputs where binding a reactiveVal to an input's value attribute makes it the single source of truth.
+
+### Bookmarkable State
+
+TODO: Show how Shiny's bookmark system is limited to input values and requires explicit exclude/onBookmark/onRestore handling. Then show how irid's approach simplifies this.
+
+## AI-Generated Apps
+
+TODO: The UI/server split is hard for humans, and LLMs don't eliminate that complexity -- they just raise the ceiling on how much of it you can tolerate before things fall apart. Generating a Shiny app still requires coordinating two separate code locations linked by string IDs, managing observer lifecycles, knowing when to use renderUI vs updateXxxInput vs custom JS. irid's component model is a much better target for AI code generation: self-contained functions with local state, no string ID wiring, no lifecycle footguns. Simpler to generate, simpler to verify.
+
+## Try It Out
 
 irid integrates with existing Shiny apps through `iridOutput()` / `renderIrid()`, so you can adopt it incrementally. You don't have to rewrite your app -- you can start using components in the places where Shiny's complexity wall hits hardest.
 
