@@ -52,6 +52,8 @@ In irid, a component is a function that returns a tag tree. State lives right ne
 Here's what a simple counter looks like:
 
 ```r
+library(irid)
+
 Counter <- function() {
   count <- reactiveVal(0)
 
@@ -63,6 +65,8 @@ Counter <- function() {
     )
   )
 }
+
+iridApp(Counter)
 ```
 
 State, markup, and event handling -- all in one function. You can compose these, nest them, pass reactive values between them. The things that required `renderUI` and nested observers and lifecycle management in standard Shiny just... work.
