@@ -47,7 +47,7 @@ What it never picked up is the component model to go with it. And without that, 
 
 This is why I built [irid](https://irid.kylehusmann.com). It's an R package that brings fine-grained, component-based reactivity to Shiny -- without leaving the Shiny ecosystem.
 
-In irid, a component is a function that returns a tag tree. State lives right next to the markup that uses it. Any tag attribute can be made reactive by passing a function instead of a value, and irid surgically updates just that attribute -- no re-rendering of the surrounding DOM. There are no string IDs to manage, no separate UI and server definitions to keep in sync.
+In irid, a component is a function that returns a tag tree. State lives right next to the markup that uses it. Any tag attribute can be made reactive by passing a function instead of a value. There are no string IDs to manage, no separate UI and server definitions to keep in sync.
 
 Here's what a simple counter looks like:
 
@@ -68,6 +68,8 @@ Counter <- function() {
 
 iridApp(Counter)
 ```
+
+If you're a Shiny developer, you might recoil at "reactive attributes" -- won't this explode the DOM on every change? Reset cursor position, lose focus, restart animations? That's `renderUI()`'s world. irid's updates are surgical: the browser gets "set this attribute to this value" and applies it to the existing DOM node in place. Nothing around it moves, and only the changed value crosses the wire.
 
 State, markup, and event handling -- all in one function. Let's look at a few common pain points in Shiny that this solves.
 
