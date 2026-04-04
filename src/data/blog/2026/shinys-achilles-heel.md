@@ -45,15 +45,17 @@ For static layouts, this works fine. The UI is declared once, the server hooks i
 
 But dynamic UIs break this contract. When your UI needs to change shape at runtime, you're forced to generate UI _from the server_ (via `renderUI`) and then somehow wire up reactive behavior for the things you just generated. You end up with server code that generates UI that references other server code. The clean separation that made simple apps elegant becomes a liability.
 
-Modules don't fix this -- they don't even fully contain it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension. Worse, there's no lifecycle management: when you remove a module's UI, its server-side observers [keep firing](https://github.com/rstudio/shiny/issues/2281), its inputs [linger as ghosts](https://github.com/rstudio/shiny/issues/2374), and there are no [hooks](https://github.com/rstudio/shiny/issues/3812) to clean any of it up.
+Modules don't fix this -- they don't even fully contain it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension.
 
-To be fair, this wasn't a mistake -- it was the right design for 2012, before React and component thinking had crystallized. R is single-threaded and server-side, and "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible. It still pays off for simple apps.
+Worse, there's currently no lifecycle management: when you remove a module's UI, its server-side observers [keep firing](https://github.com/rstudio/shiny/issues/2281), its inputs [linger as ghosts](https://github.com/rstudio/shiny/issues/2374), and there are no [hooks](https://github.com/rstudio/shiny/issues/3812) to clean any of it up. (The py-shiny team is [exploring fixes](https://github.com/posit-dev/py-shiny/issues/2207) for the lifecycle side, but retrofitting ownership doesn't dissolve the split that makes it necessary.)
 
-The problem is that the split assumes your UI's shape is knowable at startup -- and once structure itself has to react to state, the model starts charging interest.
+To be fair, the `ui`/`server` split wasn't a mistake -- it was the right design for 2012, before React and component thinking had crystallized. R is single-threaded and server-side, and "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible. It still pays off for simple apps.
+
+The problem is that the split assumes your UI's shape is knowable at startup -- and once structure itself has to react to state, the workarounds start piling up.
 
 ## Shiny Got Half of It Right
 
-Shiny got one half of modern UI right. Its reactive primitives auto-track dependencies and propagate changes -- the same core idea behind the "signals" model [Solid.js](https://www.solidjs.com/) popularized years later.
+Shiny got half of modern UI right. Its reactive primitives auto-track dependencies and propagate changes -- the same core idea behind the "signals" model [Solid.js](https://www.solidjs.com/) popularized years later.
 
 But Shiny is missing the other half: the component model popularized by [React](https://react.dev/).
 
