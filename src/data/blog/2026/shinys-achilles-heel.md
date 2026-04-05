@@ -47,8 +47,6 @@ But dynamic UIs break this contract. When your UI needs to change shape at runti
 
 Modules don't fix this -- they don't even fully contain it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension.
 
-Worse, there's currently no lifecycle management: when you remove a module's UI, its server-side observers [keep firing](https://github.com/rstudio/shiny/issues/2281), its inputs [linger as ghosts](https://github.com/rstudio/shiny/issues/2374), and there are no [hooks](https://github.com/rstudio/shiny/issues/3812) to clean any of it up. (The py-shiny team is [exploring fixes](https://github.com/posit-dev/py-shiny/issues/2207) for the lifecycle side -- a real improvement, but only one of the pains the split creates.)
-
 To be fair, the `ui`/`server` split wasn't a mistake -- it was the right design for 2012, before React and component thinking had crystallized. R is single-threaded and server-side, and "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible. It still pays off for simple apps.
 
 The problem is that the split assumes your UI's shape is knowable at startup -- and once structure itself has to react to state, the workarounds start piling up.
@@ -194,7 +192,7 @@ iridApp(App)
 
 ### Dynamic UI
 
-I wrote about this pain in detail [previously](/posts/2025/shiny-dynamic-observers/), walking through an example where users select a list of columns and each one gets a card with a close button. In Shiny, that escalates into nested observers, ghost inputs from old `actionButton()`s, and a memory leak that only shows up if you know where to look.
+I wrote about this pain in detail [previously](/posts/2025/shiny-dynamic-observers/), walking through an example where users select a list of columns and each one gets a card with a close button. In Shiny, that escalates two ways. Every new card needs a nested `observeEvent()` created inside the parent observer that spawned it, wired to a string ID generated on the fly. And when the card goes away, that observer keeps firing as a ghost, with stale inputs lingering in server memory.
 
 In irid, the same thing is a function and a `reactiveVal`:
 
@@ -221,7 +219,7 @@ App <- function() {
 
 `Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), which mounts a card when an item is added and tears it down when one is removed.
 
-The `onClick` handler lives inside the card -- and so does any observer, effect, or calc you create there. When the card unmounts, everything scoped to it is torn down automatically.
+The `onClick` handler lives inside the card, so when the card unmounts it goes with it -- no nested `observeEvent()` to create, no string ID to generate, nothing to wire up by hand. Reactive attributes and nested control flow get the same treatment: mounted with the component, torn down with it.
 
 Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
 
