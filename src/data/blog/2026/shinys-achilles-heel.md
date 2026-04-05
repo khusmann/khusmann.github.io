@@ -156,9 +156,7 @@ shinyApp(ui, server)
 
 <a href="https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IdJiw71OY4RBHEArmTiMAqgEkABAB4AtJoBmSgqVol2tACa5N1KPTjUBmkCM2aInHfoByAZQtLWXcCFkt2N3dNUMZLAH1uOChLFXY7BydcSJCwuPoiSw5sqNIoAHNOABJuACZ2AjtOLwBeTSEwcgAPUl0CCnJGdpsu0gB5BVJUCfZPCLBLWk5UO1Z2gXWsiCio6SsVdQgp0hnOOYA3KGoFODWbH1UAGQebGD5NVoAGF6hO980ARg+X00FyucD+HwEm227igJjMEAAQhNSOZZu1GHBOHBSLc2mAsFicWtisFNLIAL4ieREJQDPwqM4qbyGYymcxWZyuLaaGAFBTUOAMxhMxiBGxGCDwjmHCY2WmTOWabFNBFc4oKo6VBZLFYszEQFKMAAqcG67FQUE45DmAGFaWREENNHwtaDrusNVJGXAAKJMsgWWWkSqY7GkGzcmGaBSoSxQch+OhGg5HLhYzgImztd03PAgy7XCFk9wUkuaIjekVwdhRmE8PisABWnEQiFRZTKgr8pRtGKJuPzromlVzmgAhJ9y2XinRrREedsx61MXDTEyg27C3AocV3GGcX9JdKIOxnLH44nk-tg+nVSRs2Bc87l5pIaTIjOIFS5BAFLQWUtMo4DiAwrisBd3AbfgWzbBRsT8XgYNOXceVKCpqgAZnqRoWnxEZen6FRnRGcZFWOdpUVKag1lQ9wVgVOJiCuGB0UXaIHQGDQ5igZ12gAQVuYpFGUNR1Dmeg+LARESR5OjNDXBFkVIVFT37cM4kuGj83aQlw00fjqG02RZBEbFq0YFlj3ZU9hwjCsJiOGwVUzEh1R5ETSE0llPJUYVRR42SQk4vIfM4vyfTFdpJLAMlNRHKjLn1CgjVNc1LWtGt2mNIhqKdfNPM00dtzPTQAGoOLpPJirBM9PR5StzKZf1+k3EcDy8rTI2EkKoFDAczx6qr6H68NBp5L93Ean1a2KaDm1bdsiE7bteyysAOs0oznUKvrc1Kyc300AAfY7KrIar9ucQ73wmylqU8JDWH49B2H-ZzIoEMAKQAXSAA" target="_blank" rel="noopener">Try it live →</a>
 
-Notice everything you have to coordinate: string IDs passed into `NS()`, a UI function and a server function that must agree on those IDs, `updateSliderInput()` to push a value back into an input, and a list returned from the module so the parent can read the count _and_ reach back in to reset it. Disabling the Reset All button when both counts hit zero needs yet another observer calling `shinyjs::toggleState()`, because `actionButton()` has no reactive `disabled` attribute.
-
-The parent doesn't own the counter's state -- the module does -- so anything the parent wants to do with that state (read it, reset it, react to it) has to be threaded back out through the module's return value and then plumbed through an observer.
+Notice the interface the server has to hand-craft for the parent: a `$value` reactive to read the count, and a `$reset` function wrapping `updateSliderInput()` so the parent can force a reset. Every parent-child interaction is a bespoke entry on that returned list. And because `updateActionButton()` can't set `disabled`, we have to reach for `shinyjs::toggleState()` to disable the Reset All button.
 
 Here's the same thing in irid:
 
@@ -210,7 +208,7 @@ iridApp(App)
 
 <a href="https://irid.kylehusmann.com/apps/composing/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
 
-`Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. The Reset All button is short because the parent already holds both counts -- no return-value plumbing, no `updateSliderInput()` reaching back into the module, no `shinyjs::toggleState()` observer wired up on the side.
+`Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. The Reset All button is short because the parent already holds both counts -- no return-value plumbing, no `updateSliderInput()` reaching back into the module, no `shinyjs::toggleState()` observer wired up on the side. `disabled` is just a reactive tag attribute, like any other.
 
 Look closer at the slider itself: its `value` reads from `count` and its `onInput` writes back to the same reactive. The input doesn't own its state -- it's just a view of the parent's `reactiveVal`. More on that shortly.
 
