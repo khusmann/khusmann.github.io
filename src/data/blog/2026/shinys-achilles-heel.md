@@ -31,7 +31,7 @@ Ok, so now you're reaching for `insertUI()` and `removeUI()` to manage dynamic e
 
 Pretty soon, your project is a brittle mess of workarounds and hacks. You're writing more Javascript than R now. Wasn't Shiny supposed to save you from that?
 
-I call this Shiny's "complexity wall". Simple apps are a joy. But the more your UI needs to restructure itself at runtime, the more time you spend fighting Shiny instead of using it.
+I call this Shiny's "complexity wall" -- and the more dynamic your UI, the harder you hit it.
 
 ## The Root Cause
 
