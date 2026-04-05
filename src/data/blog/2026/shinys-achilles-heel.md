@@ -35,19 +35,17 @@ I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as you
 
 ## The Root Cause
 
-The standard advice for managing this complexity is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules do help with organizing code. But they don't address the fundamental issue.
+The standard advice for managing this complexity is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules do genuinely help -- they encapsulate local state, compose, take reactives in, return reactives out. They hit most of what you'd want from a component model.
 
-The real problem is the UI/server split itself.
+But they only get you halfway. A module is still two functions called in two different places: a UI function dropped into the UI tree, and a server function called in the server body, linked by a shared string ID. You can't pass a module instance around as a value. You can't iterate over a list and mount one per item. When the UI half disappears, the server half doesn't go with it -- you manage that lifecycle by hand.
 
-In Shiny, every piece of your app lives in one of two places: a UI function that defines structure, and a server function that defines behavior. These two halves communicate through string IDs -- you put `textOutput("result")` in your UI and `output$result <- renderText(...)` in your server, and Shiny matches them up by name.
+Those missing properties -- co-location, reference-based wiring, automatic lifecycle -- are exactly what you need when structure has to change at runtime. Static apps call each module once at startup, so none of it matters. Dynamic apps have to mount and unmount them on the fly, and suddenly it matters a lot.
 
-For static layouts, this works fine. The UI is declared once, the server hooks into it, and everything is clean.
+The deeper issue is the UI/server split itself: structure gets declared in one place, behavior in another, and string IDs thread them together. You put `textOutput("result")` in your UI and `output$result <- renderText(...)` in your server, and Shiny matches them up by name.
 
-But dynamic UIs break this contract. When your UI needs to change shape at runtime, you're forced to generate UI _from the server_ (via `renderUI`) and then somehow wire up reactive behavior for the things you just generated. You end up with server code that generates UI that references other server code. The clean separation that made simple apps elegant becomes a liability.
+For a UI whose shape is fixed at startup, that's clean. For a UI whose shape has to react to state, you're forced to generate UI _from the server_ (via `renderUI`) and wire up reactive behavior for things that didn't exist a moment ago. You end up with server code that generates UI that references other server code, and the clean separation that made simple apps elegant becomes a liability.
 
-Modules don't fix this -- they don't even fully contain it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension.
-
-To be fair, the `ui`/`server` split wasn't a mistake -- it was the right design for 2012, before React and component thinking had crystallized. R is single-threaded and server-side, and "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible. It still pays off for simple apps.
+To be fair, this wasn't a mistake -- it was the right design for 2012, before React and component thinking had crystallized. R is single-threaded and server-side, and "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible. It still pays off for simple apps.
 
 The problem is that the split assumes your UI's shape is knowable at startup -- and once structure itself has to react to state, the workarounds start piling up.
 
@@ -55,7 +53,7 @@ The problem is that the split assumes your UI's shape is knowable at startup -- 
 
 Shiny got half of modern UI right. Its reactive primitives auto-track dependencies and propagate changes -- the same core idea behind the "signals" model [Solid.js](https://www.solidjs.com/) popularized years later.
 
-But Shiny is missing the other half: the component model popularized by [React](https://react.dev/).
+But Shiny is missing the other half: the full component model popularized by [React](https://react.dev/).
 
 A component owns its structure, state, and behavior all in one place -- no separate "UI definition" and "behavior definition" wired together with brittle string IDs. That's what makes components genuinely composable: you can pass them around, nest them, reuse them, and reason about them locally.
 
