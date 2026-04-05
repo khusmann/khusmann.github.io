@@ -15,9 +15,9 @@ If you've done extensive development in Shiny, you know the pain. For simple das
 
 But then the requests start coming in.
 
-> Hide this panel when nothing's selected.
+> Populate this dropdown from the database.
 
-> Add a dropdown that changes which filters are shown.
+> Show different help text depending on which tab they're on.
 
 No problem, you say, and wire up some `uiOutput()` / `renderUI()` pairs. The client is happy, but then they want more.
 
