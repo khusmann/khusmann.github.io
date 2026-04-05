@@ -35,17 +35,15 @@ I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as you
 
 ## The Root Cause
 
-The standard advice for managing this complexity is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules do genuinely help -- they encapsulate local state, compose, take reactives in, return reactives out. They hit most of what you'd want from a component model.
+The standard advice is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules genuinely help -- they encapsulate local state, compose, take reactives in, return reactives out.
 
 But they only get you halfway. A module is still two functions called in two different places: a UI function dropped into the UI tree, and a server function called in the server body, linked by a shared string ID. You can't pass a module instance around as a value. You can't iterate over a list and mount one per item.
 
-Those missing properties -- co-location, reference-based wiring, and first-class instances -- are exactly what you need when structure has to change at runtime. Static apps call each module once at startup, so none of it matters. Dynamic apps have to mount and unmount them on the fly, and suddenly it matters a lot.
+Those missing properties -- co-location and reference-based wiring -- are exactly what you need when structure has to change at runtime. Static apps call each module once at startup, so it doesn't matter. Dynamic apps have to mount and unmount them on the fly, and suddenly it does.
 
-The deeper issue is the UI/server split itself: structure gets declared in one place, behavior in another, and string IDs thread them together. You put `textOutput("result")` in your UI and `output$result <- renderText(...)` in your server, and Shiny matches them up by name.
+The deeper issue is the UI/server split itself: structure gets declared in one place, behavior in another, and string IDs thread them together by name. When structure has to react to state, you're forced to generate UI _from the server_ (via `renderUI`) and wire up reactive behavior for things that didn't exist a moment ago. Server code ends up generating UI that references other server code.
 
-For a UI whose shape is fixed at startup, that's clean. For a UI whose shape has to react to state, you're forced to generate UI _from the server_ (via `renderUI`) and wire up reactive behavior for things that didn't exist a moment ago. You end up with server code that generates UI that references other server code, and the clean separation that made simple apps elegant becomes a liability.
-
-To be fair, this wasn't a mistake -- it was the right design for 2012, before React and component thinking had crystallized. R is single-threaded and server-side, and "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible. It still pays off for simple apps.
+To be fair, this wasn't a mistake. In 2012, before React and component thinking had crystallized, "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible -- and it still pays off for simple apps.
 
 The problem is that the split assumes your UI's shape is knowable at startup -- and once structure itself has to react to state, the workarounds start piling up.
 
