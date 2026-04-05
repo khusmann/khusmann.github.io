@@ -308,7 +308,7 @@ As a bonus, here's a <a href="https://irid.kylehusmann.com/apps/todo/index.html?
 
 irid can be used in two ways: [`iridApp()`](https://irid.kylehusmann.com/reference/iridApp.html) for new projects or full migrations, or [`iridOutput()`](https://irid.kylehusmann.com/reference/iridOutput.html) / [`renderIrid()`](https://irid.kylehusmann.com/reference/renderIrid.html) to embed components into an existing Shiny app. With the embedded path, you don't have to do it all at once -- start with the places where Shiny's complexity wall hits hardest, and grow from there.
 
-Heads up: I think the core API is stable, but no guarantees. The surface is small by design -- next step is adding reactive "stores" like [Solid.js](https://docs.solidjs.com/concepts/stores). But what's there already handles everything shown in this post.
+Heads up: I think the core API is stable, but no guarantees. The surface is small by design -- next step is adding [reactive "stores" like Solid.js](https://docs.solidjs.com/concepts/stores). But what's there already handles everything shown in this post.
 
 I'm releasing it now because feedback from people actually building with it is how it matures. If you hit a bug or want a feature, please [open an issue](https://github.com/khusmann/irid/issues). I'll be actively working through them.
 
