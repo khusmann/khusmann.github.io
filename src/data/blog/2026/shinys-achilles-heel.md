@@ -35,7 +35,7 @@ I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as you
 
 ## The Root Cause
 
-The standard advice is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules genuinely help -- they encapsulate local state, compose, take reactives in, return reactives out.
+The standard advice is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules genuinely help -- they encapsulate local state, take reactives in, return reactives out.
 
 But they only get you halfway. A module is still two functions called in two different places: a UI function dropped into the UI tree, and a server function called in the server body, linked by a shared string ID. You can't pass a module instance around as a single value -- it's not something you can store in a list, iterate over, or conditionally drop into your UI tree.
 
