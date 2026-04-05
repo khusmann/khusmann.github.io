@@ -300,7 +300,7 @@ App <- function() {
 iridApp(App)
 ```
 
-The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
+The live demo fills in the `# add-back UI` with a dataset selector and column dropdown:
 
 <a href="https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
 
