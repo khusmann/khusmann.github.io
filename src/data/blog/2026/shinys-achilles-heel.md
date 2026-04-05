@@ -226,7 +226,45 @@ As a bonus, here's a [todo list example](https://irid.kylehusmann.com/apps/todo/
 
 ### Controlled Inputs
 
-TODO: Show the Shiny pain of updateXxxInput / freezeReactiveValue when you need two-way binding or multiple inputs sharing state. Then show irid's controlled inputs where binding a reactiveVal to an input's value attribute makes it the single source of truth. Mention this allows inputs to be re-hydrated easily, no complicated gymnatics like shiny bookmarks require.
+Say you want a temperature converter: a Celsius slider and a Fahrenheit slider, where editing either one updates the other. Two inputs, one underlying value.
+
+In Shiny, each `sliderInput()` owns its own state. To keep them in sync you write two `observeEvent()`s -- one watching Celsius, one watching Fahrenheit -- each calling `updateSliderInput()` on the other. Now you have a feedback loop: updating Fahrenheit fires Celsius's observer, which updates Fahrenheit, which fires its observer again. The usual fix is `freezeReactiveValue()` or an `isolate()` guard, plus careful rounding so the values settle. It works, but you're writing plumbing to stop the inputs from fighting each other.
+
+The root problem is that the input _is_ the state. You can't have two inputs share one value -- you can only have two values that chase each other.
+
+In irid, an input's `value` attribute can be bound to a `reactiveVal`, and that `reactiveVal` becomes the single source of truth. The input displays it, writes to it, and re-renders when it changes -- no feedback loop, because there's only one value:
+
+```r
+c_to_f <- function(c) round(c * 9 / 5 + 32, 1)
+f_to_c <- function(f) round((f - 32) * 5 / 9, 1)
+
+Thermometer <- function(label, value, on_change, min, max) {
+  tags$div(
+    tags$label(label),
+    tags$input(
+      type = "range", min = min, max = max,
+      value = value,
+      onInput = \(event) on_change(event$valueAsNumber)
+    )
+  )
+}
+
+App <- function() {
+  celsius <- reactiveVal(20)
+  fahrenheit <- \() c_to_f(celsius())
+
+  tags$div(
+    Thermometer("Celsius", celsius, celsius, -40, 60),
+    Thermometer("Fahrenheit", fahrenheit, \(f) celsius(f_to_c(f)), -40, 140)
+  )
+}
+```
+
+[Try it live →](https://irid.kylehusmann.com/apps/temperature/index.html?_shinylive-mode=editor-terminal-viewer)
+
+Celsius is the canonical value. Fahrenheit is a function that derives from it. The Celsius thermometer reads and writes `celsius` directly; the Fahrenheit thermometer reads the derived value and writes back through `f_to_c()`. Both stay in sync because they're views of the same underlying state, not independent inputs that have to be reconciled.
+
+This also makes re-hydration trivial. Because the `reactiveVal` _is_ the state, restoring a saved session is just calling `celsius(saved_value)` -- the inputs follow. No `updateSliderInput()` calls, no Shiny bookmark gymnastics to thread state back through each widget's own internal store.
 
 ## Try It Out
 
