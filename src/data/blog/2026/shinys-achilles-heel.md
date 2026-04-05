@@ -23,7 +23,7 @@ No problem, you say, and wire up some `uiOutput()` / `renderUI()` pairs. The cli
 
 > Let users add and remove their own cards.
 
-> Make the sidebar reorganize itself based on what step they're on.
+> And each card should have its own controls they can tweak.
 
 Ok, so now you're reaching for `insertUI()` and `removeUI()` to manage dynamic elements...
 
