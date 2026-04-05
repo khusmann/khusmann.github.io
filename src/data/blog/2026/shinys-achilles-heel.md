@@ -302,7 +302,7 @@ The `onClick` handler lives inside the card, so when the card unmounts it goes w
 
 Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label.
 
-As a bonus, here's a [todo list example](https://irid.kylehusmann.com/apps/todo/index.html?_shinylive-mode=editor-terminal-viewer) that uses the same pattern.
+As a bonus, here's a <a href="https://irid.kylehusmann.com/apps/todo/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">todo list example</a> that uses the same pattern.
 
 ## Try It Out
 
