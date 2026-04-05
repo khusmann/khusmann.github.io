@@ -47,7 +47,7 @@ To be fair, this wasn't a mistake. In 2012, before React and component thinking 
 
 The problem is that the split assumes your UI's shape is knowable at startup -- and once structure itself has to react to state, the workarounds start piling up.
 
-## Shiny Got Half of It Right
+## What Shiny Got Right
 
 Shiny got half of modern UI right. Its reactive primitives auto-track dependencies and propagate changes -- the same core idea behind the "signals" model [Solid.js](https://www.solidjs.com/) popularized years later.
 
