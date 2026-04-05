@@ -4,16 +4,28 @@ import sitemap from "@astrojs/sitemap";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import { SITE } from "./src/config";
+import { getDraftPostPaths } from "./src/utils/getDraftPostPaths";
 import mdx from "@astrojs/mdx";
 
 import react from "@astrojs/react";
+
+const draftPostPaths = new Set(getDraftPostPaths());
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
   integrations: [
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      filter: page => {
+        if (!SITE.showArchives && page.endsWith("/archives")) return false;
+        try {
+          const pathname = new URL(page).pathname.replace(/\/$/, "");
+          if (draftPostPaths.has(pathname)) return false;
+        } catch {
+          // not a URL, fall through
+        }
+        return true;
+      },
     }),
     mdx(),
     react(),
