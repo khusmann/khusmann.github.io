@@ -47,7 +47,7 @@ But dynamic UIs break this contract. When your UI needs to change shape at runti
 
 Modules don't fix this -- they don't even fully contain it. Each module still has its own `ui`/`server` pair, its own string IDs (now wrapped in `ns()`), and its own version of the same structural tension.
 
-Worse, there's currently no lifecycle management: when you remove a module's UI, its server-side observers [keep firing](https://github.com/rstudio/shiny/issues/2281), its inputs [linger as ghosts](https://github.com/rstudio/shiny/issues/2374), and there are no [hooks](https://github.com/rstudio/shiny/issues/3812) to clean any of it up. (The py-shiny team is [exploring fixes](https://github.com/posit-dev/py-shiny/issues/2207) for the lifecycle side, but retrofitting ownership doesn't dissolve the split that makes it necessary.)
+Worse, there's currently no lifecycle management: when you remove a module's UI, its server-side observers [keep firing](https://github.com/rstudio/shiny/issues/2281), its inputs [linger as ghosts](https://github.com/rstudio/shiny/issues/2374), and there are no [hooks](https://github.com/rstudio/shiny/issues/3812) to clean any of it up. (The py-shiny team is [exploring fixes](https://github.com/posit-dev/py-shiny/issues/2207) for the lifecycle side -- a real improvement, but only one of the pains the split creates.)
 
 To be fair, the `ui`/`server` split wasn't a mistake -- it was the right design for 2012, before React and component thinking had crystallized. R is single-threaded and server-side, and "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible. It still pays off for simple apps.
 
