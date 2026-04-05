@@ -37,7 +37,7 @@ I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as you
 
 The standard advice is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules genuinely help -- they encapsulate local state, compose, take reactives in, return reactives out.
 
-But they only get you halfway. A module is still two functions called in two different places: a UI function dropped into the UI tree, and a server function called in the server body, linked by a shared string ID. You can't pass a module instance around as a value. You can't iterate over a list and mount one per item.
+But they only get you halfway. A module is still two functions called in two different places: a UI function dropped into the UI tree, and a server function called in the server body, linked by a shared string ID. You can't pass a module instance around as a single value -- it's not something you can store in a list, iterate over, or conditionally drop into your UI tree.
 
 Fixed-UI apps call each module once at startup, so it doesn't matter. Dynamic apps have to mount and unmount them on the fly, and suddenly it does.
 
