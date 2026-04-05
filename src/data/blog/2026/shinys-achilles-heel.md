@@ -94,7 +94,7 @@ No UI/server split, no string IDs, no lifecycle to manage -- and once that's gon
 
 ### Composing Components
 
-Say you want two counters side by side, with a running total above them. In Shiny, the standard way to do this is with modules. Each counter gets a UI function and a server function, linked by a namespaced ID:
+Say you want two counters side by side with a running total, each with its own Reset button, plus a Reset All button that disables itself when both counts are zero. In Shiny, the standard way to do this is with modules. Each counter gets a UI function and a server function, linked by a namespaced ID:
 
 ```r
 counterUI <- function(id, label) {
@@ -115,30 +115,45 @@ counterServer <- function(id) {
     observeEvent(input$reset, {
       updateSliderInput(session, "value", value = 0)
     })
-    reactive(input$value)
+    observe({
+      shinyjs::toggleState("reset", input$value != 0)
+    })
+    list(
+      value = reactive(input$value),
+      reset = function() updateSliderInput(session, "value", value = 0)
+    )
   })
 }
 
 ui <- page_fluid(
+  shinyjs::useShinyjs(),
   tags$h3(class = "text-center", textOutput("total")),
   layout_columns(
     counterUI("a", "A"),
     counterUI("b", "B")
-  )
+  ),
+  actionButton("reset_all", "Reset All")
 )
 
 server <- function(input, output, session) {
   count_a <- counterServer("a")
   count_b <- counterServer("b")
-  output$total <- renderText(paste("Total:", count_a() + count_b()))
+  output$total <- renderText(paste("Total:", count_a$value() + count_b$value()))
+  observeEvent(input$reset_all, {
+    count_a$reset()
+    count_b$reset()
+  })
+  observe({
+    shinyjs::toggleState("reset_all", count_a$value() != 0 || count_b$value() != 0)
+  })
 }
 
 shinyApp(ui, server)
 ```
 
-Notice everything you have to coordinate: string IDs passed into `NS()`, a UI function and a server function that must agree on those IDs, `updateSliderInput()` to push a value back into an input, and a `reactive()` returned from the module so the parent can read the count.
+Notice everything you have to coordinate: string IDs passed into `NS()`, a UI function and a server function that must agree on those IDs, `updateSliderInput()` to push a value back into an input, and a list returned from the module so the parent can read the count _and_ reach back in to reset it. Disabling the Reset All button when both counts hit zero needs yet another observer calling `shinyjs::toggleState()`, because `actionButton()` has no reactive `disabled` attribute.
 
-The parent doesn't own the counter's state -- the module does -- so the parent has to reach in through a return value.
+The parent doesn't own the counter's state -- the module does -- so anything the parent wants to do with that state (read it, reset it, react to it) has to be threaded back out through the module's return value and then plumbed through an observer.
 
 Here's the same thing in irid:
 
@@ -168,11 +183,22 @@ App <- function() {
   count_b <- reactiveVal(0)
   total <- \() count_a() + count_b()
 
+  reset_all <- \() {
+    count_a(0)
+    count_b(0)
+  }
+
   page_fluid(
     tags$h3(class = "text-center", \() paste("Total:", total())),
     layout_columns(
       Counter("A", count_a),
       Counter("B", count_b)
+    ),
+    tags$button(
+      class = "btn btn-outline-primary",
+      disabled = \() count_a() == 0 && count_b() == 0,
+      onClick = reset_all,
+      "Reset All"
     )
   )
 }
@@ -182,7 +208,7 @@ iridApp(App)
 
 [Try it live →](https://irid.kylehusmann.com/apps/composing/index.html?_shinylive-mode=editor-terminal-viewer)
 
-`Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. No `ns()`, no matching string IDs in two places, no separate UI and server halves to keep in sync, no `updateSliderInput()` to push values back into an input.
+`Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. The Reset All button is short because the parent already holds both counts -- no return-value plumbing, no `updateSliderInput()` reaching back into the module, no `shinyjs::toggleState()` observer wired up on the side.
 
 ### Dynamic UI
 
