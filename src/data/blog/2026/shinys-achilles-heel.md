@@ -97,6 +97,9 @@ No UI/server split, no string IDs, no lifecycle to manage -- and once that's gon
 Say you want two counters side by side with a running total, each with its own Reset button, plus a Reset All button that disables itself when both counts are zero. In Shiny, the standard way to do this is with modules. Each counter gets a UI function and a server function, linked by a namespaced ID:
 
 ```r
+library(shiny)
+library(bslib)
+
 counterUI <- function(id, label) {
   ns <- NS(id)
   card(
@@ -158,6 +161,9 @@ The parent doesn't own the counter's state -- the module does -- so anything the
 Here's the same thing in irid:
 
 ```r
+library(irid)
+library(bslib)
+
 Counter <- function(label, count) {
   card(
     card_header(label),
@@ -210,47 +216,7 @@ iridApp(App)
 
 `Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. The Reset All button is short because the parent already holds both counts -- no return-value plumbing, no `updateSliderInput()` reaching back into the module, no `shinyjs::toggleState()` observer wired up on the side.
 
-### Dynamic UI
-
-I wrote about this pain in detail [previously](/posts/2025/shiny-dynamic-observers/), walking through an example where users select a list of columns and each one gets a card with a close button. In Shiny, that escalates two ways. Every new card needs a nested `observeEvent()` created inside the parent observer that spawned it, wired to a string ID generated on the fly. And when the card goes away, that observer keeps firing as a ghost, with stale inputs lingering in server memory.
-
-In irid, the same thing is a function and a `reactiveVal`:
-
-```r
-Card <- function(col, on_close) {
-  tags$div(
-    class = "card",
-    tags$strong(col),
-    tags$button(onClick = on_close, "\u00d7")
-  )
-}
-
-App <- function() {
-  selected_columns <- reactiveVal(character(0))
-
-  tags$div(
-    # ...add-back UI...
-    Each(selected_columns, \(col) {
-      Card(
-        col,
-        on_close = \() selected_columns(setdiff(selected_columns(), col))
-      )
-    })
-  )
-}
-```
-
-`Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), which mounts a card when an item is added and tears it down when one is removed.
-
-The `onClick` handler lives inside the card, so when the card unmounts it goes with it -- no nested `observeEvent()` to create, no string ID to generate, nothing to wire up by hand. Reactive attributes and nested control flow get the same treatment: mounted with the component, torn down with it.
-
-Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
-
-The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
-
-[Try it live →](https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer)
-
-As a bonus, here's a [todo list example](https://irid.kylehusmann.com/apps/todo/index.html?_shinylive-mode=editor-terminal-viewer) that uses the same pattern.
+Look closer at the slider itself: its `value` reads from `count` and its `onInput` writes back to the same reactive. The input doesn't own its state -- it's just a view of the parent's `reactiveVal`. More on that shortly.
 
 ### Controlled Inputs
 
@@ -263,6 +229,8 @@ The root problem is that the input _is_ the state. You can't have two inputs sha
 In irid, an input's `value` attribute can be bound to a `reactiveVal`, and that `reactiveVal` becomes the single source of truth. The input displays it, writes to it, and re-renders when it changes -- no feedback loop, because there's only one value:
 
 ```r
+library(irid)
+
 c_to_f <- function(c) round(c * 9 / 5 + 32, 1)
 f_to_c <- function(f) round((f - 32) * 5 / 9, 1)
 
@@ -286,6 +254,8 @@ App <- function() {
     Thermometer("Fahrenheit", fahrenheit, \(f) celsius(f_to_c(f)), -40, 140)
   )
 }
+
+iridApp(App)
 ```
 
 [Try it live →](https://irid.kylehusmann.com/apps/temperature/index.html?_shinylive-mode=editor-terminal-viewer)
@@ -293,6 +263,52 @@ App <- function() {
 Celsius is the canonical value. Fahrenheit is a function that derives from it. The Celsius thermometer reads and writes `celsius` directly; the Fahrenheit thermometer reads the derived value and writes back through `f_to_c()`. Both stay in sync because they're views of the same underlying state, not independent inputs that have to be reconciled.
 
 This also makes re-hydration trivial. Because the `reactiveVal` _is_ the state, restoring a saved session is just calling `celsius(saved_value)` -- the inputs follow. No `updateSliderInput()` calls, no Shiny bookmark gymnastics to thread state back through each widget's own internal store.
+
+### Dynamic UI
+
+I wrote about this pain in detail [previously](/posts/2025/shiny-dynamic-observers/), walking through an example where users select a list of columns and each one gets a card with a close button. In Shiny, that escalates two ways. Every new card needs a nested `observeEvent()` created inside the parent observer that spawned it, wired to a string ID generated on the fly. And when the card goes away, that observer keeps firing as a ghost, with stale inputs lingering in server memory.
+
+In irid, the same thing is a function and a `reactiveVal`:
+
+```r
+library(irid)
+
+Card <- function(col, on_close) {
+  tags$div(
+    class = "card",
+    tags$strong(col),
+    tags$button(onClick = on_close, "\u00d7")
+  )
+}
+
+App <- function() {
+  selected_columns <- reactiveVal(character(0))
+
+  tags$div(
+    # ...add-back UI...
+    Each(selected_columns, \(col) {
+      Card(
+        col,
+        on_close = \() selected_columns(setdiff(selected_columns(), col))
+      )
+    })
+  )
+}
+
+iridApp(App)
+```
+
+`Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), which mounts a card when an item is added and tears it down when one is removed.
+
+The `onClick` handler lives inside the card, so when the card unmounts it goes with it -- no nested `observeEvent()` to create, no string ID to generate, nothing to wire up by hand. Reactive attributes and nested control flow get the same treatment: mounted with the component, torn down with it.
+
+Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
+
+The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
+
+[Try it live →](https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer)
+
+As a bonus, here's a [todo list example](https://irid.kylehusmann.com/apps/todo/index.html?_shinylive-mode=editor-terminal-viewer) that uses the same pattern.
 
 ## Try It Out
 
