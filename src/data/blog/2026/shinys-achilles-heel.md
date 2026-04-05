@@ -221,7 +221,7 @@ App <- function() {
 
 `Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), which mounts a card when an item is added and tears it down when one is removed.
 
-The `onClick` handler lives inside the card, so when the card goes away the handler goes with it. There are no dangling observers because there were never standalone observers to begin with.
+The `onClick` handler lives inside the card -- and so does any observer, effect, or calc you create there. When the card unmounts, everything scoped to it is torn down automatically.
 
 Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
 
