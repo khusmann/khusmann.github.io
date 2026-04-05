@@ -300,15 +300,15 @@ App <- function() {
 iridApp(App)
 ```
 
+The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
+
+<a href="https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
+
 `Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), which mounts a card when an item is added and tears it down when one is removed.
 
 The `onClick` handler lives inside the card, so when the card unmounts it goes with it -- no nested `observeEvent()` to create, no string ID to generate, nothing to wire up by hand. Reactive attributes and nested control flow get the same treatment: mounted with the component, torn down with it.
 
-Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label. And for anything that's just a reactive attribute -- a class that depends on state, a button that disables itself -- the attribute function re-runs and that single DOM node updates in place.
-
-The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
-
-<a href="https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
+Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.com/reference/When.html) and [`Match()`](https://irid.kylehusmann.com/reference/Match.html) mount their active branch and destroy the inactive one -- no `renderUI()` regenerating a block just to toggle a label.
 
 As a bonus, here's a [todo list example](https://irid.kylehusmann.com/apps/todo/index.html?_shinylive-mode=editor-terminal-viewer) that uses the same pattern.
 
