@@ -37,9 +37,9 @@ I call this Shiny's "complexity wall". Simple apps are a joy. But as soon as you
 
 The standard advice for managing this complexity is to use [Shiny modules](https://mastering-shiny.org/scaling-modules.html). And modules do genuinely help -- they encapsulate local state, compose, take reactives in, return reactives out. They hit most of what you'd want from a component model.
 
-But they only get you halfway. A module is still two functions called in two different places: a UI function dropped into the UI tree, and a server function called in the server body, linked by a shared string ID. You can't pass a module instance around as a value. You can't iterate over a list and mount one per item. When the UI half disappears, the server half doesn't go with it -- you manage that lifecycle by hand.
+But they only get you halfway. A module is still two functions called in two different places: a UI function dropped into the UI tree, and a server function called in the server body, linked by a shared string ID. You can't pass a module instance around as a value. You can't iterate over a list and mount one per item.
 
-Those missing properties -- co-location, reference-based wiring, automatic lifecycle -- are exactly what you need when structure has to change at runtime. Static apps call each module once at startup, so none of it matters. Dynamic apps have to mount and unmount them on the fly, and suddenly it matters a lot.
+Those missing properties -- co-location, reference-based wiring, and first-class instances -- are exactly what you need when structure has to change at runtime. Static apps call each module once at startup, so none of it matters. Dynamic apps have to mount and unmount them on the fly, and suddenly it matters a lot.
 
 The deeper issue is the UI/server split itself: structure gets declared in one place, behavior in another, and string IDs thread them together. You put `textOutput("result")` in your UI and `output$result <- renderText(...)` in your server, and Shiny matches them up by name.
 
