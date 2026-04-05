@@ -210,7 +210,7 @@ iridApp(App)
 
 `Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. The Reset All button is short because the parent already holds both counts -- no return-value plumbing, no `updateSliderInput()` reaching back into the module, no `shinyjs::toggleState()` observer wired up on the side. `disabled` is just a reactive tag attribute, like any other.
 
-Look closer at the slider itself: its `value` reads from `count` and its `onInput` writes back to the same reactive. The input doesn't own its state -- it's just a view of the parent's `reactiveVal`. More on that shortly.
+Look closer at the slider itself: its `value` reads from `count` and its `onInput` writes back to the same reactive. The input doesn't own its state -- it's just a view of the parent's `reactiveVal`. More on that in the next section.
 
 ### Controlled Inputs
 
