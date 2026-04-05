@@ -211,7 +211,10 @@ App <- function() {
   tags$div(
     # ...add-back UI...
     Each(selected_columns, \(col) {
-      Card(col, on_close = \() selected_columns(setdiff(selected_columns(), col)))
+      Card(
+        col,
+        on_close = \() selected_columns(setdiff(selected_columns(), col))
+      )
     })
   )
 }
