@@ -3,7 +3,7 @@ author: Kyle Husmann
 pubDatetime: 2026-04-04T08:00:00-07:00
 title: "Shiny's Achilles Heel: The UI/Server Split"
 slug: shinys-achilles-heel
-featured: false
+featured: true
 draft: true
 tags:
   - r
