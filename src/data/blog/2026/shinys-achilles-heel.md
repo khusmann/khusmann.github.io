@@ -43,7 +43,7 @@ Those missing properties -- co-location and reference-based wiring -- are exactl
 
 The deeper issue is the UI/server split itself: structure gets declared in one place, behavior in another, and string IDs thread them together by name. When structure has to react to state, you're forced to generate UI _from the server_ (via `renderUI`) and wire up reactive behavior for things that didn't exist a moment ago. Server code ends up generating UI that references other server code.
 
-To be fair, this wasn't a mistake. In 2012, before React and component thinking had crystallized, "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible -- and it still pays off for simple apps.
+To be fair, this wasn't a mistake. In 2012, before React and component thinking had crystallized, "the server owns all the state, the UI is HTML it ships to the browser" was clean and defensible -- and it still works just fine for simple apps.
 
 The problem is that the split assumes your UI's shape is knowable at startup -- and once structure itself has to react to state, the workarounds start piling up.
 
