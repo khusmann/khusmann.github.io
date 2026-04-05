@@ -35,7 +35,7 @@ I call this Shiny's "complexity wall" -- and the more dynamic your UI, the harde
 
 ## The Root Cause
 
-The standard advice is to use [Shiny Modules](https://mastering-shiny.org/scaling-modules.html). And modules genuinely help -- they encapsulate local state, take reactives in, return reactives out.
+The standard advice for managing complexity in Shiny is to use [Shiny Modules](https://mastering-shiny.org/scaling-modules.html). And modules genuinely help -- they encapsulate local state, take reactives in, return reactives out.
 
 But they only get you halfway. A Shiny Module isn't a single entity: it's two functions (one UI, one server) that must be invoked in separate places. So it gets messy when you want to compose, conditionally render, or iterate over a list of them.
 
