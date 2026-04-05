@@ -80,7 +80,7 @@ Counter <- function() {
 iridApp(Counter)
 ```
 
-[Try it live →](https://irid.kylehusmann.com/apps/counter/index.html?_shinylive-mode=editor-terminal-viewer)
+<a href="https://irid.kylehusmann.com/apps/counter/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
 
 Three things to notice here: `count` appears as a reactive text child inside `tags$p()`, the button's `disabled` attribute is a function that re-evaluates whenever `count` changes, and `onClick` is wired directly on the tag -- no observers, no input / output IDs, no `updateActionButton()` or `observeEvent()`.
 
@@ -154,7 +154,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-[Try it live →](https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IdJiw71OY4RBHEArmTiMAqgEkABAB4AtJoBmSgqVol2tACa5N1KPTjUBmkCM2aInHfoByAZQtLWXcCFkt2N3dNUMZLAH1uOChLFXY7BydcSJCwuPoiSw5sqNIoAHNOABJuACZ2AjtOLwBeTSEwcgAPUl0CCnJGdpsu0gB5BVJUCfZPCLBLWk5UO1Z2gXWsiCio6SsVdQgp0hnOOYA3KGoFODWbH1UAGQebGD5NVoAGF6hO980ARg+X00FyucD+HwEm227igJjMEAAQhNSOZZu1GHBOHBSLc2mAsFicWtisFNLIAL4ieREJQDPwqM4qbyGYymcxWZyuLaaGAFBTUOAMxhMxiBGxGCDwjmHCY2WmTOWabFNBFc4oKo6VBZLFYszEQFKMAAqcG67FQUE45DmAGFaWREENNHwtaDrusNVJGXAAKJMsgWWWkSqY7GkGzcmGaBSoSxQch+OhGg5HLhYzgImztd03PAgy7XCFk9wUkuaIjekVwdhRmE8PisABWnEQiFRZTKgr8pRtGKJuPzromlVzmgAhJ9y2XinRrREedsx61MXDTEyg27C3AocV3GGcX9JdKIOxnLH44nk-tg+nVSRs2Bc87l5pIaTIjOIFS5BAFLQWUtMo4DiAwrisBd3AbfgWzbBRsT8XgYNOXceVKCpqgAZnqRoWnxEZen6FRnRGcZFWOdpUVKag1lQ9wVgVOJiCuGB0UXaIHQGDQ5igZ12gAQVuYpFGUNR1Dmeg+LARESR5OjNDXBFkVIVFT37cM4kuGj83aQlw00fjqG02RZBEbFq0YFlj3ZU9hwjCsJiOGwVUzEh1R5ETSE0llPJUYVRR42SQk4vIfM4vyfTFdpJLAMlNRHKjLn1CgjVNc1LWtGt2mNIhqKdfNPM00dtzPTQAGoOLpPJirBM9PR5StzKZf1+k3EcDy8rTI2EkKoFDAczx6qr6H68NBp5L93Ean1a2KaDm1bdsiE7bteyysAOs0oznUKvrc1Kyc300AAfY7KrIar9ucQ73wmylqU8JDWH49B2H-ZzIoEMAKQAXSAA)
+<a href="https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IdJiw71OY4RBHEArmTiMAqgEkABAB4AtJoBmSgqVol2tACa5N1KPTjUBmkCM2aInHfoByAZQtLWXcCFkt2N3dNUMZLAH1uOChLFXY7BydcSJCwuPoiSw5sqNIoAHNOABJuACZ2AjtOLwBeTSEwcgAPUl0CCnJGdpsu0gB5BVJUCfZPCLBLWk5UO1Z2gXWsiCio6SsVdQgp0hnOOYA3KGoFODWbH1UAGQebGD5NVoAGF6hO980ARg+X00FyucD+HwEm227igJjMEAAQhNSOZZu1GHBOHBSLc2mAsFicWtisFNLIAL4ieREJQDPwqM4qbyGYymcxWZyuLaaGAFBTUOAMxhMxiBGxGCDwjmHCY2WmTOWabFNBFc4oKo6VBZLFYszEQFKMAAqcG67FQUE45DmAGFaWREENNHwtaDrusNVJGXAAKJMsgWWWkSqY7GkGzcmGaBSoSxQch+OhGg5HLhYzgImztd03PAgy7XCFk9wUkuaIjekVwdhRmE8PisABWnEQiFRZTKgr8pRtGKJuPzromlVzmgAhJ9y2XinRrREedsx61MXDTEyg27C3AocV3GGcX9JdKIOxnLH44nk-tg+nVSRs2Bc87l5pIaTIjOIFS5BAFLQWUtMo4DiAwrisBd3AbfgWzbBRsT8XgYNOXceVKCpqgAZnqRoWnxEZen6FRnRGcZFWOdpUVKag1lQ9wVgVOJiCuGB0UXaIHQGDQ5igZ12gAQVuYpFGUNR1Dmeg+LARESR5OjNDXBFkVIVFT37cM4kuGj83aQlw00fjqG02RZBEbFq0YFlj3ZU9hwjCsJiOGwVUzEh1R5ETSE0llPJUYVRR42SQk4vIfM4vyfTFdpJLAMlNRHKjLn1CgjVNc1LWtGt2mNIhqKdfNPM00dtzPTQAGoOLpPJirBM9PR5StzKZf1+k3EcDy8rTI2EkKoFDAczx6qr6H68NBp5L93Ean1a2KaDm1bdsiE7bteyysAOs0oznUKvrc1Kyc300AAfY7KrIar9ucQ73wmylqU8JDWH49B2H-ZzIoEMAKQAXSAA" target="_blank" rel="noopener">Try it live →</a>
 
 Notice everything you have to coordinate: string IDs passed into `NS()`, a UI function and a server function that must agree on those IDs, `updateSliderInput()` to push a value back into an input, and a list returned from the module so the parent can read the count _and_ reach back in to reset it. Disabling the Reset All button when both counts hit zero needs yet another observer calling `shinyjs::toggleState()`, because `actionButton()` has no reactive `disabled` attribute.
 
@@ -214,7 +214,7 @@ App <- function() {
 iridApp(App)
 ```
 
-[Try it live →](https://irid.kylehusmann.com/apps/composing/index.html?_shinylive-mode=editor-terminal-viewer)
+<a href="https://irid.kylehusmann.com/apps/composing/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
 
 `Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. The Reset All button is short because the parent already holds both counts -- no return-value plumbing, no `updateSliderInput()` reaching back into the module, no `shinyjs::toggleState()` observer wired up on the side.
 
@@ -260,7 +260,7 @@ App <- function() {
 iridApp(App)
 ```
 
-[Try it live →](https://irid.kylehusmann.com/apps/temperature/index.html?_shinylive-mode=editor-terminal-viewer)
+<a href="https://irid.kylehusmann.com/apps/temperature/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
 
 Celsius is the canonical value. Fahrenheit is a function that derives from it. The Celsius thermometer reads and writes `celsius` directly; the Fahrenheit thermometer reads the derived value and writes back through `f_to_c()`. Both stay in sync because they're views of the same underlying state, not independent inputs that have to be reconciled.
 
@@ -308,7 +308,7 @@ Conditional rendering works the same way: [`When()`](https://irid.kylehusmann.co
 
 The live demo wraps this component in a dataset selector and column dropdown to match the original scenario:
 
-[Try it live →](https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer)
+<a href="https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
 
 As a bonus, here's a [todo list example](https://irid.kylehusmann.com/apps/todo/index.html?_shinylive-mode=editor-terminal-viewer) that uses the same pattern.
 
