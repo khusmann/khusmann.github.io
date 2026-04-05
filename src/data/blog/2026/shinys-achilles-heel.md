@@ -53,7 +53,7 @@ Shiny got half of modern UI right. Its reactive primitives auto-track dependenci
 
 But Shiny is missing the other half: the full component model popularized by [React](https://react.dev/).
 
-A component owns its structure, state, and behavior all in one place -- no separate "UI definition" and "behavior definition" wired together with brittle string IDs. That's what makes components genuinely composable: you can pass them around, nest them, reuse them, and reason about them locally.
+A component owns its structure, state, and behavior all in one place -- no separate "UI definition" and "behavior definition" wired together with brittle string IDs. That's what makes components genuinely composable: you can pass them around, nest them, iterate over them, conditionally render them, and still reason about them locally.
 
 Without one, every dynamic UI becomes a fight -- building component-like patterns on a framework that was never designed for them.
 
