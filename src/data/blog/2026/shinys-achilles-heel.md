@@ -80,6 +80,8 @@ Counter <- function() {
 iridApp(Counter)
 ```
 
+[Try it live →](https://irid.kylehusmann.com/apps/counter/index.html?_shinylive-mode=editor-terminal-viewer)
+
 Three things to notice here: `count` appears as a reactive text child inside `tags$p()`, the button's `disabled` attribute is a function that re-evaluates whenever `count` changes, and `onClick` is wired directly on the tag -- no observers, no input / output IDs, no `updateActionButton()` or `observeEvent()`.
 
 If you're a Shiny developer, you might recoil at the idea of reactive values scattered throughout your markup -- won't this explode the DOM on every change? Reset cursor position, lose focus, restart animations?
