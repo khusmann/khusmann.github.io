@@ -189,15 +189,9 @@ Counter <- function(label, count) {
 App <- function() {
   count_a <- reactiveVal(0)
   count_b <- reactiveVal(0)
-  total <- \() count_a() + count_b()
-
-  reset_all <- \() {
-    count_a(0)
-    count_b(0)
-  }
 
   page_fluid(
-    tags$h3(class = "text-center", \() paste("Total:", total())),
+    tags$h3(class = "text-center", \() paste("Total:", count_a() + count_b())),
     layout_columns(
       Counter("A", count_a),
       Counter("B", count_b)
@@ -205,7 +199,7 @@ App <- function() {
     tags$button(
       class = "btn btn-outline-primary",
       disabled = \() count_a() == 0 && count_b() == 0,
-      onClick = reset_all,
+      onClick = \() { count_a(0); count_b(0) },
       "Reset All"
     )
   )
