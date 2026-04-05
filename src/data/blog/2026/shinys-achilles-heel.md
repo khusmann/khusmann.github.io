@@ -41,7 +41,7 @@ But they only get you halfway. A module is still two functions called in two dif
 
 Static apps call each module once at startup, so it doesn't matter. Dynamic apps have to mount and unmount them on the fly, and suddenly it does.
 
-The deeper issue is the UI/server split itself: structure gets declared in one place, behavior in another, and string IDs thread them together by name. When structure has to react to state, you're forced to generate UI _from the server_ (via `renderUI`) and wire up reactive behavior for things that didn't exist a moment ago.
+The deeper issue is the UI/server split itself: structure gets declared in one place, behavior in another, and string IDs thread them together by name. When structure has to react to state, you're forced to generate UI _from the server_ (via `renderUI` or `insertUI`) and wire up reactive behavior for things that didn't exist a moment ago.
 
 Server code ends up generating UI that references other server code. That's when [the workarounds start piling up](/posts/2025/shiny-dynamic-observers/).
 
