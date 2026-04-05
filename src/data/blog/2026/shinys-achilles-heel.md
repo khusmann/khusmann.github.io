@@ -47,7 +47,7 @@ Server code ends up generating UI that references other server code. That's when
 
 ## What Shiny Got Right
 
-Shiny got half of modern UI right -- and did it early. Its reactive primitives auto-track dependencies and propagate changes, the same core idea behind the "signals" model [Solid.js](https://www.solidjs.com/) popularized years later.
+Shiny got half of modern UI right -- and did it early. Its reactive primitives auto-track dependencies and propagate changes, the same core idea behind the "signals" model [Solid.js](https://www.solidjs.com/) popularized almost a decade later.
 
 What Shiny missed at its conception is the other half: the component model that [React](https://react.dev/) would later crystallize. A component owns its structure, state, and behavior all in one place -- no separate UI and behavior halves wired together by string ID. That's what makes components composable: you can pass them around, nest them, iterate over them, conditionally render them, and still reason about them locally.
 
