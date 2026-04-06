@@ -260,9 +260,9 @@ This also makes re-hydration trivial. Because the `reactiveVal` _is_ the state, 
 
 ### Dynamic UI
 
-I wrote about this pain in detail [previously](/posts/2025/shiny-dynamic-observers/), walking through an example where users select a list of columns and each one gets a card with a close button. In Shiny, that escalates two ways. Every new card needs a nested `observeEvent()` created inside the parent observer that spawned it, wired to a string ID generated on the fly. And when the card goes away, that observer keeps firing as a ghost, with stale inputs lingering in server memory.
+I wrote about this pain in detail [previously](/posts/2025/shiny-dynamic-observers/), walking through an example where users select a list of columns and each one gets a card with a close button. In Shiny, that escalates two ways. Every new card needs a nested `observeEvent()` created inside the parent observer that spawned it, wired to a string ID generated on the fly. And when the card goes away, if you don't manually destroy the observer you dynamically created, it keeps firing as a ghost, with stale inputs lingering in server memory.
 
-In irid, the same thing is a function and a `reactiveVal`:
+In irid, the same thing is a function and a `reactiveVal`, and the framework handles the rest:
 
 ```r
 library(irid)
