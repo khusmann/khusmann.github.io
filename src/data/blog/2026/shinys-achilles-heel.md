@@ -8,7 +8,7 @@ draft: true
 tags:
   - r
   - shiny
-description: "Shiny's UI/server split is the root cause of nearly every headache in large, dynamic apps. My new package irid removes the split entirely."
+description: "The more complex and dynamic your Shiny app gets, the more the UI/server split fights you. My new package irid removes the split entirely."
 ---
 
 If you've done extensive development in Shiny, you know the pain. For simple dashboards, Shiny works great: you define your UI layout, hook up a reactive data pipeline between your inputs and outputs, and ship it. Your client is happy.
