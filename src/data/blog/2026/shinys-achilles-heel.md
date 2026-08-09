@@ -1,6 +1,7 @@
 ---
 author: Kyle Husmann
 pubDatetime: 2026-04-07T08:00:00-07:00
+modDatetime: 2026-08-09T08:00:00-07:00
 title: "Shiny's Achilles Heel: The UI/Server Split"
 slug: shinys-achilles-heel
 featured: true
@@ -10,6 +11,8 @@ tags:
   - shiny
 description: "The more complex and dynamic your Shiny app gets, the more the UI/server split fights you. My new package irid removes the split entirely."
 ---
+
+*Update (August 2026): code samples below are updated to match irid's current (v0.3.0) API.*
 
 If you've done extensive development in Shiny, you know the pain. For simple dashboards, Shiny works great: you define your UI layout, hook up a reactive data pipeline between your inputs and outputs, and ship it. Your client is happy.
 
@@ -171,8 +174,7 @@ Counter <- function(label, count) {
       tags$h2(class = "text-center", \() paste("Count:", count())),
       tags$input(
         type = "range", min = 0, max = 100,
-        value = count,
-        onInput = \(event) count(event$valueAsNumber)
+        value = reactiveProxy(get = count, set = \(v) count(as.numeric(v)))
       ),
       tags$button(
         class = "btn btn-outline-secondary btn-sm",
@@ -210,7 +212,7 @@ iridApp(App)
 
 `Counter` is just a function that takes a `reactiveVal` and returns a tag tree. The parent owns the state, passes it down, and the child reads and writes it directly through the same reactive reference. The Reset All button is short because the parent already holds both counts -- no return-value plumbing, no `updateSliderInput()` reaching back into the module, no `shinyjs::toggleState()` observer wired up on the side. `disabled` is just a reactive tag attribute, like any other.
 
-Look closer at the slider itself: its `value` reads from `count` and its `onInput` writes back to the same reactive. The input doesn't own its state -- it's just a view of the parent's `reactiveVal`. More on that in the next section.
+Look closer at the slider itself: its `value` is a `reactiveProxy` that reads `count` and writes back to it on input. The input doesn't own its state -- it's just a view of the parent's `reactiveVal`. More on that in the next section.
 
 ### Controlled Inputs
 
@@ -220,7 +222,7 @@ In Shiny, each `sliderInput()` owns its own state. To keep them in sync you writ
 
 The root problem is that the input _is_ the state. You can't have two inputs share one value -- you can only have two values that chase each other.
 
-In irid, an input's `value` attribute can be bound to a `reactiveVal`, and that `reactiveVal` becomes the single source of truth. The input displays it, writes to it, and re-renders when it changes -- no feedback loop, because there's only one value:
+In irid, an input's `value` attribute binds directly to a reactive value. When a read or write needs a transform, `reactiveProxy` wraps it with a get/set pair. This gives you two editable views on the same underlying value -- no feedback loop, because they're not two values chasing each other:
 
 ```r
 library(irid)
@@ -233,8 +235,7 @@ Thermometer <- function(label, value, on_change, min, max) {
     tags$label(label),
     tags$input(
       type = "range", min = min, max = max,
-      value = value,
-      onInput = \(event) on_change(event$valueAsNumber)
+      value = reactiveProxy(get = value, set = \(v) on_change(as.numeric(v)))
     )
   )
 }
@@ -283,9 +284,9 @@ App <- function() {
     Each(selected_columns, \(col) {
       Card(
         col,
-        on_close = \() selected_columns(setdiff(selected_columns(), col))
+        on_close = \() selected_columns(setdiff(selected_columns(), col()))
       )
-    })
+    }, by = identity)
   )
 }
 
@@ -296,7 +297,7 @@ The live demo fills in the `# add-back UI` with a dataset selector and column dr
 
 <a href="https://irid.kylehusmann.com/apps/cards/index.html?_shinylive-mode=editor-terminal-viewer" target="_blank" rel="noopener">Try it live →</a>
 
-`Card` doesn't know about the list -- just takes a column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), which mounts a card when an item is added and tears it down when one is removed.
+`Card` doesn't know about the list -- just takes a reactive column name and a close callback. The parent owns `selected_columns` and iterates with [`Each()`](https://irid.kylehusmann.com/reference/Each.html), keyed `by = identity` so it mounts a card when an item is added and tears down the right one -- not just the last position -- when one is removed.
 
 The `onClick` handler lives inside the card, so when the card unmounts it goes with it -- no nested `observeEvent()` to create, no string ID to generate, nothing to wire up by hand. Reactive attributes and nested control flow get the same treatment: mounted with the component, torn down with it.
 
@@ -306,10 +307,10 @@ As a bonus, here's a <a href="https://irid.kylehusmann.com/apps/todo/index.html?
 
 ## Try It Out
 
-irid can be used in two ways: [`iridApp()`](https://irid.kylehusmann.com/reference/iridApp.html) for new projects or full migrations, or [`iridOutput()`](https://irid.kylehusmann.com/reference/iridOutput.html) / [`renderIrid()`](https://irid.kylehusmann.com/reference/renderIrid.html) to embed components into an existing Shiny app. With the embedded path, you don't have to do it all at once -- start with the places where Shiny's complexity wall hits hardest, and grow from there.
+(Updated 2026-08-09) irid is [on CRAN](https://cran.r-project.org/package=irid) now: `install.packages("irid")`.
 
-Heads up: I think the core API is stable, but no guarantees. The surface is small by design -- next step is adding [reactive "stores" like Solid.js](https://docs.solidjs.com/concepts/stores). But what's there already handles everything shown in this post.
+It can be used in two ways: [`iridApp()`](https://irid.kylehusmann.com/reference/iridApp.html) for new projects or full migrations, or [`iridOutput()`](https://irid.kylehusmann.com/reference/iridOutput.html) / [`renderIrid()`](https://irid.kylehusmann.com/reference/renderIrid.html) to embed components into an existing Shiny app. With the embedded path, you don't have to do it all at once -- start with the places where Shiny's complexity wall hits hardest, and grow from there.
 
-I'm releasing it now because feedback from people actually building with it is how it matures. If you hit a bug or want a feature, please [open an issue](https://github.com/khusmann/irid/issues). I'll be actively working through them.
+Feedback from people actually building with it is how it matures. If you hit a bug or want a feature, please [open an issue](https://github.com/khusmann/irid/issues). I'll be actively working through them.
 
 If you've felt the pain at the top of this post, [give irid a try](https://irid.kylehusmann.com). I think you'll find that the component model is what Shiny's reactive engine was waiting for.
